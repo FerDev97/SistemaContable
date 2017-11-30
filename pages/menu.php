@@ -25,4 +25,4 @@
                   </ul>
                 </div>
             </div>
-          <!-- end: Left Menu -->
+          <!-- end: Menu izquierdo -->
