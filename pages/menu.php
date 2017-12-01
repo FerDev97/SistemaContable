@@ -21,7 +21,7 @@
                       </ul>
                     </li>
                     <li class="active ripple">
-                      <a class="tree-toggle nav-header"><span class="fa-home fa"></span> Catalogo
+                      <a class="tree-toggle nav-header"><span class="fa-home fa"></span> Libro Diario
                         <span class="fa-angle-right fa right-arrow text-right"></span>
                       </a>
                       <ul class="nav nav-list tree">
