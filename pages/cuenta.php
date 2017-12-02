@@ -28,7 +28,6 @@ if ($result) {
   <meta name="keyword" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pacholi2018</title>
-
   <!-- start: Css -->
   <link rel="stylesheet" type="text/css" href="../asset/css/bootstrap.min.css">
 
@@ -50,7 +49,6 @@ if ($result) {
       {
         if (cadena.indexOf('r')!=-1 || cadena.indexOf('R')!=-1) {
           document.getElementById('r').value="R";
-          alert("LLeva R");
         }else
         {
            document.getElementById('r').value="R";
@@ -79,6 +77,7 @@ if ($result) {
             alert("Complete los campos");
           }else{
             if (document.getElementById("aux").value=="modificar") {
+              alert("Modificar");
             comprobarR(document.getElementById('codigocuenta').value);
             document.getElementById('bandera').value="modificar";
             document.turismo.submit();
@@ -128,7 +127,7 @@ if ($result) {
                     </div>
                   </div>
               </div>
-              <form id="turismo" name="turismo" action="" method="post">
+              <form id="turismo" name="turismo" action="">
               <input type="hidden" name="bandera" id="bandera">
               <input type="hidden" name="baccion" id="baccion" value="<?php echo $idcatalogoR; ?>" >
               <input type="hidden" name="aux" id="aux" value="<?php echo $aux; ?>">
@@ -581,7 +580,6 @@ $nombrecuenta = $_REQUEST["nombrecuenta"];
 $codigocuenta = $_REQUEST["codigocuenta"];
 $tipocuenta   = $_REQUEST["tipocuenta"];
 $saldocuenta  = $_REQUEST["saldocuenta"];
-$saldocuenta  = $_REQUEST["saldocuenta"];
 $r            = $_REQUEST["r"];
 if ($bandera == "add") {
     $consulta  = "INSERT INTO catalogo VALUES('null','" . $codigocuenta . "','" . $nombrecuenta . "','" . $tipocuenta . "','" . $saldocuenta . "','" . $r . "','" . $nivelcuenta . "')";
@@ -602,7 +600,7 @@ if ($bandera == "desaparecer") {
     }
 }
 if ($bandera == "modificar") {
-    $consulta  = "UPDATE catalogo set codigocuenta='" . $codigocuenta . "',nombrecuenta='" . $nombrecuenta . "',tipocuenta='" . $tipocuenta . "',saldocuenta='" . $saldocuenta . "',r='" . $r . "',nivelcuenta='" . $nivelcuenta . "' where idcategoria='" . $baccion . "'";
+    $consulta  = "UPDATE catalogo set codigocuenta='" . $codigocuenta . "',nombrecuenta='" . $nombrecuenta . "',tipocuenta='" . $tipocuenta . "',saldo='" . $saldocuenta . "',r='" . $r . "',nivel='" . $nivelcuenta . "' where idcatalogo='" . $baccion . "'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
         msg("En Hora Buena");
