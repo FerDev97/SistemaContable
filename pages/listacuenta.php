@@ -47,7 +47,16 @@
           }
 
         }
-        //funcion para exportar la tabla del catalogo a excell
+          //funcion para exportar la tabla del catalogo a excell
+        function catalogoExcell()
+        {
+          const ventana = window.open("reportes/catalogoExcell.php","_blank");
+          window.setTimeout(cerrarVentana(ventana), 5000);
+        }
+        function cerrarVentana(ventana){
+          ventana.close();
+        }
+
 
       </script>
 </head>
