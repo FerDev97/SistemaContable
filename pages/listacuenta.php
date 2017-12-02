@@ -51,7 +51,7 @@
         function catalogoExcell()
         {
           const ventana = window.open("reportes/catalogoExcell.php","_blank");
-          window.setTimeout(cerrarVentana(ventana), 5000);
+          //window.setTimeout(cerrarVentana(ventana), 80000);
         }
         function cerrarVentana(ventana){
           ventana.close();
