@@ -67,8 +67,6 @@
       <div class="container-fluid mimin-wrapper">
 
 <?php include "menu.php";?>
-
-
             <!-- start: Content -->
             <div id="content">
                <div class="panel box-shadow-none content-header">
@@ -107,7 +105,6 @@
                             </div>
                           </button>
                     </center>
-
                   </div>
                   <div class="panel-body">
                     <div class="responsive-table">
