@@ -47,6 +47,7 @@
           }
 
         }
+        //funcion para exportar la tabla del catalogo a excell
 
       </script>
 </head>
@@ -77,66 +78,65 @@
 
               <div class="col-md-12 top-20 padding-0">
                 <div class="col-md-12">
-                  <div class="panel">
-                    <div class="panel-heading"><h3>Lista</h3></div>
-                    <div class="panel-body">
-                      <div class="responsive-table">
-                      <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
-                      <thead>
-                        <tr>
-                          <th></th>
-                          <th>Nombre</th>
-                          <th>Apellido</th>
-                          <th>DUI</th>
-                          <th>Telefono</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                <div class="panel">
+                  <div class="panel-heading">
+                    <center>
+                      <h3>Lista De Cuentas</h3>
+                          <button class='btn ripple-infinite btn-round btn-success' onclick='catalogoExcell()';>
+                            <div>
+                              <span>EXCELL</span>
+                            </div>
+                          </button>
+                          <button class='btn ripple-infinite btn-round btn-primary' onclick='catalogoWord()';>
+                            <div>
+                              <span>WORD</span>
+                            </div>
+                          </button>
+                          <button class='btn ripple-infinite btn-round btn-danger' onclick='catalogoPdf()';>
+                            <div>
+                              <span>PDF</span>
+                            </div>
+                          </button>
+                    </center>
 
-                      <?php
-include "../config/conexion.php";
-$result = $conexion->query("select * from cliente order by nombre");
-if ($result) {
-    while ($fila = $result->fetch_object()) {
-        echo "<tr>";
-        echo "<td>
-          <div class='col-md-2' style='margin-top:1px'>
-            <button class='btn ripple-infinite btn-round btn-warning' onclick='modify(" . $fila->idcliente . ")';>
-            <div>
-              <span>Editar</span>
-            </div>
-            </button>
-            </div>
-        </td>";
-        //echo "<tr>";
-        //echo "<td><img src='img/modificar.png' style='width:30px; height:30px' onclick=modify(".$fila->idasignatura.",'".$fila->codigo."','".$fila->nombre."');></td>";
-        //echo "<td><img src='img/eliminar.png' style='width:30px; height:30px' onclick=elyminar(".$fila->idasignatura.",'".$fila->nombre."');></td>";
-        echo "<td>" . $fila->nombre . "</td>";
-        echo "<td>" . $fila->apellido . "</td>";
-        echo "<td>" . $fila->dui . "</td>";
-        echo "<td>" . $fila->telefono . "</td>";
-        echo "<td>
-          <div class='col-md-2' style='margin-top:1px'>
-            <button class='btn ripple-infinite btn-round btn-success' onclick='confirmar(" . $fila->idcliente . ")'>
-            <div>
-              <span>Borrar</span>
-            </div>
-            </button>
-            </div>
-        </td>";
-        echo "</tr>";
-
-    }
-}
-
-?>
-                      </tbody>
-                        </table>
-                      </div>
                   </div>
+                  <div class="panel-body">
+                    <div class="responsive-table">
+                    <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Saldo</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+include "../config/conexion.php";
+$result = $conexion->query("select * from catalogo order by codigocuenta");
+if ($result) {
+  while ($fila = $result->fetch_object()) {
+      echo "<tr>";
+      //echo "<tr>";
+      //echo "<td><img src='img/modificar.png' style='width:30px; height:30px' onclick=modify(".$fila->idasignatura.",'".$fila->codigo."','".$fila->nombre."');></td>";
+      //echo "<td><img src='img/eliminar.png' style='width:30px; height:30px' onclick=elyminar(".$fila->idasignatura.",'".$fila->nombre."');></td>";
+      echo "<td>" . $fila->codigocuenta . "</td>";
+      echo "<td>" . $fila->nombrecuenta . "</td>";
+      echo "<td>" . $fila->tipocuenta . "</td>";
+      echo "<td>" . $fila->saldo . "</td>";
+      echo "</tr>";
+
+  }
+}
+?>
+                    </tbody>
+                      </table>
+                    </div>
                 </div>
               </div>
+            </div>
+            </div>
               </div>
               </form>
             </div>
