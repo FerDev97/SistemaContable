@@ -1,6 +1,8 @@
 <?php
 $id  = $_REQUEST["id"];
 $aux = " ";
+$tipocuentaR="Ninguno";
+$saldocuentaR="Ninguno";
 include "../config/conexion.php";
 $result = $conexion->query("select * from catalogo where idcatalogo=" . $id);
 if ($result) {
@@ -9,7 +11,7 @@ if ($result) {
         $codigocuentaR = $fila->codigocuenta;
         $nombrecuentaR = $fila->nombrecuenta;
         $tipocuentaR   = $fila->tipocuenta;
-        $saldoR        = $fila->saldo;
+        $saldocuentaR        = $fila->saldo;
         $rR            = $fila->r;
         $nivelR        = $fila->nivel;
     }
@@ -262,7 +264,8 @@ if ($result) {
                                     <option value="CUENTASCONTINGENTESO" >CUENTAS CONTINGENTES Y ORDEN</option>
                                     <option value="CUENTASCONTINGENTESOC" selected >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
                                     </select>';
-                                  }else {
+                                  }
+                                  if($tipocuentaR=="Ninguno")  {
                                 echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
                                 <option value="SELECCIONE" selected >SELECCIONE</option>
                                 <option value="ACTIVO" >ACTIVO</option>
@@ -295,9 +298,17 @@ if ($result) {
                               if($saldocuentaR=="ACREEDOR"){
                                 echo '<select id="saldocuenta" class="select2" style="width: 300px; font-size: 20px" name="saldocuenta">
                                 <option value="SELECCIONE">SELECCIONE</option>
-                                <option value="DEUDOR" selected>DEUDOR</option>
+                                <option value="DEUDOR">DEUDOR</option>
                                 <option value="ACREEDOR" selected>ACREEDOR</option>
                                 </select>';
+                              }
+                              if($saldocuentaR=="Ninguno"){
+                                echo '<select id="saldocuenta" class="select2" style="width: 300px; font-size: 20px" name="saldocuenta">
+                                <option value="SELECCIONE" selected>SELECCIONE</option>
+                                <option value="DEUDOR">DEUDOR</option>
+                                <option value="ACREEDOR">ACREEDOR</option>
+                                </select>';
+
                               }
                                ?>
                              </div>
@@ -591,7 +602,7 @@ if ($bandera == "desaparecer") {
     }
 }
 if ($bandera == "modificar") {
-    $consulta  = "UPDATE catalogo set codigocuenta='" . $codigocuenta . "',codigocuenta='" . $codigocuenta . "',codigocuenta='" . $codigocuenta . "',codigocuenta='" . $codigocuenta . "',codigocuenta='" . $codigocuenta . "' where idcategoria='" . $baccion . "'";
+    $consulta  = "UPDATE catalogo set codigocuenta='" . $codigocuenta . "',nombrecuenta='" . $nombrecuenta . "',tipocuenta='" . $tipocuenta . "',saldocuenta='" . $saldocuenta . "',r='" . $r . "',nivelcuenta='" . $nivelcuenta . "' where idcategoria='" . $baccion . "'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
         msg("En Hora Buena");
