@@ -165,7 +165,6 @@ $numeroPartida=($result->num_row)+1;
                   <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th></th>
                       <th>Codigo</th>
                       <th>Nombre</th>
                       <th>Tipo</th>
