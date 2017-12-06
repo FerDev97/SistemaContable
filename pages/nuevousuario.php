@@ -1,10 +1,8 @@
 <?php
 $id  = $_REQUEST["id"];
 $aux = " ";
-$tipocuentaR="Ninguno";
-$saldocuentaR="Ninguno";
 include "../config/conexion.php";
-$result = $conexion->query("select * from usuario where idcatalogo=" . $id);
+$result = $conexion->query("select * from usuario where idusuario=" . $id);
 if ($result) {
     while ($fila = $result->fetch_object()) {
         $idcatalogoR   = $fila->idcatalogo;
@@ -136,11 +134,7 @@ if ($result) {
                               <span class="bar"></span>
                               <label>Contraseña</label>
                             </div>
-                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="password" class="form-text" id="nombrecuenta" name="nombrecuenta" value="<?php echo $nombrecuentaR; ?>" >
-                              <span class="bar"></span>
-                              <label>Repita Contraseña</label>
-                            </div>
+
                             <div class="col-md-3">
                               <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
                                 <div class="flip">
