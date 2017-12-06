@@ -18,6 +18,7 @@ $numeroPartida=($result->num_row)+1;
   <!-- start: Css -->
   <link rel="stylesheet" type="text/css" href="../asset/css/bootstrap.min.css">
 
+
   <!-- plugins -->
   <link rel="stylesheet" type="text/css" href="../asset/css/plugins/font-awesome.min.css"/>
   <link rel="stylesheet" type="text/css" href="../asset/css/plugins/datatables.bootstrap.min.css"/>
@@ -95,7 +96,7 @@ $numeroPartida=($result->num_row)+1;
               <input type="hidden" name="r" id="r" value="">
               <div class="col-md-12 top-20 padding-0">
                <div class="col-md-5">
-                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
+                            <div class="form-group form-animate-text" style="margin-top:0px !important;">
                               <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
                               <span class="bar"></span>
                               <label>Concepto</label>
@@ -109,13 +110,12 @@ $numeroPartida=($result->num_row)+1;
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
                               <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
                               <span class="bar"></span>
-                              <label>Cuenta</label>
+                              <label>Codigo</label>
                             </div>
 
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
                               <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
                               <span class="bar"></span>
-<<<<<<< HEAD
                               <label>Cuenta</label>
                             </div>
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
@@ -123,23 +123,18 @@ $numeroPartida=($result->num_row)+1;
                               <span class="bar"></span>
                               <label>Monto $</label>
                             </div>
+                            <div class="radio">
+                            <label class="radio-inline" style="font-size:20px;padding:10px 20px;"><input type="radio" name="optradio" style="width:20px;height:20px"> Cargo</label>
 
-=======
-                              <label>Monto</label>
-                            </div>
->>>>>>> 4e5268460149293f20ed82716c20e7eeef34b357
-
-
+                            <label class="radio-inline" style="font-size:20px;padding:10px 100px;"><input type="radio" name="optradio" style="width:20px;height:20px"> Abono</label>
+                          </div>
+                        </br>
 
                           <div class="col-md-3">
                               <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
                                 <div class="flip">
                                   <div class="side">
-<<<<<<< HEAD
-                                    Guardar <span class="fa fa-edit"></span>
-=======
                                     Procesar <span class="fa fa-edit"></span>
->>>>>>> 4e5268460149293f20ed82716c20e7eeef34b357
                                   </div>
                                   <div class="side back">
                                     Continuar?
@@ -148,12 +143,57 @@ $numeroPartida=($result->num_row)+1;
                                 <span class="icon"></span>
                               </button>
                           </div>
+                          <div class="col-md-3">
+                          </div>
+                          <!-- Modal -->
+<div class="modal fade" id="modalForm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Contact Form</h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <p class="statusMsg"></p>
+                <form role="form">
+                  <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Codigo</th>
+                      <th>Nombre</th>
+                      <th>Tipo</th>
+                      <th>Saldo</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                      include "tablaCuenta.php";
+                     ?>
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary submitBtn" onclick="submitContactForm()">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+</div>
 
                           <div class="col-md-3">
-                            <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
+                            <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()" data-toggle="modal" data-target="#modalForm">
                               <div class="flip">
                                 <div class="side">
-                                <span class="fa fa-edit"></span>
+                                  Cuentas <span class="fa fa-edit"></span>
                                 </div>
                                 <div class="side back">
                                   Mostrar
@@ -162,6 +202,7 @@ $numeroPartida=($result->num_row)+1;
                               <span class="icon"></span>
                             </button>
                         </div>
+
                 </div>
 
                 <div class="col-md-7">
@@ -173,11 +214,12 @@ $numeroPartida=($result->num_row)+1;
                       <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
                       <thead>
                         <tr>
-                          <th></th>
                           <th>Codigo</th>
-                          <th>Nombre</th>
-                          <th>Tipo</th>
-                          <th>Saldo</th>
+                          <th>Fecha</th>
+                          <th>Concepto</th>
+                          <th>Parcial</th>
+                          <th>Debe</th>
+                          <th>Haber</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -188,15 +230,7 @@ $result = $conexion->query("select * from catalogo order by codigocuenta");
 if ($result) {
     while ($fila = $result->fetch_object()) {
         echo "<tr>";
-        echo "<td>
-          <div class='col-md-2' style='margin-top:1px'>
-            <button class='btn ripple-infinite btn-round btn-warning' onclick='modify(" . $fila->idcatalogo . ")';>
-            <div>
-              <span>Editar</span>
-            </div>
-            </button>
-            </div>
-        </td>";
+        echo "<td></td>";
         //echo "<tr>";
         //echo "<td><img src='img/modificar.png' style='width:30px; height:30px' onclick=modify(".$fila->idasignatura.",'".$fila->codigo."','".$fila->nombre."');></td>";
         //echo "<td><img src='img/eliminar.png' style='width:30px; height:30px' onclick=elyminar(".$fila->idasignatura.",'".$fila->nombre."');></td>";
@@ -204,6 +238,7 @@ if ($result) {
         echo "<td>" . $fila->nombrecuenta . "</td>";
         echo "<td>" . $fila->tipocuenta . "</td>";
         echo "<td>" . $fila->saldo . "</td>";
+        echo "<td>" . $fila->codigocuenta . "</td>";
         echo "<td>
           <div class='col-md-2' style='margin-top:1px'>
             <button class='btn ripple-infinite btn-round btn-success' onclick='confirmar(" . $fila->idcatalogo . ")'>
