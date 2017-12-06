@@ -1,22 +1,8 @@
 <?php
-$id  = $_REQUEST["id"];
-$aux = " ";
-$tipocuentaR="Ninguno";
-$saldocuentaR="Ninguno";
 include "../config/conexion.php";
-$result = $conexion->query("select * from catalogo where idcatalogo=" . $id);
-if ($result) {
-    while ($fila = $result->fetch_object()) {
-        $idcatalogoR   = $fila->idcatalogo;
-        $codigocuentaR = $fila->codigocuenta;
-        $nombrecuentaR = $fila->nombrecuenta;
-        $tipocuentaR   = $fila->tipocuenta;
-        $saldocuentaR        = $fila->saldo;
-        $rR            = $fila->r;
-        $nivelR        = $fila->nivel;
-    }
-    $aux = "modificar";
-}
+$result = $conexion->query("select * from partida");
+$numeroPartida=($result->num_row)+1;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -121,9 +107,9 @@ if ($result) {
                <div class="panel box-shadow-none content-header">
                   <div class="panel-body">
                     <div class="col-md-12">
-                        <h3 class="animated fadeInLeft">CATALOGO</h3>
+                        <h3 class="animated fadeInLeft">Libro Diario</h3>
                         <p class="animated fadeInDown">
-                          Tabla <span class="fa-angle-right fa"></span> Cuentas
+                          Tabla <span class="fa-angle-right fa"></span> Partida
                         </p>
                     </div>
                   </div>
@@ -134,184 +120,12 @@ if ($result) {
               <input type="hidden" name="aux" id="aux" value="<?php echo $aux; ?>">
               <input type="hidden" name="r" id="r" value="">
               <div class="col-md-12 top-20 padding-0">
-               <div class="col-md-3">
-                            <div class="form-group form-animate-text" style="margin-top:30px !important; width: 100px;">
-                              <input type="text" class="form-text" id="nivelcuenta" name="nivelcuenta" style="width: 100px;" value="<?php echo $nivelR; ?>">
-                              <span class="bar" style="width: 100px<"></span>
-                              <label>Nivel</label>
-                            </div>
-
+               <div class="col-md-5">
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
                               <input type="text" class="form-text" id="nombrecuenta" name="nombrecuenta" value="<?php echo $nombrecuentaR; ?>" required>
                               <span class="bar"></span>
                               <label>Nombre</label>
                             </div>
-
-                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <span class="bar"></span>
-                              <label>Tipo</label>
-                              <br>
-                              <br>
-                              <?php
-                              if($tipocuentaR=="ACTIVO"){
-                                echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
-                                <option value="SELECCIONE">SELECCIONE</option>
-                                <option value="ACTIVO" selected>ACTIVO</option>
-                                <option value="PASIVO">PASIVO</option>
-                                <option value="PATRIMONIO">PATRIMONIO</option>
-                                <option value="CUENTASRESULTDEUDORAS" >CUENTAS DE RESULTADO DEUDORAS</option>
-                                <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                <option value="CUENTASRESULTLIQUID" >CUENTAS DE RESULTADO LIQUIDADORAS</option>
-                                <option value="CUENTASCONTINGENTESO" >CUENTAS CONTINGENTES Y ORDEN</option>
-                                <option value="CUENTASCONTINGENTESOC" >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
-                                </select>';
-                              }
-                              if($tipocuentaR=="PASIVO"){
-                                  echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
-                                  <option value="SELECCIONE">SELECCIONE</option>
-                                  <option value="ACTIVO">ACTIVO</option>
-                                  <option value="PASIVO" selected>PASIVO</option>
-                                  <option value="PATRIMONIO">PATRIMONIO</option>
-                                  <option value="CUENTASRESULTDEUDORAS" >CUENTAS DE RESULTADO DEUDORAS</option>
-                                  <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                  <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                  <option value="CUENTASRESULTLIQUID" >CUENTAS DE RESULTADO LIQUIDADORAS</option>
-                                  <option value="CUENTASCONTINGENTESO" >CUENTAS CONTINGENTES Y ORDEN</option>
-                                  <option value="CUENTASCONTINGENTESOC" >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
-                                  </select>';
-                                }
-                                if($tipocuentaR=="PATRIMONIO"){
-                                    echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
-                                    <option value="SELECCIONE">SELECCIONE</option>
-                                    <option value="ACTIVO" >ACTIVO</option>
-                                    <option value="PASIVO">PASIVO</option>
-                                    <option value="PATRIMONIO"selected>PATRIMONIO</option>
-                                    <option value="CUENTASRESULTDEUDORAS" >CUENTAS DE RESULTADO DEUDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTLIQUID" >CUENTAS DE RESULTADO LIQUIDADORAS</option>
-                                    <option value="CUENTASCONTINGENTESO" >CUENTAS CONTINGENTES Y ORDEN</option>
-                                    <option value="CUENTASCONTINGENTESOC" >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
-                                    </select>';
-                                  }
-                                if($tipocuentaR=="CUENTASRESULTDEUDORAS"){
-                                    echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
-                                    <option value="SELECCIONE">SELECCIONE</option>
-                                    <option value="ACTIVO" >ACTIVO</option>
-                                    <option value="PASIVO">PASIVO</option>
-                                    <option value="PATRIMONIO">PATRIMONIO</option>
-                                    <option value="CUENTASRESULTDEUDORAS" selected>CUENTAS DE RESULTADO DEUDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTLIQUID" >CUENTAS DE RESULTADO LIQUIDADORAS</option>
-                                    <option value="CUENTASCONTINGENTESO" >CUENTAS CONTINGENTES Y ORDEN</option>
-                                    <option value="CUENTASCONTINGENTESOC" >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
-                                    </select>';
-                                  }
-                                if($tipocuentaR=="CUENTASRESULTACREEDORAS"){
-                                    echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
-                                    <option value="SELECCIONE">SELECCIONE</option>
-                                    <option value="ACTIVO" >ACTIVO</option>
-                                    <option value="PASIVO">PASIVO</option>
-                                    <option value="PATRIMONIO">PATRIMONIO</option>
-                                    <option value="CUENTASRESULTDEUDORAS">CUENTAS DE RESULTADO DEUDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" selected>CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTLIQUID" >CUENTAS DE RESULTADO LIQUIDADORAS</option>
-                                    <option value="CUENTASCONTINGENTESO" >CUENTAS CONTINGENTES Y ORDEN</option>
-                                    <option value="CUENTASCONTINGENTESOC" >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
-                                    </select>';
-                                  }
-                                if($tipocuentaR=="CUENTASRESULTLIQUID"){
-                                    echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
-                                    <option value="SELECCIONE">SELECCIONE</option>
-                                    <option value="ACTIVO" >ACTIVO</option>
-                                    <option value="PASIVO">PASIVO</option>
-                                    <option value="PATRIMONIO">PATRIMONIO</option>
-                                    <option value="CUENTASRESULTDEUDORAS">CUENTAS DE RESULTADO DEUDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTLIQUID" selected>CUENTAS DE RESULTADO LIQUIDADORAS</option>
-                                    <option value="CUENTASCONTINGENTESO" >CUENTAS CONTINGENTES Y ORDEN</option>
-                                    <option value="CUENTASCONTINGENTESOC" >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
-                                    </select>';
-                                  }
-                                if($tipocuentaR=="CUENTASCONTINGENTESO"){
-                                    echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
-                                    <option value="SELECCIONE">SELECCIONE</option>
-                                    <option value="ACTIVO" >ACTIVO</option>
-                                    <option value="PASIVO">PASIVO</option>
-                                    <option value="PATRIMONIO">PATRIMONIO</option>
-                                    <option value="CUENTASRESULTDEUDORAS">CUENTAS DE RESULTADO DEUDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTLIQUID" >CUENTAS DE RESULTADO LIQUIDADORAS</option>
-                                    <option value="CUENTASCONTINGENTESO" selected>CUENTAS CONTINGENTES Y ORDEN</option>
-                                    <option value="CUENTASCONTINGENTESOC" >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
-                                    </select>';
-                                  }
-                                if($tipocuentaR=="CUENTASCONTINGENTESOC"){
-                                    echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
-                                    <option value="SELECCIONE">SELECCIONE</option>
-                                    <option value="ACTIVO" >ACTIVO</option>
-                                    <option value="PASIVO">PASIVO</option>
-                                    <option value="PATRIMONIO">PATRIMONIO</option>
-                                    <option value="CUENTASRESULTDEUDORAS">CUENTAS DE RESULTADO DEUDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                    <option value="CUENTASRESULTLIQUID" >CUENTAS DE RESULTADO LIQUIDADORAS</option>
-                                    <option value="CUENTASCONTINGENTESO" >CUENTAS CONTINGENTES Y ORDEN</option>
-                                    <option value="CUENTASCONTINGENTESOC" selected >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
-                                    </select>';
-                                  }
-                                  if($tipocuentaR=="Ninguno")  {
-                                echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
-                                <option value="SELECCIONE" selected >SELECCIONE</option>
-                                <option value="ACTIVO" >ACTIVO</option>
-                                <option value="PASIVO">PASIVO</option>
-                                <option value="PATRIMONIO">PATRIMONIO</option>
-                                <option value="CUENTASRESULTDEUDORAS">CUENTAS DE RESULTADO DEUDORAS</option>
-                                <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                                <option value="CUENTASRESULTLIQUID" >CUENTAS DE RESULTADO LIQUIDADORAS</option>
-                                <option value="CUENTASCONTINGENTESO" >CUENTAS CONTINGENTES Y ORDEN</option>
-                                <option value="CUENTASCONTINGENTESOC" >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
-                                </select>';
-
-                              }
-                              ?>
-                            </div>
-                            <div class="form-group form-animate-text" style="margin-top:40px !important;">
-                              <span class="bar"></span>
-                              <label>Saldo</label>
-                              <br>
-                              <br>
-                              <?php
-                              if($saldocuentaR=="DEUDOR"){
-                                echo '<select id="saldocuenta" class="select2" style="width: 300px; font-size: 20px" name="saldocuenta">
-                                <option value="SELECCIONE">SELECCIONE</option>
-                                <option value="DEUDOR" selected>DEUDOR</option>
-                                <option value="ACREEDOR">ACREEDOR</option>
-                                </select>';
-                              }
-                              if($saldocuentaR=="ACREEDOR"){
-                                echo '<select id="saldocuenta" class="select2" style="width: 300px; font-size: 20px" name="saldocuenta">
-                                <option value="SELECCIONE">SELECCIONE</option>
-                                <option value="DEUDOR">DEUDOR</option>
-                                <option value="ACREEDOR" selected>ACREEDOR</option>
-                                </select>';
-                              }
-                              if($saldocuentaR=="Ninguno"){
-                                echo '<select id="saldocuenta" class="select2" style="width: 300px; font-size: 20px" name="saldocuenta">
-                                <option value="SELECCIONE" selected>SELECCIONE</option>
-                                <option value="DEUDOR">DEUDOR</option>
-                                <option value="ACREEDOR">ACREEDOR</option>
-                                </select>';
-
-                              }
-                               ?>
-                             </div>
                             <div class="col-md-3">
                               <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
                                 <div class="flip">
@@ -326,18 +140,11 @@ if ($result) {
                               </button>
                           </div>
                 </div>
-                <div class="col-md-2">
-                            <div class="form-group form-animate-text" style="margin-top:30px !important; width: 300px;">
-                              <input onkeyup="generarNivel()" type="text" class="form-text" id="codigocuenta" name="codigocuenta" value="<?php echo $codigocuentaR; ?>" required>
-                              <span class="bar"></span>
-                              <label>C&oacute;digo</label>
-                            </div>
 
-                </div>
                 <div class="col-md-7">
                   <div class="col-md-12">
                   <div class="panel">
-                    <div class="panel-heading"><h3>Lista De Cuentas</h3></div>
+                    <div class="panel-heading"><h3>Partida # <?php echo $numeroPartida; ?></h3></div>
                     <div class="panel-body">
                       <div class="responsive-table">
                       <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
@@ -396,14 +203,10 @@ if ($result) {
               </div>
               </div>
               </div>
-
               </form>
             </div>
           <!-- end: content -->
-
-
           <!-- end: right menu -->
-
       </div>
 
       <!-- start: Mobile -->
