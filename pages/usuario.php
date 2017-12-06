@@ -64,6 +64,12 @@ if ($result) {
 
         function modify(id)
         {
+          document.getElementById('nombre').value="";
+          document.getElementById('correo').value="";
+          document.getElementById('pass').value="";
+          document.getElementById('telefono').value="";
+          document.getElementById('usuario').value="";
+
          document.location.href='usuario.php?id='+id;
         }
          function confirmar(id)
