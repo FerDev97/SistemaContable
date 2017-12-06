@@ -1,8 +1,4 @@
 <?php
-$id  = $_REQUEST["id"];
-$aux = " ";
-$tipocuentaR="Ninguno";
-$saldocuentaR="Ninguno";
 include "../config/conexion.php";
 $result = $conexion->query("select * from catalogo where idcatalogo=" . $id);
 if ($result) {

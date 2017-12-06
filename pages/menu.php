@@ -34,7 +34,6 @@
                         <span class="fa-angle-right fa right-arrow text-right"></span>
                       </a>
                       <ul class="nav nav-list tree">
-
                           <li><a href="usuario.php">Nueva cuenta</a></li>
                       </ul>
                     </li>
