@@ -32,34 +32,8 @@ $numeroPartida=($result->num_row)+1;
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
       <script type="text/javascript">
-      function comprobarR(cadena)
-      {
-        if (cadena.indexOf('r')!=-1 || cadena.indexOf('R')!=-1) {
-          document.getElementById('r').value="R";
-          alert("LLeva R");
-        }else
-        {
-           document.getElementById('r').value="R";
-        }
-      }
-      function generarNivel()
-      {
-        if (document.getElementById('codigocuenta').value.length==1) {
-          document.getElementById('nivelcuenta').value=1;
-        }
-        if (document.getElementById('codigocuenta').value.length==2) {
-          document.getElementById('nivelcuenta').value=2;
-        }
-        if (document.getElementById('codigocuenta').value.length==3) {
-          document.getElementById('nivelcuenta').value=3;
-        }
-        if (document.getElementById('codigocuenta').value.length>3 && document.getElementById('codigocuenta').value.length<6) {
-          document.getElementById('nivelcuenta').value=4;
-        }
-        if (document.getElementById('codigocuenta').value.length>5 && document.getElementById('codigocuenta').value.length<8) {
-          document.getElementById('nivelcuenta').value=5;
-        }
-      }
+
+
       function verificar(){
           if(document.getElementById('nivelcuenta').value=="" || document.getElementById('codigocuenta').value=="" || document.getElementById('nombrecuenta').value=="" || document.getElementById('tipocuenta').value=="SELECCIONE" || document.getElementById('saldocuenta').value=="SELECCIONE"){
             alert("Complete los campos");
@@ -130,18 +104,27 @@ $numeroPartida=($result->num_row)+1;
                               <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" value="<?php echo $nombrecuentaR; ?>" required>
                               <span class="bar"></span>
                             </div>
+
+
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
                               <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
                               <span class="bar"></span>
-                              <label>Concepto</label>
+                              <label>Cuenta</label>
                             </div>
-                            
 
-                            <div class="col-md-3">
+                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
+                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
+                              <span class="bar"></span>
+                              <label>Monto</label>
+                            </div>
+
+
+
+                          <div class="col-md-3">
                               <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
                                 <div class="flip">
                                   <div class="side">
-                                    Guardar <span class="fa fa-trash"></span>
+                                    Procesar <span class="fa fa-edit"></span>
                                   </div>
                                   <div class="side back">
                                     continuar?
@@ -150,6 +133,20 @@ $numeroPartida=($result->num_row)+1;
                                 <span class="icon"></span>
                               </button>
                           </div>
+
+                          <div class="col-md-3">
+                            <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
+                              <div class="flip">
+                                <div class="side">
+                                <span class="fa fa-edit"></span>
+                                </div>
+                                <div class="side back">
+                                  Mostrar
+                                </div>
+                              </div>
+                              <span class="icon"></span>
+                            </button>
+                        </div>
                 </div>
 
                 <div class="col-md-7">
