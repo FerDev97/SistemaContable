@@ -35,7 +35,7 @@
                       </a>
                       <ul class="nav nav-list tree">
 
-                          <li><a href="nuevousuario.php">Nueva cuenta</a></li>
+                          <li><a href="usuario.php">Nueva cuenta</a></li>
                       </ul>
                     </li>
 
