@@ -133,18 +133,23 @@ $numeroPartida=($result->num_row)+1;
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
                               <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
                               <span class="bar"></span>
-                              <label>Concepto</label>
+                              <label>Cuenta</label>
                             </div>
-                            
+                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
+                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
+                              <span class="bar"></span>
+                              <label>Monto $</label>
+                            </div>
+
 
                             <div class="col-md-3">
                               <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
                                 <div class="flip">
                                   <div class="side">
-                                    Guardar <span class="fa fa-trash"></span>
+                                    Guardar <span class="fa fa-edit"></span>
                                   </div>
                                   <div class="side back">
-                                    continuar?
+                                    Continuar?
                                   </div>
                                 </div>
                                 <span class="icon"></span>
