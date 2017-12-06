@@ -6,7 +6,7 @@ $result = $conexion->query("select * from usuario where idusuario=" . $id);
 if ($result) {
     while ($fila = $result->fetch_object()) {
         $idusuarioR   = $fila->idusuario;
-        $nombreR = $fila->nombre;
+        $nombreR  = $fila->nombre;
         $passR = $fila->pass;
         $mailR   = $fila->mail;
         $telefonoR  = $fila->telefono;
@@ -64,7 +64,7 @@ if ($result) {
 
         function modify(id)
         {
-         document.location.href='nuevousuario.php?id='+id;
+         document.location.href='usuario.php?id='+id;
         }
          function confirmar(id)
         {
@@ -99,7 +99,7 @@ if ($result) {
                     </div>
                   </div>
               </div>
-              <form id="turismo" name="turismo" action="" method="post">
+              <form id="turismo" name="turismo" action="" method="">
               <input type="hidden" name="bandera" id="bandera">
               <input type="hidden" name="baccion" id="baccion" value="<?php echo $idusuarioR; ?>" >
               <input type="hidden" name="aux" id="aux" value="<?php echo $aux; ?>">
@@ -109,28 +109,28 @@ if ($result) {
 
 
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="nombre" name="nombre" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="text" class="form-text" id="nombre" name="nombre" value="<?php echo $nombreR; ?>" required>
                               <span class="bar"></span>
                               <label>Nombre</label>
                             </div>
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="correo" name="correo" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="text" class="form-text" id="correo" name="correo" value="<?php echo $mailR; ?>" required>
                               <span class="bar"></span>
                               <label>E-mail</label>
                             </div>
 
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="telefono" name="telefono" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="text" class="form-text" id="telefono" name="telefono" value="<?php echo $telefonoR; ?>" required>
                               <span class="bar"></span>
                               <label>Telefono</label>
                             </div>
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="usuario" name="usuario" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="text" class="form-text" id="usuario" name="usuario" value="<?php echo $usuarioR; ?>" required>
                               <span class="bar"></span>
                               <label>Usuario</label>
                             </div>
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="password" class="form-text" id="pass" name="pass" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="password" class="form-text" id="pass" name="pass" value="<?php echo $passR; ?>" required>
                               <span class="bar"></span>
                               <label>Contraseña</label>
                             </div>
@@ -176,7 +176,7 @@ if ($result) {
         echo "<tr>";
         echo "<td>
           <div class='col-md-2' style='margin-top:1px'>
-            <button class='btn ripple-infinite btn-round btn-warning' onclick='modify(" . $fila->idcatalogo . ")';>
+            <button class='btn ripple-infinite btn-round btn-warning' onclick='modify(" . $fila->idusuario . ")';>
             <div>
               <span>Editar</span>
             </div>
@@ -192,7 +192,7 @@ if ($result) {
         echo "<td>" . $fila->telefono . "</td>";
         echo "<td>
           <div class='col-md-2' style='margin-top:1px'>
-            <button class='btn ripple-infinite btn-round btn-success' onclick='confirmar(" . $fila->idcatalogo . ")'>
+            <button class='btn ripple-infinite btn-round btn-success' onclick='confirmar(" . $fila->idusuario . ")'>
             <div>
               <span>Borrar</span>
             </div>
@@ -417,7 +417,7 @@ if ($bandera == "desaparecer") {
     }
 }
 if ($bandera == "modificar") {
-    $consulta  = "UPDATE usuario set codigocuenta='" . $codigocuenta . "',nombrecuenta='" . $nombrecuenta . "',tipocuenta='" . $tipocuenta . "',saldocuenta='" . $saldocuenta . "',r='" . $r . "',nivelcuenta='" . $nivelcuenta . "' where idcatalogo='" . $baccion . "'";
+    $consulta  = "UPDATE usuario set nombre='" . $nombre . "',pass='" . $pass . "',mail='" . $mail . "',telefono='" . $telefono . "',usuario='" . $usuario . "' where idusuario='" . $baccion . "'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
         msg("En Hora Buena");
