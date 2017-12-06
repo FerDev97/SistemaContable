@@ -93,6 +93,11 @@ if ($result) {
 
         function modify(id)
         {
+          document.getElementById('nivelcuenta').value="";
+          document.getElementById('codigocuenta').value="";
+          document.getElementById('nombrecuenta').value="";
+          document.getElementById('tipocuenta').value="SELECCIONE";
+          document.getElementById('saldocuenta').value="SELECCIONE";
 
          document.location.href='cuenta.php?id='+id;
         }
