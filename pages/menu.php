@@ -8,7 +8,7 @@
                       <p class="animated fadeInRight">Sat,October 1st 2029</p>
                     </li>
                     <li class="active ripple">
-                      <a class="tree-toggle nav-header"><span class="fa-home fa"></span> Catalogo
+                      <a class="tree-toggle nav-header"><span class="fa-list fa"></span> Catalogo
                         <span class="fa-angle-right fa right-arrow text-right"></span>
                       </a>
                       <ul class="nav nav-list tree">
@@ -21,7 +21,7 @@
                       </ul>
                     </li>
                     <li class="active ripple">
-                      <a class="tree-toggle nav-header"><span class="fa-home fa"></span> Libro Diario
+                      <a class="tree-toggle nav-header"><span class="fa-book fa"></span> Libro Diario
                         <span class="fa-angle-right fa right-arrow text-right"></span>
                       </a>
                       <ul class="nav nav-list tree">
@@ -30,7 +30,7 @@
                       </ul>
                     </li>
                     <li class="active ripple">
-                      <a class="tree-toggle nav-header"><span class="fa-home fa"></span> Usuarios
+                      <a class="tree-toggle nav-header"><span class="fa-users fa"></span> Usuarios
                         <span class="fa-angle-right fa right-arrow text-right"></span>
                       </a>
                       <ul class="nav nav-list tree">

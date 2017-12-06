@@ -1,39 +1,41 @@
 <?php
-$id  = $_REQUEST["id"];
-$aux = " ";
+//Obtener cuantas partidas hay en la base de datos.
 include "../config/conexion.php";
-$result = $conexion->query("select * from catalogo where idcatalogo=" . $id);
-if ($result) {
-    while ($fila = $result->fetch_object()) {
-        $idcatalogoR   = $fila->idcatalogo;
-        $codigocuentaR = $fila->codigocuenta;
-        $nombrecuentaR = $fila->nombrecuenta;
-        $tipocuentaR   = $fila->tipocuenta;
-        $saldoR        = $fila->saldo;
-        $rR            = $fila->r;
-        $nivelR        = $fila->nivel;
-    }
-    $aux = "modificar";
-}
+$numeroPartida;
+$result = $conexion->query("select * from partida");
+$numeroPartida=($result->num_rows)+1;
+//if ($result) {
+//    while ($fila = $result->fetch_object()) {
+//        $idcatalogoR   = $fila->idcatalogo;
+//        $codigocuentaR = $fila->codigocuenta;
+//        $nombrecuentaR = $fila->nombrecuenta;
+//        $tipocuentaR   = $fila->tipocuenta;
+//        $saldocuentaR        = $fila->saldo;
+//        $rR            = $fila->r;
+//        $nivelR        = $fila->nivel;
+//    }
+//    $aux = "modificar";
+//}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="utf-8">
-  <meta name="description" content="Miminium Admin Template v.1">
-  <meta name="author" content="Isna Nur Azis">
-  <meta name="keyword" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FernandoKevin12</title>
+  <title>Pacholi2018</title>
 
   <!-- start: Css -->
   <link rel="stylesheet" type="text/css" href="../asset/css/bootstrap.min.css">
 
   <!-- plugins -->
   <link rel="stylesheet" type="text/css" href="../asset/css/plugins/font-awesome.min.css"/>
-  <link rel="stylesheet" type="text/css" href="../asset/css/plugins/datatables.bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="../asset/css/plugins/animate.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../asset/css/plugins/nouislider.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../asset/css/plugins/select2.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../asset/css/plugins/ionrangeslider/ion.rangeSlider.css"/>
+  <link rel="stylesheet" type="text/css" href="../asset/css/plugins/ionrangeslider/ion.rangeSlider.skinFlat.css"/>
+  <link rel="stylesheet" type="text/css" href="../asset/css/plugins/bootstrap-material-datetimepicker.css"/>
   <link href="../asset/css/style.css" rel="stylesheet">
   <!-- end: Css -->
 
@@ -44,138 +46,93 @@ if ($result) {
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
       <script type="text/javascript">
-      function comprobarR(cadena)
-      {
-        if (cadena.indexOf('r')!=-1 || cadena.indexOf('R')!=-1) {
-          document.getElementById('r').value="R";
-          alert("LLeva R");
-        }else
-        {
-           document.getElementById('r').value="R";
-        }
-      }
-      function generarNivel()
-      {
-        if (document.getElementById('codigocuenta').value.length==1) {
-          document.getElementById('nivelcuenta').value=1;
-        }
-        if (document.getElementById('codigocuenta').value.length==2) {
-          document.getElementById('nivelcuenta').value=2;
-        }
-        if (document.getElementById('codigocuenta').value.length==3) {
-          document.getElementById('nivelcuenta').value=3;
-        }
-        if (document.getElementById('codigocuenta').value.length>3 && document.getElementById('codigocuenta').value.length<6) {
-          document.getElementById('nivelcuenta').value=4;
-        }
-        if (document.getElementById('codigocuenta').value.length>5 && document.getElementById('codigocuenta').value.length<8) {
-          document.getElementById('nivelcuenta').value=5;
-        }
-      }
-      function verificar(){
-          if(document.getElementById('nivelcuenta').value=="" || document.getElementById('codigocuenta').value=="" || document.getElementById('nombrecuenta').value=="" || document.getElementById('tipocuenta').value=="SELECCIONE" || document.getElementById('saldocuenta').value=="SELECCIONE"){
+        function verificar(){
+          if(document.getElementById('nombrecliente').value=="" ||
+            document.getElementById('apellidocliente').value=="" ||
+            document.getElementById('duicliente').value=="" ||
+            document.getElementById('telefonocliente').value=="" ||
+            document.getElementById('direccioncliente').value==""){
             alert("Complete los campos");
           }else{
-            if (document.getElementById("aux").value=="modificar") {
-            comprobarR(document.getElementById('codigocuenta').value);
-            document.getElementById('bandera').value="modificar";
-            document.turismo.submit();
-            }else
-            {
-              comprobarR(document.getElementById('codigocuenta').value);
             document.getElementById('bandera').value="add";
-           document.turismo.submit();
-            }
-            }
-        }
-
-        function modify(id)
-        {
-         document.location.href='cuenta.php?id='+id;
-        }
-         function confirmar(id)
-        {
-          if (confirm("!!Advertencia!! Desea Eliminar Este Registro?")) {
-            document.getElementById('bandera').value='desaparecer';
-            document.getElementById('baccion').value=id;
-            document.getElementById('categoria').value=id;
             document.turismo.submit();
-          }else
-          {
-            alert("Error al borrar.");
           }
-        }
 
+        }
       </script>
 </head>
 
 <body id="mimin" class="dashboard">
-      <?php include "header.php"?>
+   <?php include "header.php"?>
 
       <div class="container-fluid mimin-wrapper">
 
-<?php include "menu.php";?>
+          <?php include "menu.php";?>
+
+
+          <!-- start: Content -->
             <div id="content">
-               <div class="panel box-shadow-none content-header">
+                <div class="panel box-shadow-none content-header">
                   <div class="panel-body">
                     <div class="col-md-12">
-                        <h3 class="animated fadeInLeft">CATALOGO</h3>
-                        <p class="animated fadeInDown">
-                          Tabla <span class="fa-angle-right fa"></span> Cuentas
-                        </p>
+                        <h3 class="animated fadeInLeft"></h3>
+
                     </div>
                   </div>
-              </div>
-              <form id="turismo" name="turismo" action="" method="post">
-              <input type="hidden" name="bandera" id="bandera">
-              <input type="hidden" name="baccion" id="baccion" value="<?php echo $idcatalogoR; ?>" >
-              <input type="hidden" name="aux" id="aux" value="<?php echo $aux; ?>">
-              <input type="hidden" name="r" id="r" value="">
-              <div class="col-md-12 top-20 padding-0">
-               <div class="col-md-3">
-                            <div class="form-group form-animate-text" style="margin-top:30px !important; width: 100px;">
-                              <input type="text" class="form-text" id="nivelcuenta" name="nivelcuenta" style="width: 100px;" value="<?php echo $nivelR; ?>">
-                              <span class="bar" style="width: 100px<"></span>
-                              <label>Nivel</label>
-                            </div>
+                </div>
+                <div class="form-element">
 
-                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="nombrecuenta" name="nombrecuenta" value="<?php echo $nombrecuentaR; ?>" required>
-                              <span class="bar"></span>
-                              <label>Nombre</label>
-                            </div>
 
-                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <span class="bar"></span>
-                              <label>Tipo</label>
-                              <br>
-                              <br>
-                              <select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
-                              <option value="SELECCIONE" selected>SELECCIONE</option>
-                              <option value="ACTIVO">ACTIVO</option>
-                              <option value="PASIVO">PASIVO</option>
-                              <option value="PATRIMONIO">PATRIMONIO</option>
-                              <option value="CUENTASRESULTDEUDORAS" >CUENTAS DE RESULTADO DEUDORAS</option>
-                              <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                              <option value="CUENTASRESULTACREEDORAS" >CUENTAS DE RESULTADO ACREEDORAS</option>
-                              <option value="CUENTASRESULTLIQUID" >CUENTAS DE RESULTADO LIQUIDADORAS</option>
-                              <option value="CUENTASCONTINGENTESO" >CUENTAS CONTINGENTES Y ORDEN</option>
-                              <option value="CUENTASCONTINGENTESOC" >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
-                              </select>
-                            </div>
+
+                <form id="turismo" name="turismo" action="" method="post">
+                <input type="hidden" name="bandera" id="bandera">
+                <div class="col-md-12">
+                  <div class="col-md-12 panel panel-info">
+                    <div class="col-md-12 panel-heading">
+                      <h4>Libro Diario</h4>
+                    </div>
+
+                    <div class="col-md-12 panel-body" style="padding-bottom:30px;">
+                      <div class="col-md-12">
+                        <form class="cmxform" id="formcliente" method="post" action="">
+
+                          <div class="col-md-6">
                             <div class="form-group form-animate-text" style="margin-top:40px !important;">
+                              <input type="text" class="form-text" id="numeroPartida" name="numeroPartida" required value="<?php echo $numeroPartida ?>">
                               <span class="bar"></span>
-                              <label>Saldo</label>
-                              <br>
-                              <br>
-                              <select id="saldocuenta" class="select2" style="width: 300px; font-size: 20px" name="saldocuenta">
-                              <option value="SELECCIONE" selected>SELECCIONE</option>
-                              <option value="DEUDOR">DEUDOR</option>
-                              <option value="ACREEDOR">ACREEDOR</option>
-                              </select>
+                              <label>#Partida</label>
                             </div>
-                            <div class="col-md-3">
-                              <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
+
+                            <div class="form-group form-animate-text" style="margin-top:40px !important;">
+                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" required>
+                              <span class="bar"></span>
+                              <label>Concepto</label>
+                            </div>
+
+                            <div class="form-group form-animate-text" style="margin-top:40px !important;">
+                              <input type="date" class="form-text date" id="fechaPartida" name="fechaPartida" required>
+                              <span class="bar"></span>
+                              <label>Fecha</label>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group form-animate-text" style="margin-top:40px !important;">
+                              <input type="text" class="form-text mask-telefono" id="telefonocliente" name="telefonocliente" required>
+                              <span class="bar"></span>
+                              <label>Tel&eacute;fono</label>
+                            </div>
+
+                            <div class="form-group form-animate-text" style="margin-top:40px !important;">
+                              <input type="text" class="form-text" id="direccioncliente" name="direccioncliente" required>
+                              <span class="bar"></span>
+                              <label>Direcci&oacute;n</label>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                              <div class="col-md-3">
+                              <button class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
                                 <div class="flip">
                                   <div class="side">
                                     Guardar <span class="fa fa-trash"></span>
@@ -187,84 +144,21 @@ if ($result) {
                                 <span class="icon"></span>
                               </button>
                           </div>
-                </div>
-                <div class="col-md-2">
-                            <div class="form-group form-animate-text" style="margin-top:30px !important; width: 350px;">
-                              <input onkeyup="generarNivel()" type="text" class="form-text" id="codigocuenta" name="codigocuenta" value="<?php echo $codigocuentaR; ?>" required>
-                              <span class="bar"></span>
-                              <label>C&oacute;digo</label>
-                            </div>
+                        </div>
+                      </form>
 
-                </div>
-                <div class="col-md-7">
-                  <div class="col-md-12">
-                  <div class="panel">
-                    <div class="panel-heading"><h3>Lista De Cuentas</h3></div>
-                    <div class="panel-body">
-                      <div class="responsive-table">
-                      <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
-                      <thead>
-                        <tr>
-                          <th></th>
-                          <th>Codigo</th>
-                          <th>Nombre</th>
-                          <th>Tipo</th>
-                          <th>Saldo</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <?php
-include "../config/conexion.php";
-$result = $conexion->query("select * from catalogo order by codigocuenta");
-if ($result) {
-    while ($fila = $result->fetch_object()) {
-        echo "<tr>";
-        echo "<td>
-          <div class='col-md-2' style='margin-top:1px'>
-            <button class='btn ripple-infinite btn-round btn-warning' onclick='modify(" . $fila->idcatalogo . ")';>
-            <div>
-              <span>Editar</span>
-            </div>
-            </button>
-            </div>
-        </td>";
-        //echo "<tr>";
-        //echo "<td><img src='img/modificar.png' style='width:30px; height:30px' onclick=modify(".$fila->idasignatura.",'".$fila->codigo."','".$fila->nombre."');></td>";
-        //echo "<td><img src='img/eliminar.png' style='width:30px; height:30px' onclick=elyminar(".$fila->idasignatura.",'".$fila->nombre."');></td>";
-        echo "<td>" . $fila->codigocuenta . "</td>";
-        echo "<td>" . $fila->nombrecuenta . "</td>";
-        echo "<td>" . $fila->tipocuenta . "</td>";
-        echo "<td>" . $fila->saldo . "</td>";
-        echo "<td>
-          <div class='col-md-2' style='margin-top:1px'>
-            <button class='btn ripple-infinite btn-round btn-success' onclick='confirmar(" . $fila->idcatalogo . ")'>
-            <div>
-              <span>Borrar</span>
-            </div>
-            </button>
-            </div>
-        </td>";
-        echo "</tr>";
-
-    }
-}
-?>
-                      </tbody>
-                        </table>
-                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              </div>
+                </form>
               </div>
 
-              </form>
+              </div>
+              </div>
+              </div>
             </div>
           <!-- end: content -->
 
-
-          <!-- end: right menu -->
 
       </div>
 
@@ -414,19 +308,223 @@ if ($result) {
 <script src="../asset/js/bootstrap.min.js"></script>
 
 
-
 <!-- plugins -->
 <script src="../asset/js/plugins/moment.min.js"></script>
-<script src="../asset/js/plugins/jquery.datatables.min.js"></script>
-<script src="../asset/js/plugins/datatables.bootstrap.min.js"></script>
+<script src="../asset/js/plugins/jquery.knob.js"></script>
+<script src="../asset/js/plugins/ion.rangeSlider.min.js"></script>
+<script src="../asset/js/plugins/bootstrap-material-datetimepicker.js"></script>
 <script src="../asset/js/plugins/jquery.nicescroll.js"></script>
+<script src="../asset/js/plugins/jquery.mask.min.js"></script>
+<script src="../asset/js/plugins/select2.full.min.js"></script>
+<script src="../asset/js/plugins/nouislider.min.js"></script>
+<script src="../asset/js/plugins/jquery.validate.min.js"></script>
 
 
 <!-- custom -->
 <script src="../asset/js/main.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#datatables-example').DataTable();
+
+    $("#formcliente").validate({
+      errorElement: "em",
+      errorPlacement: function(error, element) {
+        $(element.parent("div").addClass("form-animate-error"));
+        error.appendTo(element.parent("div"));
+      },
+      success: function(label) {
+        $(label.parent("div").removeClass("form-animate-error"));
+      },
+      rules: {
+        nombrecliente: "required",
+        apellidocliente: "required",
+        duicliente: "required",
+        telefonocliente: "required",
+        direccioncliente: "required"
+      },
+      messages: {
+        nombrecliente: "Digita tu nombre",
+        apellidocliente: "Digita tu apellido",
+        duicliente: "Digita tu DUI",
+        telefonocliente: "Digita tu numero telefonico",
+        direccioncliente: "Digita tu direcci&oacuten"
+      }
+    });
+
+    // propose username by combining first- and lastname
+    $("#username").focus(function() {
+      var firstname = $("#firstname").val();
+      var lastname = $("#lastname").val();
+      if (firstname && lastname && !this.value) {
+        this.value = firstname + "." + lastname;
+      }
+    });
+
+
+    $('.mask-dui').mask('00000000-0');
+    $('.mask-time').mask('00:00:00');
+    $('.mask-date_time').mask('00/00/0000 00:00:00');
+    $('.mask-cep').mask('00000-000');
+    $('.mask-telefono').mask('0000-0000');
+    $('.mask-phone_with_ddd').mask('(00) 0000-0000');
+    $('.mask-phone_us').mask('(000) 000-0000');
+    $('.mask-mixed').mask('AAA 000-S0S');
+    $('.mask-cpf').mask('000.000.000-00', {reverse: true});
+    $('.mask-money').mask('000.000.000.000.000,00', {reverse: true});
+    $('.mask-money2').mask("#.##0,00", {reverse: true});
+    $('.mask-ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
+      translation: {
+        'Z': {
+          pattern: /[0-9]/, optional: true
+        }
+      }
+    });
+    $('.mask-ip_address').mask('099.099.099.099');
+    $('.mask-percent').mask('##0,00%', {reverse: true});
+    $('.mask-clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
+    $('.mask-placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
+    $('.mask-fallback').mask("00r00r0000", {
+      translation: {
+        'r': {
+          pattern: /[\/]/,
+          fallback: '/'
+        },
+        placeholder: "__/__/____"
+      }
+    });
+    $('.mask-selectonfocus').mask("00/00/0000", {selectOnFocus: true});
+
+    var options =  {onKeyPress: function(cep, e, field, options){
+      var masks = ['00000-000', '0-00-00-00'];
+      mask = (cep.length>7) ? masks[1] : masks[0];
+      $('.mask-crazy_cep').mask(mask, options);
+    }};
+
+    $('.mask-crazy_cep').mask('00000-000', options);
+
+
+    var options2 =  {
+      onComplete: function(cep) {
+        alert('CEP Completed!:' + cep);
+      },
+      onKeyPress: function(cep, event, currentField, options){
+        console.log('An key was pressed!:', cep, ' event: ', event,
+          'currentField: ', currentField, ' options: ', options);
+      },
+      onChange: function(cep){
+        console.log('cep changed! ', cep);
+      },
+      onInvalid: function(val, e, f, invalid, options){
+        var error = invalid[0];
+        console.log ("Digit: ", error.v, " is invalid for the position: ", error.p, ". We expect something like: ", error.e);
+      }
+    };
+
+    $('.mask-cep_with_callback').mask('00000-000', options2);
+
+    var SPMaskBehavior = function (val) {
+      return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+    },
+    spOptions = {
+      onKeyPress: function(val, e, field, options) {
+        field.mask(SPMaskBehavior.apply({}, arguments), options);
+      }
+    };
+
+    $('.mask-sp_celphones').mask(SPMaskBehavior, spOptions);
+
+
+
+    var slider = document.getElementById('noui-slider');
+    noUiSlider.create(slider, {
+      start: [20, 80],
+      connect: true,
+      range: {
+        'min': 0,
+        'max': 100
+      }
+    });
+
+    var slider = document.getElementById('noui-range');
+    noUiSlider.create(slider, {
+                        start: [ 20, 80 ], // Handle start position
+                        step: 10, // Slider moves in increments of '10'
+                        margin: 20, // Handles must be more than '20' apart
+                        connect: true, // Display a colored bar between the handles
+                        direction: 'rtl', // Put '0' at the bottom of the slider
+                        orientation: 'vertical', // Orient the slider vertically
+                        behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+                        range: { // Slider can select '0' to '100'
+                        'min': 0,
+                        'max': 100
+                      },
+                        pips: { // Show a scale with the slider
+                          mode: 'steps',
+                          density: 2
+                        }
+                      });
+
+
+
+    $(".select2-A").select2({
+      placeholder: "Select a state",
+      allowClear: true
+    });
+
+    $(".select2-B").select2({
+      tags: true
+    });
+
+    $("#range1").ionRangeSlider({
+      type: "double",
+      grid: true,
+      min: -1000,
+      max: 1000,
+      from: -500,
+      to: 500
+    });
+
+    $('.dateAnimate').bootstrapMaterialDatePicker({ weekStart : 0, time: false,animation:true});
+    $('.date').bootstrapMaterialDatePicker({ weekStart : 0, time: false});
+    $('.time').bootstrapMaterialDatePicker({ date: false,format:'HH:mm',animation:true});
+    $('.datetime').bootstrapMaterialDatePicker({ format : 'dddd DD MMMM YYYY - HH:mm',animation:true});
+    $('.date-fr').bootstrapMaterialDatePicker({ format : 'DD/MM/YYYY HH:mm', lang : 'fr', weekStart : 1, cancelText : 'ANNULER'});
+    $('.min-date').bootstrapMaterialDatePicker({ format : 'DD/MM/YYYY HH:mm', minDate : new Date() });
+
+
+    $(".dial").knob({
+      height:80
+    });
+
+    $('.dial1').trigger(
+     'configure',
+     {
+       "min":10,
+       "width":80,
+       "max":80,
+       "fgColor":"#FF6656",
+       "skin":"tron"
+     }
+     );
+
+    $('.dial2').trigger(
+     'configure',
+     {
+
+       "width":80,
+       "fgColor":"#FF6656",
+       "skin":"tron",
+       "cursor":true
+     }
+     );
+
+    $('.dial3').trigger(
+     'configure',
+     {
+
+       "width":80,
+       "fgColor":"#27C24C",
+     }
+     );
   });
 </script>
 <!-- end: Javascript -->
@@ -436,53 +534,26 @@ if ($result) {
 
 include "../config/conexion.php";
 
-$bandera      = $_REQUEST["bandera"];
-$baccion      = $_REQUEST["baccion"];
-$nivelcuenta  = $_REQUEST["nivelcuenta"];
-$nombrecuenta = $_REQUEST["nombrecuenta"];
-$codigocuenta = $_REQUEST["codigocuenta"];
-$tipocuenta   = $_REQUEST["tipocuenta"];
-$saldocuenta  = $_REQUEST["saldocuenta"];
-$saldocuenta  = $_REQUEST["saldocuenta"];
-$r            = $_REQUEST["r"];
+$bandera          = $_REQUEST["bandera"];
+$nombrecliente    = $_REQUEST["nombrecliente"];
+$apellidocliente  = $_REQUEST["apellidocliente"];
+$duicliente       = $_REQUEST["duicliente"];
+$telefonocliente  = $_REQUEST["telefonocliente"];
+$direccioncliente = $_REQUEST["direccioncliente"];
+
 if ($bandera == "add") {
-    $consulta  = "INSERT INTO catalogo VALUES('null','" . $codigocuenta . "','" . $nombrecuenta . "','" . $tipocuenta . "','" . $saldocuenta . "','" . $r . "','" . $nivelcuenta . "')";
+    $consulta  = "INSERT INTO cliente VALUES('null','" . $nombrecliente . "','" . $apellidocliente . "','" . $duicliente . "','" . $telefonocliente . "','" . $direccioncliente . "')";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
         msg("Exito");
     } else {
         msg("No Exito");
     }
-}
-if ($bandera == "desaparecer") {
-    $consulta  = "DELETE FROM categoria where idcategoria='" . $baccion . "'";
-    $resultado = $conexion->query($consulta);
-    if ($resultado) {
-        msg("Exito");
-    } else {
-        msg("No Exito");
-    }
-}
-if ($bandera == "modificar") {
-    $consulta  = "UPDATE catalogo set codigocuenta='" . $codigocuenta . "',codigocuenta='" . $codigocuenta . "',codigocuenta='" . $codigocuenta . "',codigocuenta='" . $codigocuenta . "',codigocuenta='" . $codigocuenta . "' where idcategoria='" . $baccion . "'";
-    $resultado = $conexion->query($consulta);
-    if ($resultado) {
-        msg("En Hora Buena");
-    } else {
-        msg("No Exito");
-    }
-}
-if ($bandera == 'enviar') {
-    echo "<script type='text/javascript'>";
-    echo "document.location.href='editcliente.php?id=" . $baccion . "';";
-    echo "</script>";
-    # code...
 }
 function msg($texto)
 {
     echo "<script type='text/javascript'>";
     echo "alert('$texto');";
-    echo "document.location.href='cuenta.php';";
     echo "</script>";
 }
 ?>
