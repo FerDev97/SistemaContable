@@ -10,28 +10,44 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/main.css"/>
+		<link rel="stylesheet" href="assets/css/login.css"/>
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<script type="text/javascript">
-			function login(){
-				alert("Hola");
-			}
+
+
+function llamar(){
+	mostraLog(" ");
+}
+		function mostraLog(str){
+			alert("entra");
+if (str==""){document.getElementById("logindiv").innerHTML="";return;}
+if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();}
+else  {// code for IE6, IE5
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}xmlhttp.onreadystatechange=function(){if (xmlhttp.readyState==4 && xmlhttp.status==200){document.getElementById("logindiv").innerHTML=xmlhttp.responseText;}}
+
+xmlhttp.open("GET","pages/login.php",true);
+xmlhttp.send();
+}
 		</script>
+
 	</head>
 	<body class="loading">
 		<div id="wrapper">
 			<div id="bg"></div>
 			<div id="overlay"></div>
 			<div id="main">
-
 				<!-- Header -->
+
 					<header id="header">
 						<h1>Sistema Contable</h1>
 						<p>Fernando &nbsp;&bull;&nbsp; Jessica &nbsp;&bull;&nbsp; Kevin</p>
 						<nav>
 							<ul>
-								<li class="tooltip"><a href="/phpmyadmin" class="icon fa-user" onclick="login()"><span class="label tooltiptext">phpMyAdmin</span></a></li>
+								<li class="tooltip"><a class="icon fa-user" onclick="llamar()"><span class="label tooltiptext">Iniciar Sesion</span></a></li>
 
 							<!--
 								<li><a href="#" class="icon fa-archive"><span class="label">Facebook</span></a></li>
@@ -41,18 +57,9 @@
 							-->
 							</ul>
 							<ul>
-								<div class="login-card">
-			    				<h1>Log-in</h1><br>
-			  <form>
-			    <input type="text" name="user" placeholder="Username">
-			    <input type="password" name="pass" placeholder="Password">
-			    <input type="submit" name="login" class="login login-submit" value="login">
-			  </form>
+									<div id="logindiv">
 
-			  <div class="login-help">
-			    <a href="#">Register</a> • <a href="#">Forgot Password</a>
-			  </div>
-			</div>
+									</div>
 							</ul>
 						</nav>
 					</header>
@@ -60,7 +67,7 @@
 
 				<!-- Footer -->
 					<footer id="footer">
-						<span class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>.</span>
+						<span class="copyright">&copy; Pacholi2018. Creadores: FJK.</span>
 					</footer>
 
 			</div>

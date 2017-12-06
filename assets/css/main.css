@@ -47,7 +47,7 @@
 	body {
 		-webkit-text-size-adjust: none;
 	}
-	
+
 
 /* Box Model */
 
@@ -518,7 +518,7 @@
 			font-size: 4.35em;
 			font-weight: 900;
 			letter-spacing: -0.035em;
-			line-height: 1em;
+			line-height: 1.3em;
 		}
 
 		#header p {
