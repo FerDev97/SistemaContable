@@ -122,10 +122,24 @@ $numeroPartida=($result->num_row)+1;
               <div class="col-md-12 top-20 padding-0">
                <div class="col-md-5">
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="nombrecuenta" name="nombrecuenta" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
                               <span class="bar"></span>
-                              <label>Nombre</label>
+                              <label>Concepto</label>
                             </div>
+                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
+                              <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" value="<?php echo $nombrecuentaR; ?>" required>
+                              <span class="bar"></span>
+                            </div>
+                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
+                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
+                              <span class="bar"></span>
+                              <label>Concepto</label>
+                            </div>
+                            <!-- Trigger the modal with a button -->
+                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+                            \
+
                             <div class="col-md-3">
                               <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
                                 <div class="flip">
