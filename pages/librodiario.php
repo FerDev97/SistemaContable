@@ -135,10 +135,7 @@ $numeroPartida=($result->num_row)+1;
                               <span class="bar"></span>
                               <label>Concepto</label>
                             </div>
-                            <!-- Trigger the modal with a button -->
-                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-
-                            \
+                            
 
                             <div class="col-md-3">
                               <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
