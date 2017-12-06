@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-12-2017 a las 03:30:02
+-- Tiempo de generación: 06-12-2017 a las 17:36:20
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -21,6 +21,17 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sistemacontable`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `anio`
+--
+
+CREATE TABLE `anio` (
+  `idanio` int(11) NOT NULL,
+  `estado` int(11) NOT NULL COMMENT '1=Abierto,0=Cerrado'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -43,21 +54,103 @@ CREATE TABLE `catalogo` (
 --
 
 INSERT INTO `catalogo` (`idcatalogo`, `codigocuenta`, `nombrecuenta`, `tipocuenta`, `saldo`, `r`, `nivel`) VALUES
-(1, '1', 'Activo', 'ACTIVO', 'DEUDOR', '', 1),
 (2, '11', 'Activo Corriente', 'ACTIVO', 'DEUDOR', 'R', 2),
-(3, '111', 'Caja', 'ACTIVO', 'DEUDOR', 'R', 3),
 (4, '2', 'Pasivo', 'PASIVO', 'ACREEDOR', 'R', 1),
-(5, '21', 'Pasivo Corriente', 'PASIVO', 'ACREEDOR', 'R', 2);
+(5, '21', 'Pasivo Corriente', 'PASIVO', 'ACREEDOR', 'R', 2),
+(6, '1', 'Activo', 'ACTIVO', 'DEUDOR', 'R', 1),
+(7, '111', 'Caja', 'ACTIVO', 'DEUDOR', 'R', 3),
+(8, '11101', 'Caja General', 'ACTIVO', 'DEUDOR', 'R', 4),
+(9, '11102', 'Cajas Chicas', 'ACTIVO', 'DEUDOR', 'R', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ldiario`
+--
+
+CREATE TABLE `ldiario` (
+  `idldiario` int(11) NOT NULL,
+  `idpartida` int(11) NOT NULL,
+  `idcatalogo` varchar(15) NOT NULL,
+  `debe` double NOT NULL,
+  `haber` double NOT NULL,
+  `idanio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `partida`
+--
+
+CREATE TABLE `partida` (
+  `idpartida` int(11) NOT NULL,
+  `concepto` varchar(150) NOT NULL,
+  `fecha` date NOT NULL,
+  `idanio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `idusuario` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `pass` varchar(100) NOT NULL,
+  `mail` varchar(100) NOT NULL,
+  `telefono` varchar(50) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `usuario` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`idusuario`, `nombre`, `pass`, `mail`, `telefono`, `fecha`, `usuario`) VALUES
+(1, 'fernando', 'jessica', 'fer@hotmail.com', '23339087', '2017-12-06 15:42:47', 'ferJess'),
+(2, 'chele', 'chele123', 'chele@gmail.com', '2388399', '0000-00-00 00:00:00', 'chelito96'),
+(3, 'fernan', 'hkjhkj', 'khkh', '786876', '2017-12-06 06:00:00', 'hkjhk'),
+(4, 'jjjjjj', '6767', 'jjjjjkjjkjkjk', '6775', '2017-12-06 16:28:14', 'jkhjhghj'),
+(5, 'jose rafael', '5656', 'jkdshkjh', '78787', '2017-12-06 16:29:53', 'hkjgjjg');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
+-- Indices de la tabla `anio`
+--
+ALTER TABLE `anio`
+  ADD PRIMARY KEY (`idanio`);
+
+--
 -- Indices de la tabla `catalogo`
 --
 ALTER TABLE `catalogo`
   ADD PRIMARY KEY (`idcatalogo`);
+
+--
+-- Indices de la tabla `ldiario`
+--
+ALTER TABLE `ldiario`
+  ADD PRIMARY KEY (`idldiario`),
+  ADD KEY `fk_anio` (`idanio`);
+
+--
+-- Indices de la tabla `partida`
+--
+ALTER TABLE `partida`
+  ADD KEY `fk_anio` (`idanio`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`idusuario`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -67,7 +160,17 @@ ALTER TABLE `catalogo`
 -- AUTO_INCREMENT de la tabla `catalogo`
 --
 ALTER TABLE `catalogo`
-  MODIFY `idcatalogo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;COMMIT;
+  MODIFY `idcatalogo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT de la tabla `ldiario`
+--
+ALTER TABLE `ldiario`
+  MODIFY `idldiario` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
