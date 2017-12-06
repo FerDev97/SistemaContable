@@ -11,7 +11,7 @@ if ($result) {
         $codigocuentaR = $fila->codigocuenta;
         $nombrecuentaR = $fila->nombrecuenta;
         $tipocuentaR   = $fila->tipocuenta;
-        $saldocuentaR        = $fila->saldo;
+        $saldocuentaR  = $fila->saldo;
         $rR            = $fila->r;
         $nivelR        = $fila->nivel;
     }
@@ -93,6 +93,7 @@ if ($result) {
 
         function modify(id)
         {
+
          document.location.href='cuenta.php?id='+id;
         }
          function confirmar(id)
@@ -612,7 +613,7 @@ if ($bandera == "modificar") {
 }
 if ($bandera == 'enviar') {
     echo "<script type='text/javascript'>";
-    echo "document.location.href='editcliente.php?id=" . $baccion . "';";
+    echo "document.location.href='cuenta.php?id=" . $baccion . "';";
     echo "</script>";
     # code...
 }
