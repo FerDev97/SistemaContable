@@ -407,7 +407,7 @@ if ($bandera == "add") {
         msg("No Exito");
     }
 }
-/*if ($bandera == "desaparecer") {
+if ($bandera == "desaparecer") {
     $consulta  = "DELETE FROM usuario where idusuario='" . $baccion . "'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
@@ -424,7 +424,7 @@ if ($bandera == "modificar") {
     } else {
         msg("No Exito");
     }
-}*/
+}
 if ($bandera == 'enviar') {
     echo "<script type='text/javascript'>";
     echo "document.location.href='editcliente.php?id=" . $baccion . "';";
