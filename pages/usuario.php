@@ -5,13 +5,13 @@ include "../config/conexion.php";
 $result = $conexion->query("select * from usuario where idusuario=" . $id);
 if ($result) {
     while ($fila = $result->fetch_object()) {
-        $idcatalogoR   = $fila->idcatalogo;
-        $codigocuentaR = $fila->codigocuenta;
-        $nombrecuentaR = $fila->nombrecuenta;
-        $tipocuentaR   = $fila->tipocuenta;
-        $saldocuentaR  = $fila->saldo;
-        $rR            = $fila->r;
-        $nivelR        = $fila->nivel;
+        $idusuarioR   = $fila->idusuario;
+        $nombreR = $fila->nombre;
+        $passR = $fila->pass;
+        $mailR   = $fila->mail;
+        $telefonoR  = $fila->telefono;
+        $fechaR            = $fila->fecha;
+        $usuarioR        = $fila->usuario;
     }
     $aux = "modificar";
 }
@@ -46,16 +46,16 @@ if ($result) {
       <script type="text/javascript">
 
       function verificar(){
-          if(document.getElementById('nivelcuenta').value=="" || document.getElementById('codigocuenta').value=="" || document.getElementById('nombrecuenta').value=="" || document.getElementById('tipocuenta').value=="SELECCIONE" || document.getElementById('saldocuenta').value=="SELECCIONE"){
+          if(document.getElementById('nombre').value=="" || document.getElementById('correo').value=="" || document.getElementById('telefono').value=="" || document.getElementById('usuario').value=="" || document.getElementById('pass').value==""){
             alert("Complete los campos");
           }else{
             if (document.getElementById("aux").value=="modificar") {
-            comprobarR(document.getElementById('codigocuenta').value);
+
             document.getElementById('bandera').value="modificar";
             document.turismo.submit();
             }else
             {
-              comprobarR(document.getElementById('codigocuenta').value);
+
             document.getElementById('bandera').value="add";
            document.turismo.submit();
             }
@@ -64,7 +64,7 @@ if ($result) {
 
         function modify(id)
         {
-         document.location.href='cuenta.php?id='+id;
+         document.location.href='nuevousuario.php?id='+id;
         }
          function confirmar(id)
         {
@@ -101,7 +101,7 @@ if ($result) {
               </div>
               <form id="turismo" name="turismo" action="" method="post">
               <input type="hidden" name="bandera" id="bandera">
-              <input type="hidden" name="baccion" id="baccion" value="<?php echo $idcatalogoR; ?>" >
+              <input type="hidden" name="baccion" id="baccion" value="<?php echo $idusuarioR; ?>" >
               <input type="hidden" name="aux" id="aux" value="<?php echo $aux; ?>">
               <input type="hidden" name="r" id="r" value="">
               <div class="col-md-12 top-20 padding-0">
@@ -399,7 +399,7 @@ $telefono   = $_REQUEST["telefono"];
 $usuario  = $_REQUEST["usuario"];
 
 if ($bandera == "add") {
-    $consulta  = "INSERT INTO usuario VALUES('null','" . $nombre . "','" . $pass . "','" . $mail . "','" . $telefono . "','null','" . $usuario . "')";
+    $consulta  = "INSERT INTO usuario VALUES('null','" . $nombre . "','" . $pass . "','" . $mail . "','" . $telefono . "',current_timestamp,'" . $usuario . "')";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
         msg("Exito");
@@ -435,7 +435,7 @@ function msg($texto)
 {
     echo "<script type='text/javascript'>";
     echo "alert('$texto');";
-    echo "document.location.href='cuenta.php';";
+    echo "document.location.href='usuario.php';";
     echo "</script>";
 }
 ?>
