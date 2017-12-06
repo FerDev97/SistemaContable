@@ -327,7 +327,7 @@ if ($result) {
                           </div>
                 </div>
                 <div class="col-md-2">
-                            <div class="form-group form-animate-text" style="margin-top:30px !important; width: 350px;">
+                            <div class="form-group form-animate-text" style="margin-top:30px !important; width: 300px;">
                               <input onkeyup="generarNivel()" type="text" class="form-text" id="codigocuenta" name="codigocuenta" value="<?php echo $codigocuentaR; ?>" required>
                               <span class="bar"></span>
                               <label>C&oacute;digo</label>
