@@ -155,7 +155,7 @@ $numeroPartida=($result->num_row)+1;
                     <span aria-hidden="true">×</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Contact Form</h4>
+                <h4 class="modal-title" id="myModalLabel">Seleccione la cuenta para agregar a la partida actual.</h4>
             </div>
 
             <!-- Modal Body -->
@@ -181,8 +181,7 @@ $numeroPartida=($result->num_row)+1;
 
             <!-- Modal Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary submitBtn" onclick="submitContactForm()">SUBMIT</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

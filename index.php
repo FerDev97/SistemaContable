@@ -21,7 +21,6 @@ function llamar(){
 	mostraLog(" ");
 }
 		function mostraLog(str){
-			alert("entra");
 if (str==""){document.getElementById("logindiv").innerHTML="";return;}
 if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
 xmlhttp=new XMLHttpRequest();}
