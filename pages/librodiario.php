@@ -33,7 +33,12 @@ $numeroPartida=($result->num_row)+1;
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
       <script type="text/javascript">
+      //funcion para llenar los datos desde el modalForm
+      function llenarDatos(codigo,concepto)
+      {
+        alert(codigo);
 
+      }
 
       function verificar(){
           if(document.getElementById('nivelcuenta').value=="" || document.getElementById('codigocuenta').value=="" || document.getElementById('nombrecuenta').value=="" || document.getElementById('tipocuenta').value=="SELECCIONE" || document.getElementById('saldocuenta').value=="SELECCIONE"){
@@ -97,29 +102,29 @@ $numeroPartida=($result->num_row)+1;
               <div class="col-md-12 top-20 padding-0">
                <div class="col-md-5">
                             <div class="form-group form-animate-text" style="margin-top:0px !important;">
-                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" >
                               <span class="bar"></span>
                               <label>Concepto</label>
                             </div>
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" value="<?php echo $nombrecuentaR; ?>" >
                               <span class="bar"></span>
                             </div>
 
 
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" >
                               <span class="bar"></span>
                               <label>Codigo</label>
                             </div>
 
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" >
                               <span class="bar"></span>
                               <label>Cuenta</label>
                             </div>
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" required>
+                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" >
                               <span class="bar"></span>
                               <label>Monto $</label>
                             </div>
@@ -161,7 +166,7 @@ $numeroPartida=($result->num_row)+1;
             <!-- Modal Body -->
             <div class="modal-body">
                 <p class="statusMsg"></p>
-                <form role="form">
+
                   <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
                   <thead>
                     <tr>
@@ -176,7 +181,7 @@ $numeroPartida=($result->num_row)+1;
                     <?php
                       include "tablaCuenta.php";
                      ?>
-                </form>
+
             </div>
 
             <!-- Modal Footer -->

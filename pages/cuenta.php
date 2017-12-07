@@ -53,7 +53,7 @@ if ($result) {
           alert("LLeva R");
         }else
         {
-           document.getElementById('r').value="R";
+           document.getElementById('r').value="";
         }
       }
       function generarNivel()
@@ -79,6 +79,7 @@ if ($result) {
             alert("Complete los campos");
           }else{
             if (document.getElementById("aux").value=="modificar") {
+              alert('Va a modificar.');
             comprobarR(document.getElementById('codigocuenta').value);
             document.getElementById('bandera').value="modificar";
             document.turismo.submit();
@@ -314,7 +315,6 @@ if ($result) {
                                 <option value="DEUDOR">DEUDOR</option>
                                 <option value="ACREEDOR">ACREEDOR</option>
                                 </select>';
-
                               }
                                ?>
                              </div>
@@ -587,7 +587,6 @@ $nombrecuenta = $_REQUEST["nombrecuenta"];
 $codigocuenta = $_REQUEST["codigocuenta"];
 $tipocuenta   = $_REQUEST["tipocuenta"];
 $saldocuenta  = $_REQUEST["saldocuenta"];
-$saldocuenta  = $_REQUEST["saldocuenta"];
 $r            = $_REQUEST["r"];
 if ($bandera == "add") {
     $consulta  = "INSERT INTO catalogo VALUES('null','" . $codigocuenta . "','" . $nombrecuenta . "','" . $tipocuenta . "','" . $saldocuenta . "','" . $r . "','" . $nivelcuenta . "')";
@@ -608,7 +607,7 @@ if ($bandera == "desaparecer") {
     }
 }
 if ($bandera == "modificar") {
-    $consulta  = "UPDATE catalogo set codigocuenta='" . $codigocuenta . "',nombrecuenta='" . $nombrecuenta . "',tipocuenta='" . $tipocuenta . "',saldocuenta='" . $saldocuenta . "',r='" . $r . "',nivelcuenta='" . $nivelcuenta . "' where idcatalogo='" . $baccion . "'";
+    $consulta  = "UPDATE catalogo set codigocuenta='" . $codigocuenta . "',nombrecuenta='" . $nombrecuenta . "',tipocuenta='" . $tipocuenta . "',saldo='" . $saldocuenta . "',r='" . $r . "',nivel='" . $nivel . "' where idcatalogo='" . $baccion . "'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
         msg("En Hora Buena");
@@ -626,7 +625,7 @@ function msg($texto)
 {
     echo "<script type='text/javascript'>";
     echo "alert('$texto');";
-    echo "document.location.href='cuenta.php';";
+  //  echo "document.location.href='cuenta.php';";
     echo "</script>";
 }
 ?>
