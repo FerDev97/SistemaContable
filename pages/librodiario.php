@@ -1,4 +1,8 @@
-<?php
+<?php session_start();
+if (!isset($_REQUEST['bandera'])) {
+  unset($_SESSION["acumulador"]);
+  unset($_SESSION["matriz"]);
+}
 include "../config/conexion.php";
 $result = $conexion->query("select * from partida");
 $numeroPartida=($result->num_row)+1;
@@ -34,9 +38,11 @@ $numeroPartida=($result->num_row)+1;
       <![endif]-->
       <script type="text/javascript">
       //funcion para llenar los datos desde el modalForm
-      function llenarDatos(codigo,concepto)
+      function llenarDatos(codigo,nombre)
       {
-        alert(codigo);
+
+        document.getElementById("codigoCuenta").value=codigo;
+        document.getElementById("nombreCuenta").value=nombre;
 
       }
 
@@ -102,29 +108,26 @@ $numeroPartida=($result->num_row)+1;
               <div class="col-md-12 top-20 padding-0">
                <div class="col-md-5">
                             <div class="form-group form-animate-text" style="margin-top:0px !important;">
-                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" >
+                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" >
                               <span class="bar"></span>
                               <label>Concepto</label>
                             </div>
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" value="<?php echo $nombrecuentaR; ?>" >
+                              <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" >
                               <span class="bar"></span>
                             </div>
-
-
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" >
+                              <input type="text" class="form-text" id="codigoCuenta" name="codigoCuenta" >
                               <span class="bar"></span>
                               <label>Codigo</label>
                             </div>
-
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" >
+                              <input type="text" class="form-text" id="nombreCuenta" name="nombreCuenta"  >
                               <span class="bar"></span>
                               <label>Cuenta</label>
                             </div>
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" value="<?php echo $nombrecuentaR; ?>" >
+                              <input type="text" class="form-text" id="montoPartida" name="montoPartida"  >
                               <span class="bar"></span>
                               <label>Monto $</label>
                             </div>
@@ -136,7 +139,7 @@ $numeroPartida=($result->num_row)+1;
                         </br>
 
                           <div class="col-md-3">
-                              <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()">
+                              <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="aggTabla()">
                                 <div class="flip">
                                   <div class="side">
                                     Procesar <span class="fa fa-edit"></span>
@@ -220,42 +223,15 @@ $numeroPartida=($result->num_row)+1;
                           <th>Codigo</th>
                           <th>Fecha</th>
                           <th>Concepto</th>
-                          <th>Parcial</th>
                           <th>Debe</th>
                           <th>Haber</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
-                      <?php
-include "../config/conexion.php";
-$result = $conexion->query("select * from catalogo order by codigocuenta");
-if ($result) {
-    while ($fila = $result->fetch_object()) {
-        echo "<tr>";
-        echo "<td></td>";
-        //echo "<tr>";
-        //echo "<td><img src='img/modificar.png' style='width:30px; height:30px' onclick=modify(".$fila->idasignatura.",'".$fila->codigo."','".$fila->nombre."');></td>";
-        //echo "<td><img src='img/eliminar.png' style='width:30px; height:30px' onclick=elyminar(".$fila->idasignatura.",'".$fila->nombre."');></td>";
-        echo "<td>" . $fila->codigocuenta . "</td>";
-        echo "<td>" . $fila->nombrecuenta . "</td>";
-        echo "<td>" . $fila->tipocuenta . "</td>";
-        echo "<td>" . $fila->saldo . "</td>";
-        echo "<td>" . $fila->codigocuenta . "</td>";
-        echo "<td>
-          <div class='col-md-2' style='margin-top:1px'>
-            <button class='btn ripple-infinite btn-round btn-success' onclick='confirmar(" . $fila->idcatalogo . ")'>
-            <div>
-              <span>Borrar</span>
-            </div>
-            </button>
-            </div>
-        </td>";
-        echo "</tr>";
+                        <div id="tablaSession">
 
-    }
-}
-?>
+                        </div>
                       </tbody>
                         </table>
                       </div>

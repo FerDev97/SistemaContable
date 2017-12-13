@@ -14,7 +14,7 @@ echo "<td>" . $fila->tipocuenta . "</td>";
 echo "<td>" . $fila->saldo . "</td>";
 echo "<td>
 <div class='col-md-2' style='margin-top:1px'>
-<button class='btn ripple-infinite btn-round btn-success' onclick='llenarDatos(" . $fila->idcatalogo .")'>
+<button type='button' class='btn ripple-infinite btn-round btn-success' onclick=llenarDatos(" . $fila->codigocuenta . ",'" . $fila->nombrecuenta . "')>
 <div>
 <span>Enviar</span>
 </div>
