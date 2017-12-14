@@ -41,7 +41,9 @@ $numeroPartida=($result->num_row)+1;
       {
 
         document.getElementById("codigoCuenta").value=codigo;
-        document.getElementById("nombreCuenta").value=nombre;
+
+      var str=  nombre.replace(".", " ");
+        document.getElementById("nombreCuenta").value=str;
 
       }
 
