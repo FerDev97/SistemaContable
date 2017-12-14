@@ -111,6 +111,9 @@
                     <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
                     <thead>
                       <tr>
+                      <th>
+
+                        </th>
                         <th>Codigo</th>
                         <th>Nombre</th>
                         <th>Tipo</th>
@@ -127,6 +130,7 @@ if ($result) {
       //echo "<tr>";
       //echo "<td><img src='img/modificar.png' style='width:30px; height:30px' onclick=modify(".$fila->idasignatura.",'".$fila->codigo."','".$fila->nombre."');></td>";
       //echo "<td><img src='img/eliminar.png' style='width:30px; height:30px' onclick=elyminar(".$fila->idasignatura.",'".$fila->nombre."');></td>";
+        echo "<td></td>";
       echo "<td>" . $fila->codigocuenta . "</td>";
       echo "<td>" . $fila->nombrecuenta . "</td>";
       echo "<td>" . $fila->tipocuenta . "</td>";
