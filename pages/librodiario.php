@@ -18,7 +18,6 @@ $numeroPartida=($result->num_row)+1;
   <meta name="keyword" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pacholi2018</title>
-
   <!-- start: Css -->
   <link rel="stylesheet" type="text/css" href="../asset/css/bootstrap.min.css">
 
@@ -62,7 +61,6 @@ $numeroPartida=($result->num_row)+1;
             }
             }
         }
-
         function modify(id)
         {
          document.location.href='cuenta.php?id='+id;
@@ -78,6 +76,51 @@ $numeroPartida=($result->num_row)+1;
           {
             alert("Error al borrar.");
           }
+        }
+        //funcionPara llenar la tabla con las partidas
+        function aggPartida(str){
+          alert(str);
+          if (str==""){
+            document.getElementById("tablaPartida").innerHTML="";
+            return;
+          }
+          if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+          xmlhttp=new XMLHttpRequest();
+        }else  {// code for IE6, IE5
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function(){
+          if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            document.getElementById("tablaPartida").innerHTML=xmlhttp.responseText;
+          }
+        }
+          if (str=="agg") {
+            var codigoCuenta=document.getElementById("codigoCuenta").value;
+            var nombreCuenta=document.getElementById("nombreCuenta").value;
+            var montoPartida=document.getElementById("montoPartida").value;
+            var montoPartida=document.getElementById("montoPartida").value;
+            var opciones=document.getElementsByName("optradio");
+            var accion="";
+            for (var i = 0; i < opciones.length; i++) {
+              if (opciones[i].checked==true) {
+                accion=opciones[i].value;
+              }
+            }
+            alert(accion);
+            if (codigoCuenta==" " || nombreCuenta==" "|| montoPartida==" ") {
+              alert("Por Favor Llene los datos antes de ingresar la partida.");
+            }else {
+              xmlhttp.open("GET","AddCuenta.php?codigo="+codigoCuenta+"&concepto="+nombreCuenta+"&monto="+montoPartida+"&accion="+accion,true);
+              xmlhttp.send();
+              document.getElementById("codigoCuenta").value=" ";
+              document.getElementById("nombreCuenta").value=" ";
+              document.getElementById("montoPartida").value=" ";
+              document.getElementById("montoPartida").value=" ";
+            }
+          }
+
+
+
         }
 
       </script>
@@ -132,9 +175,9 @@ $numeroPartida=($result->num_row)+1;
                               <label>Monto $</label>
                             </div>
                             <div class="radio">
-                            <label class="radio-inline" style="font-size:20px;padding:10px 20px;"><input type="radio" name="optradio" style="width:20px;height:20px"> Cargo</label>
+                            <label class="radio-inline" style="font-size:20px;padding:10px 20px;"><input type="radio" id="accion" name="optradio" style="width:20px;height:20px"checked="checked" value="cargo"> Cargo</label>
 
-                            <label class="radio-inline" style="font-size:20px;padding:10px 100px;"><input type="radio" name="optradio" style="width:20px;height:20px"> Abono</label>
+                            <label class="radio-inline" style="font-size:20px;padding:10px 100px;"><input type="radio" id="accion2" name="optradio" style="width:20px;height:20px" value="abono"> Abono</label>
                           </div>
                         </br>
 
@@ -151,8 +194,27 @@ $numeroPartida=($result->num_row)+1;
                                 <span class="icon"></span>
                               </button>
                           </div>
+                            <div class="col-md-1">
+
+
+                            </div>
                           <div class="col-md-3">
-                          </div>
+                            <button type="button" class="btn-flip btn btn-gradient btn-success" onclick="aggPartida('agg')">
+                              <div class="flip">
+                                <div class="side">
+                                  Agregar <span class="fa fa-edit"></span>
+                                </div>
+                                <div class="side back">
+                                  Partida
+                                </div>
+                              </div>
+                              <span class="icon"></span>
+                            </button>
+                        </div>
+                        <div class="col-md-1">
+
+
+                        </div>
                           <!-- Modal -->
 <div class="modal fade" id="modalForm" role="dialog">
     <div class="modal-dialog">
@@ -165,11 +227,9 @@ $numeroPartida=($result->num_row)+1;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Seleccione la cuenta para agregar a la partida actual.</h4>
             </div>
-
             <!-- Modal Body -->
             <div class="modal-body">
                 <p class="statusMsg"></p>
-
                   <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
                   <thead>
                     <tr>
@@ -184,9 +244,7 @@ $numeroPartida=($result->num_row)+1;
                     <?php
                       include "tablaCuenta.php";
                      ?>
-
             </div>
-
             <!-- Modal Footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -196,7 +254,7 @@ $numeroPartida=($result->num_row)+1;
 </div>
 
                           <div class="col-md-3">
-                            <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="verificar()" data-toggle="modal" data-target="#modalForm">
+                            <button type="button" class="btn-flip btn btn-gradient btn-warning" onclick="verificar()" data-toggle="modal" data-target="#modalForm">
                               <div class="flip">
                                 <div class="side">
                                   Cuentas <span class="fa fa-edit"></span>
@@ -213,29 +271,10 @@ $numeroPartida=($result->num_row)+1;
 
                 <div class="col-md-7">
                   <div class="col-md-12">
-                  <div class="panel">
+                  <div class="panel" >
                     <div class="panel-heading"><h3>Partida # <?php echo $numeroPartida; ?></h3></div>
-                    <div class="panel-body">
-                      <div class="responsive-table">
-                      <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
-                      <thead>
-                        <tr>
-                          <th>Codigo</th>
-                          <th>Fecha</th>
-                          <th>Concepto</th>
-                          <th>Debe</th>
-                          <th>Haber</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <div id="tablaSession">
-
-                        </div>
-                      </tbody>
-                        </table>
-                      </div>
-                  </div>
+                    <div class="panel-body" id="tablaPartida">
+                    </div>
                 </div>
               </div>
               </div>
