@@ -1,4 +1,7 @@
 <?php
+session_start();
+if($_SESSION["logueado"] == TRUE) {
+
 $id  = $_REQUEST["id"];
 $aux = " ";
 $tipocuentaR="Ninguno";
@@ -625,5 +628,8 @@ function msg($texto)
     echo "alert('$texto');";
   //  echo "document.location.href='cuenta.php';";
     echo "</script>";
+}
+} else {
+header("Location: ../index.php");
 }
 ?>

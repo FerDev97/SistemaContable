@@ -24,7 +24,7 @@
                       <ul>
                         <li><a href=""><span class="fa fa-cogs"></span></a></li>
                         <li><a href=""><span class="fa fa-lock"></span></a></li>
-                        <li><a href=""><span class="fa fa-power-off "></span></a></li>
+                        <li><a href="logout.php"><span class="fa fa-power-off "></span></a></li>
                       </ul>
                     </li>
                   </ul>
