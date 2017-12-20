@@ -80,8 +80,7 @@ $numeroPartida=($result->num_row)+1;
           }
         }
         //funcionPara llenar la tabla con las partidas
-        function aggPartida(str){
-          alert(str);
+        function aggPartida(str,id){
           if (str==""){
             document.getElementById("tablaPartida").innerHTML="";
             return;
@@ -201,7 +200,7 @@ $numeroPartida=($result->num_row)+1;
 
                             </div>
                           <div class="col-md-3">
-                            <button type="button" class="btn-flip btn btn-gradient btn-success" onclick="aggPartida('agg')">
+                            <button type="button" class="btn-flip btn btn-gradient btn-success" onclick="aggPartida('agg',0)">
                               <div class="flip">
                                 <div class="side">
                                   Agregar <span class="fa fa-edit"></span>
