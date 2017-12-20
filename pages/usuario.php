@@ -176,7 +176,7 @@ if ($result) {
                       <tbody>
                       <?php
 include "../config/conexion.php";
-$result = $conexion->query("select * from usuario order by idusuario");
+$result = $conexion->query("select * from usuarios order by idusuario");
 if ($result) {
     while ($fila = $result->fetch_object()) {
         echo "<tr>";
