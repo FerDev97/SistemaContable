@@ -2,7 +2,7 @@
 $id  = $_REQUEST["id"];
 $aux = " ";
 include "../config/conexion.php";
-$result = $conexion->query("select * from usuario where idusuario=" . $id);
+$result = $conexion->query("select * from usuarios where idusuario=" . $id);
 if ($result) {
     while ($fila = $result->fetch_object()) {
         $idusuarioR   = $fila->idusuario;
@@ -405,7 +405,7 @@ $telefono   = $_REQUEST["telefono"];
 $usuario  = $_REQUEST["usuario"];
 
 if ($bandera == "add") {
-    $consulta  = "INSERT INTO usuario VALUES('null','" . $nombre . "','" . $pass . "','" . $mail . "','" . $telefono . "',current_timestamp,'" . $usuario . "')";
+    $consulta  = "INSERT INTO usuarios VALUES('null','" . $nombre . "','" . $pass . "','" . $mail . "','" . $telefono . "',current_timestamp,'" . $usuario . "')";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
         msg("Exito");
@@ -414,7 +414,7 @@ if ($bandera == "add") {
     }
 }
 if ($bandera == "desaparecer") {
-    $consulta  = "DELETE FROM usuario where idusuario='" . $baccion . "'";
+    $consulta  = "DELETE FROM usuarios where idusuario='" . $baccion . "'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
         msg("Exito");
@@ -423,7 +423,7 @@ if ($bandera == "desaparecer") {
     }
 }
 if ($bandera == "modificar") {
-    $consulta  = "UPDATE usuario set nombre='" . $nombre . "',pass='" . $pass . "',mail='" . $mail . "',telefono='" . $telefono . "',usuario='" . $usuario . "' where idusuario='" . $baccion . "'";
+    $consulta  = "UPDATE usuarios set nombre='" . $nombre . "',pass='" . $pass . "',mail='" . $mail . "',telefono='" . $telefono . "',usuario='" . $usuario . "' where idusuario='" . $baccion . "'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
         msg("En Hora Buena");
