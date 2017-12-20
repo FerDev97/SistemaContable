@@ -1,4 +1,5 @@
-<?php session_start();
+<?php
+session_start();
 $codigoCuenta=$_GET["codigo"];
 $nombreCuenta=$_GET["concepto"];
 $montoPartida=$_GET["monto"];

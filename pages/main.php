@@ -1,6 +1,6 @@
 <?php
 session_start();
-	if($_SESSION["logueado"] == TRUE) {
+if($_SESSION["logueado"] == TRUE) {
 
 $id  = $_REQUEST["id"];
 $aux = " ";

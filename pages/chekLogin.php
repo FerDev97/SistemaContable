@@ -1,5 +1,4 @@
 <?php
-
 	if(isset($_POST["enviar"])) {
 			$loginNombre = $_POST["usuario"];
 			$loginPassword =$_POST["pass"];
