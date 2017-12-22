@@ -39,14 +39,10 @@ $numeroPartida=($result->num_row)+1;
       //funcion para llenar los datos desde el modalForm
       function llenarDatos(codigo,id,nombre)
       {
-
         document.getElementById("codigoCuenta").value=codigo;
         document.getElementById("bandera").value=id;
-        alert(id);
-
       var str=  nombre.replace(".", " ");
         document.getElementById("nombreCuenta").value=str;
-
       }
 
       function verificar(){
@@ -83,6 +79,7 @@ $numeroPartida=($result->num_row)+1;
         }
         //funcionPara llenar la tabla con las partidas
         function aggPartida(str,id){
+          alert(document.getElementById("bandera").value);
           if (str==""){
             document.getElementById("tablaPartida").innerHTML="";
             return;
@@ -110,15 +107,15 @@ $numeroPartida=($result->num_row)+1;
               }
             }
             alert(accion);
-            if (codigoCuenta=="" || nombreCuenta==""|| montoPartida=="") {
+            if (codigoCuenta=="" || nombreCuenta==""|| montoPartida=="" || bandera=="" ) {
               alert("Por Favor Llene los datos antes de ingresar la partida.");
             }else {
               xmlhttp.open("GET","AddCuenta.php?codigo="+codigoCuenta+"&concepto="+nombreCuenta+"&monto="+montoPartida+"&accion="+accion+"&id="+bandera+"&opcion=agregar",true);
               xmlhttp.send();
-              document.getElementById("codigoCuenta").value=" ";
-              document.getElementById("nombreCuenta").value=" ";
-              document.getElementById("montoPartida").value=" ";
-              document.getElementById("montoPartida").value=" ";
+              document.getElementById("codigoCuenta").value="";
+              document.getElementById("nombreCuenta").value="";
+              document.getElementById("montoPartida").value="";
+              document.getElementById("bandera").value="";
             }
           }
           if (str=="quitar") {
