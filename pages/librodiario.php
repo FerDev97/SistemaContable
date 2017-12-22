@@ -79,7 +79,6 @@ $numeroPartida=($result->num_row)+1;
         }
         //funcionPara llenar la tabla con las partidas
         function aggPartida(str,id){
-          alert(document.getElementById("bandera").value);
           if (str==""){
             document.getElementById("tablaPartida").innerHTML="";
             return;
@@ -106,7 +105,6 @@ $numeroPartida=($result->num_row)+1;
                 accion=opciones[i].value;
               }
             }
-            alert(accion);
             if (codigoCuenta=="" || nombreCuenta==""|| montoPartida=="" || bandera=="" ) {
               alert("Por Favor Llene los datos antes de ingresar la partida.");
             }else {
@@ -123,6 +121,11 @@ $numeroPartida=($result->num_row)+1;
               xmlhttp.open("GET","AddCuenta.php?id="+id+"&opcion="+str,true);
         xmlhttp.send();
           }
+          if (str=="procesar") {
+            alert("va aprocesar");
+              xmlhttp.open("GET","AddCuenta.php?id="+id+"&opcion="+str,true);
+        xmlhttp.send();
+          }
         }
         //transaccion
         function procPartida(){
@@ -135,12 +138,11 @@ $numeroPartida=($result->num_row)+1;
               if (document.getElementById("fechaPartida").value=="") {
                   alert("La partida necesita fecha");
               }else{
-
-
+                  //llamamos addCuenta}
+                  alert("va a procesar la partida");
+                  aggPartida("procesar",0);
               }
-
             }
-
         }
       </script>
 </head>

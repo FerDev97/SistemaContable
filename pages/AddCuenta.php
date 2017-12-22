@@ -47,7 +47,6 @@ function impresion()
 		<?php
 		$acumulador=$_SESSION['acumulador'];
 		$matriz=$_SESSION['matriz'];
-
 	for ($i=1; $i <=$acumulador ; $i++) {
 		if (array_key_exists($i, $matriz)) {//verifica si existe elk indice en la matriz antes de imprimir
 		 ?>
