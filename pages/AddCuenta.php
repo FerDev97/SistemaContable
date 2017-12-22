@@ -50,7 +50,7 @@ function impresion()
 			<td><?php echo $matriz[$i][3]; ?></td>
 			<td>
 				<div class='col-md-2' style='margin-top:1px'>
-					<input type="button" class='btn ripple-infinite btn-round btn-warning' onclick="agg('quitar',''<?php echo $matriz[$i];?>)";>
+					<input type="button" class='btn ripple-infinite btn-round btn-warning' onclick="agg('quitar','<?php echo $matriz[$i];?>')">
 					<div>
 						<span>Quitar</span>
 					</div>
