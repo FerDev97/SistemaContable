@@ -1,7 +1,6 @@
 <?php
 session_start();
 if($_SESSION["logueado"] == TRUE) {
-
 $id  = $_REQUEST["id"];
 $aux = " ";
 $tipocuentaR="Ninguno";
@@ -54,6 +53,7 @@ if ($result) {
           alert("LLeva R");
         }else
         {
+          alert("No LLeva R");
            document.getElementById('r').value="";
         }
       }
