@@ -1,10 +1,7 @@
 <?php session_start();
 if ($_SESSION["logueado"]==TRUE) {
 	Header("Location: pages/main.php");
-	//echo '<script> window.location="pages/main.php";<script>';
 }else {
-			$logueado="Por favor inicie sesion antes de continuar.";
-	msg($logueado);
 	$errorLogin=$_GET["error"];
 	if($errorLogin=="login") {
 		$error="El usuario o contraseña es invalido.";

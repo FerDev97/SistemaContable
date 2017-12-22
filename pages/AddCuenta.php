@@ -1,26 +1,36 @@
 <?php
 session_start();
-$codigoCuenta=$_GET["codigo"];
-$nombreCuenta=$_GET["concepto"];
-$montoPartida=$_GET["monto"];
-$accion=$_GET["accion"];
-if ($accion=="cargo") {
-		$cargo=$montoPartida;
-		$abono=null;
-}else {
-	$abono=$montoPartida;
-	$cargo=null;
+$opcion=$_GET["opcion"];
+if ($opcion=="agregar") {
+	$idcatalogo=$_GET["id"];
+	$codigoCuenta=$_GET["codigo"];
+	$montoPartida=$_GET["monto"];
+	$accion=$_GET["accion"];
+	if ($accion=="cargo") {
+			$cargo=$montoPartida;
+			$abono=null;
+	}else {
+		$abono=$montoPartida;
+		$cargo=null;
+	}
+	$acumulador=$_SESSION["acumulador"];
+	$matriz=$_SESSION["matriz"];
+	$acumulador++;
+	$matriz[$acumulador][0]=$idcatalogo;
+	$matriz[$acumulador][1]=$cargo;
+	$matriz[$acumulador][2]=$abono;
+	$_SESSION['acumulador']=$acumulador;
+	$_SESSION['matriz']=$matriz;
+	impresion();
 }
-$acumulador=$_SESSION["acumulador"];
-$matriz=$_SESSION["matriz"];
-$acumulador++;
-$matriz[$acumulador][0]=$codigoCuenta;
-$matriz[$acumulador][1]=$nombreCuenta;
-$matriz[$acumulador][2]=$cargo;
-$matriz[$acumulador][3]=$abono;
-$_SESSION['acumulador']=$acumulador;
-$_SESSION['matriz']=$matriz;
-impresion();
+if($opcion=="quitar") {
+	$indice=$_GET["id"];
+	$matriz=$_SESSION['matriz'];
+	unset($matriz[$indice]);//eliminacion de un indice en la matriz
+	$_SESSION['matriz']=$matriz;
+	impresion();
+}
+
 function impresion()
 {
 ?>
@@ -44,18 +54,30 @@ function impresion()
 	</thead>
 	<tbody>
 		<tr>
-			<td><?php echo $matriz[$i][0]; ?></td>
+			<?php
+					include "../config/conexion.php";
+					$idcatalogo=$matriz[$i][0];
+					$result=$conexion->query("select * from catalogo where idcatalogo=".$idcatalogo." order by tipocuenta");
+					if ($result) {
+	 		while ($fila=$result->fetch_object()) {
+	 			$codigo=$fila->codigocuenta;
+	 			$nombrecuenta=$fila->nombrecuenta;
+	 			$nombrecuenta=$fila->nombrecuenta;
+	 		}
+	 	}
+			 ?>
+			<td><?php echo $codigo; ?></td>
+			<td><?php echo $nombrecuenta; ?></td>
 			<td><?php echo $matriz[$i][1]; ?></td>
 			<td><?php echo $matriz[$i][2]; ?></td>
-			<td><?php echo $matriz[$i][3]; ?></td>
 			<td>
 				<div class='col-md-2' style='margin-top:1px'>
-					<input type="button" class='btn ripple-infinite btn-round btn-warning' onclick="agg('quitar',''<?php echo $matriz[$i];?>)";>
-					<div>
+					<button type="button"class='btn ripple-infinite btn-round btn-success' onclick="aggPartida('quitar','<?php echo $i ?>')">
+						<div>
 						<span>Quitar</span>
-					</div>
-				</iinput>
-					</div>
+						</div>
+					</button>
+				</div>
 			</td>
 		</tr>
 		<?php
