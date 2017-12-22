@@ -102,7 +102,6 @@ $numeroPartida=($result->num_row)+1;
             var codigoCuenta=document.getElementById("codigoCuenta").value;
             var nombreCuenta=document.getElementById("nombreCuenta").value;
             var montoPartida=document.getElementById("montoPartida").value;
-            var montoPartida=document.getElementById("montoPartida").value;
             var opciones=document.getElementsByName("optradio");
             var accion="";
             for (var i = 0; i < opciones.length; i++) {
@@ -111,7 +110,7 @@ $numeroPartida=($result->num_row)+1;
               }
             }
             alert(accion);
-            if (codigoCuenta==" " || nombreCuenta==" "|| montoPartida==" ") {
+            if (codigoCuenta=="" || nombreCuenta==""|| montoPartida=="") {
               alert("Por Favor Llene los datos antes de ingresar la partida.");
             }else {
               xmlhttp.open("GET","AddCuenta.php?codigo="+codigoCuenta+"&concepto="+nombreCuenta+"&monto="+montoPartida+"&accion="+accion+"&id="+bandera+"&opcion=agregar",true);
