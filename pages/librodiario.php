@@ -127,11 +127,25 @@ $numeroPartida=($result->num_row)+1;
               xmlhttp.open("GET","AddCuenta.php?id="+id+"&opcion="+str,true);
         xmlhttp.send();
           }
+        }
+        //transaccion
+        function procPartida(){
+            if (document.getElementById("conceptoPartida").value=="" ) {
+              alert("La partina necesita concepto ");
+              if (document.getElementById("fechaPartida").value=="") {
+                  alert("La partida necesita fecha");
+              }
+            }else {
+              if (document.getElementById("fechaPartida").value=="") {
+                  alert("La partida necesita fecha");
+              }else{
 
 
+              }
+
+            }
 
         }
-
       </script>
 </head>
 
@@ -191,7 +205,7 @@ $numeroPartida=($result->num_row)+1;
                         </br>
 
                           <div class="col-md-3">
-                              <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="aggTabla()">
+                              <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="procPartida()">
                                 <div class="flip">
                                   <div class="side">
                                     Procesar <span class="fa fa-edit"></span>
