@@ -37,10 +37,12 @@ $numeroPartida=($result->num_row)+1;
       <![endif]-->
       <script type="text/javascript">
       //funcion para llenar los datos desde el modalForm
-      function llenarDatos(codigo,nombre)
+      function llenarDatos(codigo,id,nombre)
       {
 
         document.getElementById("codigoCuenta").value=codigo;
+        document.getElementById("bandera").value=id;
+        alert(id);
 
       var str=  nombre.replace(".", " ");
         document.getElementById("nombreCuenta").value=str;
@@ -96,6 +98,7 @@ $numeroPartida=($result->num_row)+1;
           }
         }
           if (str=="agg") {
+            var bandera=document.getElementById("bandera").value;
             var codigoCuenta=document.getElementById("codigoCuenta").value;
             var nombreCuenta=document.getElementById("nombreCuenta").value;
             var montoPartida=document.getElementById("montoPartida").value;
@@ -111,13 +114,18 @@ $numeroPartida=($result->num_row)+1;
             if (codigoCuenta==" " || nombreCuenta==" "|| montoPartida==" ") {
               alert("Por Favor Llene los datos antes de ingresar la partida.");
             }else {
-              xmlhttp.open("GET","AddCuenta.php?codigo="+codigoCuenta+"&concepto="+nombreCuenta+"&monto="+montoPartida+"&accion="+accion,true);
+              xmlhttp.open("GET","AddCuenta.php?codigo="+codigoCuenta+"&concepto="+nombreCuenta+"&monto="+montoPartida+"&accion="+accion+"&id="+bandera+"&opcion=agregar",true);
               xmlhttp.send();
               document.getElementById("codigoCuenta").value=" ";
               document.getElementById("nombreCuenta").value=" ";
               document.getElementById("montoPartida").value=" ";
               document.getElementById("montoPartida").value=" ";
             }
+          }
+          if (str=="quitar") {
+            alert(id);
+              xmlhttp.open("GET","AddCuenta.php?id="+id+"&opcion="+str,true);
+        xmlhttp.send();
           }
 
 
@@ -146,7 +154,7 @@ $numeroPartida=($result->num_row)+1;
               </div>
               <form id="turismo" name="turismo" action="" method="post">
               <input type="hidden" name="bandera" id="bandera">
-              <input type="hidden" name="baccion" id="baccion" value="<?php echo $idcatalogoR; ?>" >
+              <input type="hidden" name="baccion" id="baccion" value="" >
               <input type="hidden" name="aux" id="aux" value="<?php echo $aux; ?>">
               <input type="hidden" name="r" id="r" value="">
               <div class="col-md-12 top-20 padding-0">
