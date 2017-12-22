@@ -11,26 +11,23 @@
 if ($result) {
     while ($fila = $result->fetch_object()) {
         $passR = $fila->pass;
+				$Nombre=$fila->nombre;
         if($passR==$loginPassword){
           $correcto=true;
         }
     }
 }
 			if(isset($loginNombre) && isset($loginPassword)) {
-
 				if($correcto==true) {
-
 					session_start();
 					$_SESSION["logueado"] = TRUE;
+					$_SESSION["usuario"] = $Nombre;
 					header("Location: main.php");
-
 				}
 				else {
 					Header("Location: ../index.php?error=login");
 				}
-
 			}
-
 		} else {
 			header("Location: ../index.php");
 		}
