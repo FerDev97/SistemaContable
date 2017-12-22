@@ -1,10 +1,18 @@
-<?php
-if(isset($_GET["error"]) && $_GET["error"] != "login") {
-	 header("Location: index.php");
- }
+<?php session_start();
+if ($_SESSION["logueado"]==TRUE) {
+	Header("Location: pages/main.php");
+	//echo '<script> window.location="pages/main.php";<script>';
+}else {
+			$logueado="Por favor inicie sesion antes de continuar.";
+	msg($logueado);
+	$errorLogin=$_GET["error"];
+	if($errorLogin=="login") {
+		$error="El usuario o contraseña es invalido.";
+		msg($error);
+	 }
+}
  ?>
 <!DOCTYPE HTML>
-
 <html>
 	<head>
 		<title>SistemaContable</title>
@@ -16,8 +24,6 @@ if(isset($_GET["error"]) && $_GET["error"] != "login") {
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<script type="text/javascript">
-
-
 function llamar(){
 	mostraLog(" ");
 }
@@ -80,3 +86,13 @@ xmlhttp.send();
 		</script>
 	</body>
 </html>
+<?php
+function msg($texto)
+{
+    echo "<script type='text/javascript'>";
+    echo "alert('$texto');";
+  //  echo "document.location.href='cuenta.php';";
+    echo "</script>";
+}
+
+ ?>
