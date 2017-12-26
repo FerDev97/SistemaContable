@@ -140,8 +140,7 @@ if($accion=="procesar")
             }
           }
           if (str=="quitar") {
-            alert(id);
-              xmlhttp.open("GET","AddCue	msg2($prueba);nta.php?id="+id+"&opcion="+str,true);
+              xmlhttp.open("GET","AddCuenta.php?id="+id+"&opcion="+str,true);
         xmlhttp.send();
           }
           if (str=="procesar") {
@@ -165,6 +164,7 @@ if($accion=="procesar")
               if (document.getElementById("fechaPartida").value=="") {
                   alert("La partida necesita fecha");
               }else{
+                  //llamamos addCuenta}bod
                   location.href="librodiario.php?accion=procesar";
               }
             }
