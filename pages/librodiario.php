@@ -1,12 +1,31 @@
 <?php session_start();
-if (!isset($_REQUEST['bandera'])) {
-  unset($_SESSION["acumulador"]);
-  unset($_SESSION["matriz"]);
-}
+$accion=$_REQUEST['accion'];
 include "../config/conexion.php";
 $result = $conexion->query("select * from partida");
 $numeroPartida=($result->num_row)+1;
-
+//codigo para agregar la parttida a la base de llenarDatos
+if($accion=="procesar")
+{
+  $totalcargo=0;
+  $totalabono=0;
+  $acumulador=$_SESSION['acumulador'];
+  $matriz=$_SESSION['matriz'];
+  for ($i=1; $i <=$acumulador ; $i++) {
+  	if (array_key_exists($i, $matriz)) {
+  		$totalcargo=$totalcargo+$matriz[$i][1];
+  		$totalabono=$totalabono+$matriz[$i][2];
+  	}
+  }
+  if($totalcargo!=$totalabono)
+  {
+  	$prueba= "El total del cargo es distinto al abono.";
+    mensajes($prueba);
+  }else
+  {
+  	$prueba= "El total del cargo es igual al abono.";
+    mensajes($prueba);
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,6 +55,10 @@ $numeroPartida=($result->num_row)+1;
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
       <script type="text/javascript">
+      function mostrarError(error)
+      {
+        alert(error);
+      }
       //funcion para llenar los datos desde el modalForm
       function llenarDatos(codigo,id,nombre)
       {
@@ -91,7 +114,7 @@ $numeroPartida=($result->num_row)+1;
         xmlhttp.onreadystatechange=function(){
           if (xmlhttp.readyState==4 && xmlhttp.status==200){
             document.getElementById("tablaPartida").innerHTML=xmlhttp.responseText;
-          }
+          }	msg2($prueba);
         }
           if (str=="agg") {
             var bandera=document.getElementById("bandera").value;
@@ -118,7 +141,7 @@ $numeroPartida=($result->num_row)+1;
           }
           if (str=="quitar") {
             alert(id);
-              xmlhttp.open("GET","AddCuenta.php?id="+id+"&opcion="+str,true);
+              xmlhttp.open("GET","AddCue	msg2($prueba);nta.php?id="+id+"&opcion="+str,true);
         xmlhttp.send();
           }
           if (str=="procesar") {
@@ -126,8 +149,12 @@ $numeroPartida=($result->num_row)+1;
               xmlhttp.open("GET","AddCuenta.php?id="+id+"&opcion="+str,true);
         xmlhttp.send();
           }
+          if (str=="mostrar") {
+              xmlhttp.open("GET","AddCuenta.php?id="+id+"&opcion="+str,true);
+        xmlhttp.send();
+          }
         }
-        //transaccion
+        //transaccionbod
         function procPartida(){
             if (document.getElementById("conceptoPartida").value=="" ) {
               alert("La partina necesita concepto ");
@@ -138,18 +165,14 @@ $numeroPartida=($result->num_row)+1;
               if (document.getElementById("fechaPartida").value=="") {
                   alert("La partida necesita fecha");
               }else{
-                  //llamamos addCuenta}
-                  alert("va a procesar la partida");
-                  aggPartida("procesar",0);
+                  location.href="librodiario.php?accion=procesar";
               }
             }
         }
       </script>
 </head>
-
-<body id="mimin" class="dashboard">
+<body id="mimin" class="dashboard" onload="aggPartida('mostrar',0)">
       <?php include "header.php"?>
-
       <div class="container-fluid mimin-wrapper">
 
 <?php include "menu.php";?>
@@ -521,6 +544,13 @@ function msg($texto)
     echo "<script type='text/javascript'>";
     echo "alert('$texto');";
     echo "document.location.href='cuenta.php';";
+    echo "</script>";
+}
+function mensajes($texto)
+{
+    echo "<script type='text/javascript'>";
+    echo "alert('$texto');";
+
     echo "</script>";
 }
 ?>

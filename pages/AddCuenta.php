@@ -30,6 +30,9 @@ if($opcion=="quitar") {
 	$_SESSION['matriz']=$matriz;
 	impresion();
 }
+if($opcion=="mostrar") {
+	impresion();
+}
 
 function impresion()
 {
