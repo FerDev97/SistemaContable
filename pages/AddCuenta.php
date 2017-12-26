@@ -64,7 +64,6 @@ function impresion()
 	 		while ($fila=$result->fetch_object()) {
 	 			$codigo=$fila->codigocuenta;
 	 			$nombrecuenta=$fila->nombrecuenta;
-	 			$nombrecuenta=$fila->nombrecuenta;
 	 		}
 	 	}
 			 ?>

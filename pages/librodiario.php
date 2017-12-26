@@ -2,8 +2,9 @@
 $accion=$_REQUEST['accion'];
 include "../config/conexion.php";
 $result = $conexion->query("select * from partida");
-$numeroPartida=($result->num_row)+1;
+$numeroPartida=($result->num_rows)+1;
 //codigo para agregar la parttida a la base de llenarDatos
+msg($numeroPartida);
 if($accion=="procesar")
 {
   $totalcargo=0;
@@ -19,11 +20,12 @@ if($accion=="procesar")
   if($totalcargo!=$totalabono)
   {
   	$prueba= "El total del cargo es distinto al abono.";
-    mensajes($prueba);
+    msgDebeHaber($prueba);
   }else
   {
   	$prueba= "El total del cargo es igual al abono.";
     mensajes($prueba);
+    guardarPartida();
   }
 }
 ?>
@@ -165,7 +167,7 @@ if($accion=="procesar")
                   alert("La partida necesita fecha");
               }else{
                   //llamamos addCuenta}bod
-                  location.href="librodiario.php?accion=procesar";
+                  location.href="librodiario.php?accion=procesar&concepto="+document.getElementById("conceptoPartida").value+"&fecha="+document.getElementById("fechaPartida").value;
               }
             }
         }
@@ -328,7 +330,6 @@ if($accion=="procesar")
           <!-- end: content -->
           <!-- end: right menu -->
       </div>
-
       <!-- start: Mobile -->
       <div id="mimin-mobile" class="reverse">
         <div class="mimin-mobile-menu-list">
@@ -468,14 +469,10 @@ if($accion=="procesar")
         <span class="fa fa-bars"></span>
       </button>
        <!-- end: Mobile -->
-
 <!-- start: Javascript -->
 <script src="../asset/js/jquery.min.js"></script>
 <script src="../asset/js/jquery.ui.min.js"></script>
 <script src="../asset/js/bootstrap.min.js"></script>
-
-
-
 <!-- plugins -->
 <script src="../asset/js/plugins/moment.min.js"></script>
 <script src="../asset/js/plugins/jquery.datatables.min.js"></script>
@@ -543,7 +540,14 @@ function msg($texto)
 {
     echo "<script type='text/javascript'>";
     echo "alert('$texto');";
-    echo "document.location.href='cuenta.php';";
+  //  echo "document.location.href='cuenta.php';";
+    echo "</script>";
+}
+function msgDebeHaber($texto)
+{
+    echo "<script type='text/javascript'>";
+    echo "alert('$texto');";
+    echo "document.location.href='librodiario.php';";
     echo "</script>";
 }
 function mensajes($texto)
@@ -552,5 +556,62 @@ function mensajes($texto)
     echo "alert('$texto');";
 
     echo "</script>";
+}
+function guardarPartida()
+{
+          include "../config/conexion.php";
+  //OBTENER EL AÑO QUE SE ESTA TRABAJANDO
+  $resultAnio=$conexion->query("select * from anio where estado=1");
+    if ($resultAnio)
+    {
+      while ($fila=$resultAnio->fetch_object())
+      {
+                      $idanio=$fila->idanio;
+                      msg($idanio);
+
+      }
+    }
+
+  $concepto=$_REQUEST['concepto'];
+  $fecha=$_REQUEST['fecha'];
+  $acumulador=$_SESSION['acumulador'];
+  $matriz=$_SESSION['matriz'];
+  //codigo para obtener el numero de la partida.
+  $result = $conexion->query("select * from partida");
+  $numeroPartida1=($result->num_rows)+1;
+    //verificamos que haya un debe y haber
+  if(!empty($matriz))
+  {
+    //codigo para guardar en la tabla partida
+    $consulta  = "INSERT INTO partida VALUES('".$numeroPartida1."','" . $concepto . "','" . $fecha . "','" . $idanio . "')";
+    $resultado = $conexion->query($consulta);
+    if ($resultado) {
+        msg("Exito Partida");
+      } else {
+        msg("No Exito Partida");
+    }
+  }else {
+    msgDebeHaber("Debe haber almenos un debe y un haber en la partida.");
+  }
+  for ($i=1; $i <=$acumulador ; $i++) {
+    if (array_key_exists($i, $matriz)) {//verifica si existe elk indice en la matriz antes de imprimir
+      //codigo para libro diario
+          include "../config/conexion.php";
+          $idcatalogo=$matriz[$i][0];
+          $debe=$matriz[$i][1];
+          $haber=$matriz[$i][2];
+          $consulta  = "INSERT INTO ldiario VALUES('null','" . $numeroPartida1 . "','" . $idcatalogo . "','" . $debe . "','" . $haber . "','" . $idanio . "')";
+          $resultado = $conexion->query($consulta);
+          if ($resultado) {
+              msg("Exito Libro Diario.");
+          } else {
+              msg("No Exito Libro Diario.");
+          }
+    }
+  }
+  unset($_SESSION["acumulador"]);
+  unset($_SESSION["matriz"]);
+  $mPartida="La partida se ha guardado con exito.";
+  msgDebeHaber($mPartida);
 }
 ?>
