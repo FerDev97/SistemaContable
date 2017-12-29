@@ -121,20 +121,64 @@
                     <tbody>
                     <?php
 include "../config/conexion.php";
-$result = $conexion->query("select * from partida order by idpartida");
+$result = $conexion->query("select * from partida order by fecha ASC");
 if ($result) {
   while ($fila = $result->fetch_object()) {
-      echo "<tr>";
+      echo "<tr class='success'>";
       //echo "<tr>";
       //echo "<td><img src='img/modificar.png' style='width:30px; height:30px' onclick=modify(".$fila->idasignatura.",'".$fila->codigo."','".$fila->nombre."');></td>";
       //echo "<td><img src='img/eliminar.png' style='width:30px; height:30px' onclick=elyminar(".$fila->idasignatura.",'".$fila->nombre."');></td>";
-        echo "<td></td>";
-      echo "<td>" . $fila->codigocuenta . "</td>";
-      echo "<td>" . $fila->nombrecuenta . "</td>";
-      echo "<td>" . $fila->tipocuenta . "</td>";
-      echo "<td>" . $fila->saldo . "</td>";
-      echo "</tr>";
 
+      echo "<td>" . $fila->fecha . "</td>";
+      echo "<td colspan='4' align='center'>Partida #" . $fila->idpartida . "</td>";
+    //  echo "<td>" . $fila->tipocuenta . "</td>";
+    //  echo "<td>" . $fila->saldo . "</td>";
+
+      echo "</tr>";
+      $idpartida=$fila->idpartida;
+      $result2 = $conexion->query("select * from ldiario where idpartida='".$idpartida."'order by debe DESC");
+
+      if ($result2) {
+
+        while ($fila2 = $result2->fetch_object()) {
+          $cuenta=$fila2->idcatalogo;
+          $debe=$fila2->debe;
+          $haber=$fila2->haber;
+
+          //para mostrar la Cuenta
+          $result3 = $conexion->query("select * from catalogo where idcatalogo=".$cuenta);
+          if ($result3) {
+            while ($fila3 = $result3->fetch_object()) {
+              $codigocuenta=$fila3->codigocuenta;
+              $nombrecuenta=$fila3->nombrecuenta;
+              echo "<tr>";
+                echo "<td> </td>";
+                echo "<td align='center'> " . $codigocuenta . "</td>";
+                echo "<td align='center'>" . $nombrecuenta . "</td>";
+                if ($debe==0) {
+                    echo "<td align='center' class='info'>--</td>";
+                }else {
+                  echo "<td align='left' class='info'>$ " . $debe . "</td>";
+                }
+                if ($haber==0) {
+                    echo "<td align='center' class='danger'>--</td>";
+                }else {
+                  echo "<td align='left' class='danger'>$ " . $haber . "</td>";
+                }
+
+
+              echo "</tr>";
+            }
+          }
+        }
+      }
+      echo "<tr class='warning'>";
+      echo "<td> </td>";
+      echo "<td> </td>";
+      echo "<td align='center' >V/ ".$fila->concepto."</td>";
+      echo "<td> </td>";
+      echo "<td> </td>";
+      echo "</tr>";
   }
 }
 ?>
@@ -353,7 +397,7 @@ function msg($texto)
 {
     echo "<script type='text/javascript'>";
     echo "alert('$texto');";
-    echo "document.location.href='listacliente.php';";
+  //  echo "document.location.href='listacliente.php';";
     echo "</script>";
 }
 ?>

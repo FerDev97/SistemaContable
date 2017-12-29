@@ -200,7 +200,7 @@ if($accion=="procesar")
                               <label>Concepto</label>
                             </div>
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" >
+                              <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" min="2017-01-01" max="2017-12-31">
                               <span class="bar"></span>
                             </div>
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
