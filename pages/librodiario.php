@@ -3,7 +3,7 @@ $accion=$_REQUEST['accion'];
 include "../config/conexion.php";
 $result = $conexion->query("select * from partida");
 $numeroPartida=($result->num_row)+1;
-//codigo para agregar la parttida a la base de llenarDatos
+//codigo para agregar la partida a la base de llenarDatos
 if($accion=="procesar")
 {
   $totalcargo=0;
@@ -543,7 +543,7 @@ function msg($texto)
 {
     echo "<script type='text/javascript'>";
     echo "alert('$texto');";
-    echo "document.location.href='cuenta.php';";
+    echo "document.location.href='librodiario.php';";
     echo "</script>";
 }
 function mensajes($texto)
