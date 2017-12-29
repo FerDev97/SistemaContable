@@ -111,11 +111,11 @@ if($_SESSION["logueado"] == TRUE) {
                   </div>
                   <div class="panel-body">
                     <div class="responsive-table">
-                    <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
+                    <table id="datatables-example" class="table table-striped table-bordered table-hover" width="100%" cellspacing="0">
                     <thead>
                       <tr>
-                      <th>Fecha</th>
-                        <th>Codigo</th>
+                      <th style="width:73px;" >Fecha</th>
+                        <th style="width:73px;">Codigo</th>
                         <th>Concepto</th>
                         <th>Debe</th>
                         <th>Haber</th>
@@ -157,7 +157,12 @@ if ($result) {
               echo "<tr>";
                 echo "<td> </td>";
                 echo "<td align='center'> " . $codigocuenta . "</td>";
-                echo "<td align='center'>" . $nombrecuenta . "</td>";
+                if ($debe>=$haber) {
+                  echo "<td align='left'>" . $nombrecuenta . "</td>";
+                }else {
+
+                  echo "<td align='center'>" . $nombrecuenta . "</td>";
+                }
                 if ($debe==0) {
                     echo "<td align='center' class='info'>--</td>";
                 }else {

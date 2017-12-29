@@ -34,6 +34,15 @@
                       </ul>
                     </li>
                     <li class="active ripple">
+                      <a class="tree-toggle nav-header"><span class="fa-book fa"></span> Libro Mayor
+                        <span class="fa-angle-right fa right-arrow text-right"></span>
+                      </a>
+                      <ul class="nav nav-list tree">
+
+                          <li><a href="mostrarmayor.php">Mostrar</a></li>
+                      </ul>
+                    </li>
+                    <li class="active ripple">
                       <a class="tree-toggle nav-header"><span class="fa-users fa"></span> Usuarios
                         <span class="fa-angle-right fa right-arrow text-right"></span>
                       </a>
