@@ -26,7 +26,7 @@
                       </a>
                       <ul class="nav nav-list tree">
 
-                          <li><a href="librodiario.php">Mantenimiento Libro Diario</a></li>
+                          <li><a href="librodiario.php">Mantenimiento</a></li>
                       </ul>
                       <ul class="nav nav-list tree">
 
