@@ -2,9 +2,8 @@
 $accion=$_REQUEST['accion'];
 include "../config/conexion.php";
 $result = $conexion->query("select * from partida");
-$numeroPartida=($result->num_rows)+1;
+$numeroPartida=($result->num_row)+1;
 //codigo para agregar la parttida a la base de llenarDatos
-msg($numeroPartida);
 if($accion=="procesar")
 {
   $totalcargo=0;
@@ -20,7 +19,7 @@ if($accion=="procesar")
   if($totalcargo!=$totalabono)
   {
   	$prueba= "El total del cargo es distinto al abono.";
-    msgDebeHaber($prueba);
+    mensajes($prueba);
   }else
   {
   	$prueba= "El total del cargo es igual al abono.";
@@ -32,7 +31,6 @@ if($accion=="procesar")
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="utf-8">
   <meta name="description" content="Miminium Admin Template v.1">
   <meta name="author" content="Isna Nur Azis">
@@ -330,6 +328,7 @@ if($accion=="procesar")
           <!-- end: content -->
           <!-- end: right menu -->
       </div>
+
       <!-- start: Mobile -->
       <div id="mimin-mobile" class="reverse">
         <div class="mimin-mobile-menu-list">
@@ -469,10 +468,14 @@ if($accion=="procesar")
         <span class="fa fa-bars"></span>
       </button>
        <!-- end: Mobile -->
+
 <!-- start: Javascript -->
 <script src="../asset/js/jquery.min.js"></script>
 <script src="../asset/js/jquery.ui.min.js"></script>
 <script src="../asset/js/bootstrap.min.js"></script>
+
+
+
 <!-- plugins -->
 <script src="../asset/js/plugins/moment.min.js"></script>
 <script src="../asset/js/plugins/jquery.datatables.min.js"></script>
@@ -540,14 +543,7 @@ function msg($texto)
 {
     echo "<script type='text/javascript'>";
     echo "alert('$texto');";
-  //  echo "document.location.href='cuenta.php';";
-    echo "</script>";
-}
-function msgDebeHaber($texto)
-{
-    echo "<script type='text/javascript'>";
-    echo "alert('$texto');";
-    echo "document.location.href='librodiario.php';";
+    echo "document.location.href='cuenta.php';";
     echo "</script>";
 }
 function mensajes($texto)
