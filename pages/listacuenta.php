@@ -1,4 +1,7 @@
-
+<?php
+session_start();
+if($_SESSION["logueado"] == TRUE) {
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -357,5 +360,8 @@ function msg($texto)
     echo "alert('$texto');";
     echo "document.location.href='listacliente.php';";
     echo "</script>";
+}
+} else {
+header("Location: ../index.php");
 }
 ?>

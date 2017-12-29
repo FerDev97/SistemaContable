@@ -1,4 +1,6 @@
 <?php session_start();
+
+if($_SESSION["logueado"] == TRUE) {
 $accion=$_REQUEST['accion'];
 include "../config/conexion.php";
 $result = $conexion->query("select * from partida");
@@ -609,5 +611,8 @@ function guardarPartida()
   unset($_SESSION["matriz"]);
   $mPartida="La partida se ha guardado con exito.";
   msgDebeHaber($mPartida);
+}
+}else {
+header("Location: ../index.php");
 }
 ?>

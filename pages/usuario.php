@@ -1,4 +1,6 @@
 <?php
+session_start();
+if($_SESSION["logueado"] == TRUE) {
 $id  = $_REQUEST["id"];
 $aux = " ";
 include "../config/conexion.php";
@@ -443,5 +445,8 @@ function msg($texto)
     echo "alert('$texto');";
     echo "document.location.href='usuario.php';";
     echo "</script>";
+}
+} else {
+header("Location: ../index.php");
 }
 ?>
