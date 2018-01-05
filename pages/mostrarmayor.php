@@ -1,5 +1,6 @@
 <?php
 session_start();
+$nivelMayorizacion=$_REQUEST["nivelMayorizacion"];
 if($_SESSION["logueado"] == TRUE) {
  ?>
 <!DOCTYPE html>
@@ -30,6 +31,11 @@ if($_SESSION["logueado"] == TRUE) {
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
       <script type="text/javascript">
+        function enviar()
+        {
+          alert(document.getElementById("nivelCuenta").value);
+          location.href ="mostrarmayor.php?nivelMayorizacion="+document.getElementById("nivelCuenta").value;
+        }
         function modify(id)
         {
           //alert("entra");
@@ -77,8 +83,20 @@ if($_SESSION["logueado"] == TRUE) {
                     <div class="col-md-12">
                         <h3 class="animated fadeInLeft">Libro Diario</h3>
                         <p class="animated fadeInDown">
-                          Table <span class="fa-angle-right fa"></span> Data Tables
+                          Nivel Para la mayorizacion.
                         </p>
+                        <select class="selectpicker" name="nivelCuenta" id="nivelCuenta" onchange="enviar()">
+                          <option value="Seleccion">Seleccione</option>
+                          <?php
+                          include "../config/conexion.php";
+                          $result = $conexion->query("select nivel from catalogo group by nivel order by nivel ASC");
+                          if ($result) {
+                              while ($fila = $result->fetch_object()) {
+                                echo "<option value='".$fila->nivel."'>".$fila->nivel."</option>";
+                              }
+                            }
+                           ?>
+                        </select>
                     </div>
                   </div>
               </div>
@@ -125,67 +143,79 @@ if($_SESSION["logueado"] == TRUE) {
                     <tbody>
                     <?php
 include "../config/conexion.php";
-$result = $conexion->query("select p.fecha as fecha, p.concepto as concepto, p.idpartida as npartida, l.debe as debe,l.haber as haber, a.idanio as anio from partida as p, ldiario as l, anio as a where a.idanio=2017 and l.idpartida=p.idpartida and l.idcatalogo=7 order by p.idpartida ASC");
-if ($result) {
-  while ($fila = $result->fetch_object()) {
-      echo "<tr class='success'>";
-      echo "<td>" . $fila->fecha . "</td>";
-      echo "<td colspan='4' align='center'>Partida # " . $fila->nombrecuenta . "</td>";
-    //  echo "<td>" . $fila->tipocuenta . "</td>";
-    //  echo "<td>" . $fila->saldo . "</td>";
+$result2 = $conexion->query("select idcatalogo as id, nombrecuenta as nombre from catalogo where nivel=".$nivelMayorizacion);
+if ($result2) {
+  while ($fila2 = $result2->fetch_object()) {
+    $id=$fila2->id;
+    $nombre=$fila2->nombre;
+    echo "<tr class'success'>";
+    echo "<td colspan='6' align='center'>" . $fila2->nombre . "</td>";
+    echo "</tr>";
+    $result = $conexion->query("select p.fecha as fecha, p.concepto as concepto, p.idpartida as npartida, l.debe as debe,l.haber as haber, a.idanio as anio from partida as p, ldiario as l, anio as a where a.idanio=2017 and l.idpartida=p.idpartida and l.idcatalogo='".$id."' order by p.idpartida ASC");
+    if ($result) {
+      while ($fila = $result->fetch_object()) {
+          echo "<tr class='success'>";
+          echo "<td>" . $fila->fecha . "</td>";
 
-      echo "</tr>";
-      $idpartida=$fila->idpartida;
-      $result2 = $conexion->query("select * from ldiario where idpartida='".$idpartida."'order by debe DESC");
+        //  echo "<td>" . $fila->tipocuenta . "</td>";
+        //  echo "<td>" . $fila->saldo . "</td>";
+          echo "</tr>";
+          $idpartida=$fila->idpartida;
+          $result2 = $conexion->query("select * from ldiario where idpartida='".$idpartida."'order by debe DESC");
+          if ($result2) {
+            while ($fila2 = $result2->fetch_object()) {
+              $cuenta=$fila2->idcatalogo;
+              $debe=$fila2->debe;
+              $haber=$fila2->haber;
+              //para mostrar la Cuenta
+              $result3 = $conexion->query("select * from catalogo where idcatalogo=".$cuenta);
+              if ($result3) {
+                while ($fila3 = $result3->fetch_object()) {
+                  $codigocuenta=$fila3->codigocuenta;
+                  $nombrecuenta=$fila3->nombrecuenta;
+                  echo "<tr>";
+                    echo "<td> </td>";
+                    echo "<td align='center'> " . $codigocuenta . "</td>";
+                    if ($debe>=$haber) {
+                      echo "<td align='left'>" . $nombrecuenta . "</td>";
+                    }else {
 
-      if ($result2) {
+                      echo "<td align='center'>" . $nombrecuenta . "</td>";
+                    }
+                    if ($debe==0) {
+                        echo "<td align='center' class='info'>--</td>";
+                    }else {
+                      echo "<td align='left' class='info'>$ " . $debe . "</td>";
+                    }
+                    if ($haber==0) {
+                        echo "<td align='center' class='danger'>--</td>";
+                    }else {
+                      echo "<td align='left' class='danger'>$ " . $haber . "</td>";
+                    }
+                    echo "<td align='center'> " . $codigocuenta . "</td>";
 
-        while ($fila2 = $result2->fetch_object()) {
-          $cuenta=$fila2->idcatalogo;
-          $debe=$fila2->debe;
-          $haber=$fila2->haber;
-
-          //para mostrar la Cuenta
-          $result3 = $conexion->query("select * from catalogo where idcatalogo=".$cuenta);
-          if ($result3) {
-            while ($fila3 = $result3->fetch_object()) {
-              $codigocuenta=$fila3->codigocuenta;
-              $nombrecuenta=$fila3->nombrecuenta;
-              echo "<tr>";
-                echo "<td> </td>";
-                echo "<td align='center'> " . $codigocuenta . "</td>";
-                if ($debe>=$haber) {
-                  echo "<td align='left'>" . $nombrecuenta . "</td>";
-                }else {
-
-                  echo "<td align='center'>" . $nombrecuenta . "</td>";
+                  echo "</tr>";
                 }
-                if ($debe==0) {
-                    echo "<td align='center' class='info'>--</td>";
-                }else {
-                  echo "<td align='left' class='info'>$ " . $debe . "</td>";
-                }
-                if ($haber==0) {
-                    echo "<td align='center' class='danger'>--</td>";
-                }else {
-                  echo "<td align='left' class='danger'>$ " . $haber . "</td>";
-                }
-                echo "<td align='center'> " . $codigocuenta . "</td>";
-
-              echo "</tr>";
+              }
             }
           }
-        }
+          echo "<tr class='warning'>";
+          echo "<td> </td>";
+          echo "<td> </td>";
+          echo "<td align='center' >V/ ".$fila->concepto."</td>";
+          echo "<td> </td>";
+          echo "<td> </td>";
+          echo "</tr>";
+          echo "Segunda ejecucion";
       }
-      echo "<tr class='warning'>";
-      echo "<td> </td>";
-      echo "<td> </td>";
-      echo "<td align='center' >V/ ".$fila->concepto."</td>";
-      echo "<td> </td>";
-      echo "<td> </td>";
-      echo "</tr>";
+    }
+
   }
+}else {
+  msg("Error");
 }
+
+
 ?>
                     </tbody>
                       </table>
