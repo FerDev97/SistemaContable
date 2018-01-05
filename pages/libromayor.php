@@ -91,7 +91,7 @@ if($_SESSION["logueado"] == TRUE) {
                <div class="panel box-shadow-none content-header">
                   <div class="panel-body">
                     <div class="col-md-12">
-                        <h3 class="animated fadeInLeft">Libro Diario</h3>
+                        <h3 class="animated fadeInLeft">Libro Mayor</h3>
                         <p class="animated fadeInDown">
                           Nivel Para la mayorizacion.
                         </p>
@@ -119,7 +119,7 @@ if($_SESSION["logueado"] == TRUE) {
                 <div class="panel">
                   <div class="panel-heading">
                     <center>
-                      <h3>Libro Diario</h3>
+                      <h3>Libro Mayor</h3>
                       <h4>Mayorizacion de Nivel <?php echo $nivelMayorizacion; ?></h4>
                           <button class='btn ripple-infinite btn-round btn-success' onclick='catalogoExcell()';>
                             <div>

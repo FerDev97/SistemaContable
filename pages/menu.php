@@ -39,7 +39,7 @@
                       </a>
                       <ul class="nav nav-list tree">
 
-                          <li><a href="mostrarmayor.php">Mostrar</a></li>
+                          <li><a href="libromayor.php">Mostrar</a></li>
                       </ul>
                     </li>
                     <li class="active ripple">
