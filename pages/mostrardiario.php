@@ -124,7 +124,7 @@ if($_SESSION["logueado"] == TRUE) {
                     <tbody>
                     <?php
 include "../config/conexion.php";
-$result = $conexion->query("select * from partida order by fecha ASC");
+$result = $conexion->query("select * from partida order by idpartida ASC");
 if ($result) {
   while ($fila = $result->fetch_object()) {
       echo "<tr class='success'>";
