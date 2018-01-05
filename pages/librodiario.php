@@ -1,10 +1,8 @@
 <?php session_start();
-
-if($_SESSION["logueado"] == TRUE) {
 $accion=$_REQUEST['accion'];
 include "../config/conexion.php";
 $result = $conexion->query("select * from partida");
-$numeroPartida=($result->num_row)+1;
+$numeroPartida=($result->num_rows)+1;
 //codigo para agregar la partida a la base de llenarDatos
 if($accion=="procesar")
 {
@@ -611,8 +609,5 @@ function guardarPartida()
   unset($_SESSION["matriz"]);
   $mPartida="La partida se ha guardado con exito.";
   msgDebeHaber($mPartida);
-}
-}else {
-header("Location: ../index.php");
 }
 ?>
