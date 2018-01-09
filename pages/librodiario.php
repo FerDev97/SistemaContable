@@ -158,6 +158,11 @@ if($accion=="procesar")
         xmlhttp.send();
           }
         }
+        //ajax para que se escriba el nombre de la cuenta en el inputcuenta
+
+
+
+
         //transaccionbod
         function procPartida(){
             if (document.getElementById("conceptoPartida").value=="" ) {
@@ -199,24 +204,16 @@ if($accion=="procesar")
               <input type="hidden" name="r" id="r" value="">
               <div class="col-md-12 top-20 padding-0">
                <div class="col-md-5">
-                            <div class="form-group form-animate-text" style="margin-top:0px !important;">
-                              <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" >
-                              <span class="bar"></span>
-                              <label>Concepto</label>
-                            </div>
-                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" min="2017-01-01" max="2017-12-31">
-                              <span class="bar"></span>
-                            </div>
+
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
                               <input type="text" class="form-text" id="codigoCuenta" name="codigoCuenta" >
                               <span class="bar"></span>
                               <label>Codigo</label>
                             </div>
-                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="nombreCuenta" name="nombreCuenta"  >
+                            <div class="form-group form-animate-text" style="margin-top:30px !important;" id="inputcuenta">
+                              <!-- <input type="text" class="form-text" id="nombreCuenta" name="nombreCuenta"  >
                               <span class="bar"></span>
-                              <label>Cuenta</label>
+                              <label>Cuenta</label> -->
                             </div>
                             <span class="bar"></span>
                             <label>Monto $</label>
@@ -231,37 +228,6 @@ if($accion=="procesar")
                             <label class="radio-inline" style="font-size:20px;padding:10px 100px;"><input type="radio" id="accion2" name="optradio" style="width:20px;height:20px" value="abono"> Abono</label>
                           </div>
                         </br>
-
-                          <div class="col-md-3">
-                              <button type="button" class="btn-flip btn btn-gradient btn-primary" onclick="procPartida()">
-                                <div class="flip">
-                                  <div class="side">
-                                    Procesar <span class="fa fa-edit"></span>
-                                  </div>
-                                  <div class="side back">
-                                    Continuar?
-                                  </div>
-                                </div>
-                                <span class="icon"></span>
-                              </button>
-                          </div>
-                            <div class="col-md-1">
-
-
-                            </div>
-                          <div class="col-md-3">
-                            <button type="button" class="btn-flip btn btn-gradient btn-success" onclick="aggPartida('agg',0)">
-                              <div class="flip">
-                                <div class="side">
-                                  Agregar <span class="fa fa-edit"></span>
-                                </div>
-                                <div class="side back">
-                                  Partida
-                                </div>
-                              </div>
-                              <span class="icon"></span>
-                            </button>
-                        </div>
                         <div class="col-md-1">
 
 
@@ -304,26 +270,98 @@ if($accion=="procesar")
     </div>
 </div>
 
-                          <div class="col-md-3">
-                            <button type="button" class="btn-flip btn btn-gradient btn-warning" onclick="verificar()" data-toggle="modal" data-target="#modalForm">
-                              <div class="flip">
-                                <div class="side">
-                                  Cuentas <span class="fa fa-edit"></span>
-                                </div>
-                                <div class="side back">
-                                  Mostrar
-                                </div>
-                              </div>
-                              <span class="icon"></span>
-                            </button>
-                        </div>
+<!-- Modal para los datos d ela partida(concepto, fecha)-->
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modificar La categoria</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group form-animate-text" style="margin-top:0px !important;">
+          <input type="text" class="form-text" id="conceptoPartida" name="conceptoPartida" >
+          <span class="bar"></span>
+          <label>Concepto</label>
+        </div>
+        <div class="form-group form-animate-text" style="margin-top:30px !important;">
+          <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" min="2017-01-01" max="2017-12-31">
+          <span class="bar"></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"  onclick="procPartida()">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
 
                 </div>
 
                 <div class="col-md-7">
                   <div class="col-md-12">
                   <div class="panel" >
-                    <div class="panel-heading"><h3>Partida # <?php echo $numeroPartida; ?></h3></div>
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-3">
+                      <button type="button" class="btn-flip btn btn-gradient btn-success" onclick="aggPartida('agg',0)">
+                        <div class="flip">
+                          <div class="side">
+                            Agregar <span class="fa fa-edit"></span>
+                          </div>
+                          <div class="side back">
+                            Partida
+                          </div>
+                        </div>
+                        <span class="icon"></span>
+                      </button>
+                  </div>
+                    <div class="col-md-3">
+                      <button type="button" class="btn-flip btn btn-gradient btn-warning" onclick="verificar()" data-toggle="modal" data-target="#modalForm">
+                        <div class="flip">
+                          <div class="side">
+                            Cuentas <span class="fa fa-edit"></span>
+                          </div>
+                          <div class="side back">
+                            Mostrar
+                          </div>
+                        </div>
+                        <span class="icon"></span>
+                      </button>
+                  </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn-flip btn btn-gradient btn-primary" data-toggle='modal' data-target='#myModal'>
+                          <div class="flip">
+                            <div class="side">
+                              Procesar <span class="fa fa-edit"></span>
+                            </div>
+                            <div class="side back">
+                              Continuar?
+                            </div>
+                          </div>
+                          <span class="icon"></span>
+                        </button>
+                    </div>
+                      <div class="col-md-2">
+
+
+                      </div>
+                      <br>
+                      <br>
+                      <br>
+                    <div class="panel-heading"><h3 style="text-align: center;">Partida # <?php echo $numeroPartida; ?></h3></div>
                     <div class="panel-body" id="tablaPartida">
                     </div>
                 </div>
