@@ -22,8 +22,6 @@ if($accion=="procesar")
     mensajes($prueba);
   }else
   {
-  	$prueba= "El total del cargo es igual al abono.";
-    mensajes($prueba);
     guardarPartida();
   }
 }
@@ -65,7 +63,7 @@ if($accion=="procesar")
         document.getElementById("codigoCuenta").value=codigo;
         document.getElementById("bandera").value=id;
       var str=  nombre.replace(".", " ");
-        document.getElementById("nombreCuenta").value=str;
+        ajaxNombreCuenta(codigo);
       }
 
       function verificar(){
@@ -100,7 +98,34 @@ if($accion=="procesar")
             alert("Error al borrar.");
           }
         }
+        //ajax para que se escriba el nombre de la cuenta en el inputcuenta
+        function ajaxNombreCuenta(str){
+          if (str=="") {
+            str=document.getElementById("codigoCuenta").value;
+          }
+
+          if (str==""){
+            document.getElementById("inputcuenta").innerHTML="";
+            return;
+          }
+          if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+          xmlhttp=new XMLHttpRequest();
+        }else  {// code for IE6, IE5
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function(){
+          if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            document.getElementById("inputcuenta").innerHTML=xmlhttp.responseText;
+          }
+        }
+
+              xmlhttp.open("GET","ajaxNombreCuenta.php?codigo="+str,true);
+              xmlhttp.send();
+
+
+        }
         //funcionPara llenar la tabla con las partidas
+
         function aggPartida(str,id){
           if (str==""){
             document.getElementById("tablaPartida").innerHTML="";
@@ -114,10 +139,16 @@ if($accion=="procesar")
         xmlhttp.onreadystatechange=function(){
           if (xmlhttp.readyState==4 && xmlhttp.status==200){
             document.getElementById("tablaPartida").innerHTML=xmlhttp.responseText;
-          }	msg2($prueba);
+          }
         }
           if (str=="agg") {
-            var bandera=document.getElementById("bandera").value;
+
+            if (document.getElementById("bandera2").value!="") {
+              var bandera=document.getElementById("bandera2").value;
+            }else {
+                var bandera=document.getElementById("bandera").value;
+            }
+
             var codigoCuenta=document.getElementById("codigoCuenta").value;
             var nombreCuenta=document.getElementById("nombreCuenta").value;
             var montoPartida=document.getElementById("montoPartida").value;
@@ -128,6 +159,7 @@ if($accion=="procesar")
                 accion=opciones[i].value;
               }
             }
+            
             if (codigoCuenta=="" || nombreCuenta==""|| montoPartida=="" || bandera=="" ) {
               alert("Por Favor Llene los datos antes de ingresar la partida.");
             }else {
@@ -158,8 +190,6 @@ if($accion=="procesar")
         xmlhttp.send();
           }
         }
-        //ajax para que se escriba el nombre de la cuenta en el inputcuenta
-
 
 
 
@@ -206,7 +236,7 @@ if($accion=="procesar")
                <div class="col-md-5">
 
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="codigoCuenta" name="codigoCuenta" >
+                              <input type="text" class="form-text" id="codigoCuenta" name="codigoCuenta" onkeyup="ajaxNombreCuenta('');" >
                               <span class="bar"></span>
                               <label>Codigo</label>
                             </div>
@@ -219,19 +249,55 @@ if($accion=="procesar")
                             <label>Monto $</label>
                             <div class="form-group form-animate-text" style="margin-top:0px !important;">
                               <input type="number" class="form-text" id="montoPartida" name="montoPartida" min="0" >
-
                             </div>
-
                             <div class="radio">
                             <label class="radio-inline" style="font-size:20px;padding:10px 20px;"><input type="radio" id="accion" name="optradio" style="width:20px;height:20px"checked="checked" value="cargo"> Cargo</label>
 
                             <label class="radio-inline" style="font-size:20px;padding:10px 100px;"><input type="radio" id="accion2" name="optradio" style="width:20px;height:20px" value="abono"> Abono</label>
                           </div>
                         </br>
-                        <div class="col-md-1">
 
-
+                        <div class="col-md-4">
+                          <button type="button" class="btn-flip btn btn-gradient btn-success" onclick="aggPartida('agg',0)" data-toggle="tooltip" data-placement="bottom" title="Se agregara la transaccion a la partida.">
+                            <div class="flip">
+                              <div class="side">
+                                Agregar <span class="fa fa-edit"></span>
+                              </div>
+                              <div class="side back">
+                                Partida
+                              </div>
+                            </div>
+                            <span class="icon"></span>
+                          </button>
+                      </div>
+                        <div class="col-md-4">
+                          <button type="button" class="btn-flip btn btn-gradient btn-warning" onclick="verificar()" data-toggle="modal" data-target="#modalForm">
+                            <div class="flip">
+                              <div class="side">
+                                Cuentas <span class="fa fa-edit"></span>
+                              </div>
+                              <div class="side back">
+                                Mostrar
+                              </div>
+                            </div>
+                            <span class="icon"></span>
+                          </button>
+                      </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn-flip btn btn-gradient btn-primary" data-toggle='modal' data-target='#myModal'>
+                              <div class="flip">
+                                <div class="side">
+                                  Procesar <span class="fa fa-edit"></span>
+                                </div>
+                                <div class="side back">
+                                  Continuar?
+                                </div>
+                              </div>
+                              <span class="icon"></span>
+                            </button>
                         </div>
+
+
                           <!-- Modal -->
 <div class="modal fade" id="modalForm" role="dialog">
     <div class="modal-dialog">
@@ -250,11 +316,12 @@ if($accion=="procesar")
                   <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th></th>
                       <th>Codigo</th>
                       <th>Nombre</th>
                       <th>Tipo</th>
                       <th>Saldo</th>
-                      <th></th>
+
                     </tr>
                   </thead>
                   <tbody>
@@ -315,52 +382,9 @@ if($accion=="procesar")
                     <div class="col-md-2">
 
                     </div>
-                    <div class="col-md-3">
-                      <button type="button" class="btn-flip btn btn-gradient btn-success" onclick="aggPartida('agg',0)">
-                        <div class="flip">
-                          <div class="side">
-                            Agregar <span class="fa fa-edit"></span>
-                          </div>
-                          <div class="side back">
-                            Partida
-                          </div>
-                        </div>
-                        <span class="icon"></span>
-                      </button>
-                  </div>
-                    <div class="col-md-3">
-                      <button type="button" class="btn-flip btn btn-gradient btn-warning" onclick="verificar()" data-toggle="modal" data-target="#modalForm">
-                        <div class="flip">
-                          <div class="side">
-                            Cuentas <span class="fa fa-edit"></span>
-                          </div>
-                          <div class="side back">
-                            Mostrar
-                          </div>
-                        </div>
-                        <span class="icon"></span>
-                      </button>
-                  </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn-flip btn btn-gradient btn-primary" data-toggle='modal' data-target='#myModal'>
-                          <div class="flip">
-                            <div class="side">
-                              Procesar <span class="fa fa-edit"></span>
-                            </div>
-                            <div class="side back">
-                              Continuar?
-                            </div>
-                          </div>
-                          <span class="icon"></span>
-                        </button>
-                    </div>
-                      <div class="col-md-2">
 
 
-                      </div>
-                      <br>
-                      <br>
-                      <br>
+
                     <div class="panel-heading"><h3 style="text-align: center;">Partida # <?php echo $numeroPartida; ?></h3></div>
                     <div class="panel-body" id="tablaPartida">
                     </div>
