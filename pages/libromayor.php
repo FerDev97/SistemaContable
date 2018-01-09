@@ -157,7 +157,7 @@ if($_SESSION["logueado"] == TRUE) {
                     //si no se selecciona nivel, por defecto sera nivel 1
                     //inicio consulta por nivel
                     include "../config/conexion.php";
-                    $result = $conexion->query("select idcatalogo as id, nombrecuenta as nombre from catalogo where nivel=".$nivelMayorizacion);
+                    $result = $conexion->query("select idcatalogo as id,saldo, nombrecuenta as nombre from catalogo where nivel=".$nivelMayorizacion." order by codigocuenta");
                     if ($result) {
                         while ($fila = $result->fetch_object()) {
                           $nombre=$fila->nombre;
@@ -177,7 +177,12 @@ if($_SESSION["logueado"] == TRUE) {
                                  echo "<td>".$fila2->npartida."</td>";
                                  echo "<td class='info'>".$fila2->debe."</td>";
                                  echo "<td class='danger'>".$fila2->haber."</td>";
-                                 $saldo=$saldo+($fila2->debe)-($fila2->haber);
+                                 if ($fila->saldo=="DEUDOR") {
+                                   $saldo=$saldo+($fila2->debe)-($fila2->haber);
+                                 }else {
+                                   $saldo=$saldo-($fila2->debe)+($fila2->haber);
+                                 }
+
                                  echo "<td class='warning'>".$saldo."</td>";
                                  echo "</tr>";
                                }//cierre while consulta 2
