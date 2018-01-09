@@ -131,12 +131,17 @@ if($accion=="procesar")
             if (codigoCuenta=="" || nombreCuenta==""|| montoPartida=="" || bandera=="" ) {
               alert("Por Favor Llene los datos antes de ingresar la partida.");
             }else {
-              xmlhttp.open("GET","AddCuenta.php?codigo="+codigoCuenta+"&concepto="+nombreCuenta+"&monto="+montoPartida+"&accion="+accion+"&id="+bandera+"&opcion=agregar",true);
-              xmlhttp.send();
-              document.getElementById("codigoCuenta").value="";
-              document.getElementById("nombreCuenta").value="";
-              document.getElementById("montoPartida").value="";
-              document.getElementById("bandera").value="";
+              if (montoPartida <=0) {
+                alert("Por Favor utilice numeros positivos.");
+                document.getElementById("montoPartida").value="";
+              }else {
+                xmlhttp.open("GET","AddCuenta.php?codigo="+codigoCuenta+"&concepto="+nombreCuenta+"&monto="+montoPartida+"&accion="+accion+"&id="+bandera+"&opcion=agregar",true);
+                xmlhttp.send();
+                document.getElementById("codigoCuenta").value="";
+                document.getElementById("nombreCuenta").value="";
+                document.getElementById("montoPartida").value="";
+                document.getElementById("bandera").value="";
+              }
             }
           }
           if (str=="quitar") {
@@ -213,11 +218,13 @@ if($accion=="procesar")
                               <span class="bar"></span>
                               <label>Cuenta</label>
                             </div>
-                            <div class="form-group form-animate-text" style="margin-top:30px !important;">
-                              <input type="text" class="form-text" id="montoPartida" name="montoPartida"  >
-                              <span class="bar"></span>
-                              <label>Monto $</label>
+                            <span class="bar"></span>
+                            <label>Monto $</label>
+                            <div class="form-group form-animate-text" style="margin-top:0px !important;">
+                              <input type="number" class="form-text" id="montoPartida" name="montoPartida" min="0" >
+
                             </div>
+
                             <div class="radio">
                             <label class="radio-inline" style="font-size:20px;padding:10px 20px;"><input type="radio" id="accion" name="optradio" style="width:20px;height:20px"checked="checked" value="cargo"> Cargo</label>
 
