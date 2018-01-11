@@ -159,7 +159,7 @@ if($accion=="procesar")
                 accion=opciones[i].value;
               }
             }
-            
+
             if (codigoCuenta=="" || nombreCuenta==""|| montoPartida=="" || bandera=="" ) {
               alert("Por Favor Llene los datos antes de ingresar la partida.");
             }else {
@@ -291,6 +291,7 @@ if($accion=="procesar")
                                 </div>
                                 <div class="side back">
                                   Continuar?
+
                                 </div>
                               </div>
                               <span class="icon"></span>
@@ -346,7 +347,7 @@ if($accion=="procesar")
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modificar La categoria</h4>
+        <h4 class="modal-title">Datos de la partida # <?php echo $numeroPartida; ?></h4>
       </div>
       <div class="modal-body">
         <div class="form-group form-animate-text" style="margin-top:0px !important;">
