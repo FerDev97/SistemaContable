@@ -31,7 +31,6 @@ if ($result) {
   <title>Pacholi2018</title>
   <!-- start: Css -->
   <link rel="stylesheet" type="text/css" href="../asset/css/bootstrap.min.css">
-
   <!-- plugins -->
   <link rel="stylesheet" type="text/css" href="../asset/css/plugins/font-awesome.min.css"/>
   <link rel="stylesheet" type="text/css" href="../asset/css/plugins/datatables.bootstrap.min.css"/>
@@ -59,6 +58,9 @@ if ($result) {
       }
       function generarNivel()
       {
+        if (document.getElementById('codigocuenta').value.length==0) {
+          document.getElementById('nivelcuenta').value="";
+        }
         if (document.getElementById('codigocuenta').value.length==1) {
           document.getElementById('nivelcuenta').value=1;
         }
@@ -115,7 +117,6 @@ if ($result) {
             alert("Error al borrar.");
           }
         }
-
       </script>
 </head>
 

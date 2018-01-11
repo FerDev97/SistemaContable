@@ -157,40 +157,42 @@ if($_SESSION["logueado"] == TRUE) {
                     //si no se selecciona nivel, por defecto sera nivel 1
                     //inicio consulta por nivel
                     include "../config/conexion.php";
-                    $result = $conexion->query("select idcatalogo as id,saldo, nombrecuenta as nombre from catalogo where nivel=".$nivelMayorizacion." order by codigocuenta");
+                    $result = $conexion->query("select idcatalogo as id,saldo, nombrecuenta as nombre, codigocuenta as codigo from catalogo where nivel=".$nivelMayorizacion." order by codigocuenta");
                     if ($result) {
                         while ($fila = $result->fetch_object()) {
                           $nombre=$fila->nombre;
                           $id=$fila->id;
-                           //inicio de la consulta por id de cuentas
+                          $codigo=$fila->codigo;
+                          //obtener total de caracteres del codigo segun el nivelcuenta
+                          $loncadena=strlen($codigo);
+                          //inicio de la consulta para encontrar las cuentas que son subcuentas de la cuenta anterior
+                          $resultSubcuenta= $conexion->query("select c.nombrecuenta as nombre, c.codigocuenta as codigo, SUBSTRING(c.codigocuenta,'1','".$loncadena."') as codigocorto, p.idpartida as npartida, p.concepto as concepto, p.fecha as fecha, l.debe as debe, l.haber as haber FROM catalogo as c,partida as p, ldiario as l where SUBSTRING(c.codigocuenta,1,'".$loncadena."')='".$codigo."' and p.idpartida=l.idpartida and l.idcatalogo=c.idcatalogo ORDER BY p.idpartida ASC");
+                          if ($resultSubcuenta) {
 
-                           $result2 = $conexion->query("select p.fecha as fecha, p.concepto as concepto, p.idpartida as npartida, l.debe as debe,l.haber as haber, a.idanio as anio from partida as p, ldiario as l, anio as a where a.idanio=2017 and l.idpartida=p.idpartida and l.idcatalogo='".$id."' order by p.idpartida ASC");
-                           if ($result2) {
-                             if (($result2->num_rows)<1) {
-                             }else {
-                               echo "<tr><td class='success' colspan='6' align='center'>".$nombre."</td></tr>";
-                             }
-                               while ($fila2 = $result2->fetch_object()) {
-                                 echo "<tr>";
-                                 echo "<td>".$fila2->fecha."</td>";
-                                 echo "<td>".$fila2->concepto."</td>";
-                                 echo "<td>".$fila2->npartida."</td>";
-                                 echo "<td class='info'>".$fila2->debe."</td>";
-                                 echo "<td class='danger'>".$fila2->haber."</td>";
-                                 if ($fila->saldo=="DEUDOR") {
-                                   $saldo=$saldo+($fila2->debe)-($fila2->haber);
-                                 }else {
-                                   $saldo=$saldo-($fila2->debe)+($fila2->haber);
-                                 }
+                            if (($resultSubcuenta->num_rows)<1) {
+                            }else {
+                              echo "<tr><td class='success' colspan='6' align='center'>".$nombre."</td></tr>";
+                              while ($fila2 = $resultSubcuenta->fetch_object()) {
+                                echo "<tr>";
+                                echo "<td>".$fila2->fecha."</td>";
+                                echo "<td>".$fila2->concepto."</td>";
+                                echo "<td>".$fila2->npartida."</td>";
+                                echo "<td class='info'>".$fila2->debe."</td>";
+                                echo "<td class='danger'>".$fila2->haber."</td>";
+                                if ($fila->saldo=="DEUDOR") {
+                                  $saldo=$saldo+($fila2->debe)-($fila2->haber);
+                                }else {
+                                  $saldo=$saldo-($fila2->debe)+($fila2->haber);
+                                }
 
-                                 echo "<td class='warning'>".$saldo."</td>";
-                                 echo "</tr>";
-                               }//cierre while consulta 2
-                               $saldo=0;
-                             }//cierre result consulta 2
-                           //fin consulta por id de cuenta
-
-
+                                echo "<td class='warning'>".$saldo."</td>";
+                                echo "</tr>";
+                              }
+                              $saldo=0;
+                            }
+                          }else {
+                            msg("Error");
+                          }
                         }//cierre while consulta 1
                       }//cierre result consulta 1
                     //fin consulta por nivel
