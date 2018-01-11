@@ -4,6 +4,7 @@ if($_SESSION["logueado"] == TRUE) {
 
 $id  = $_REQUEST["id"];
 $aux = " ";
+$anio=$_REQUEST["anio"];
 include "../config/conexion.php";
 $result = $conexion->query("select * from usuario where idusuario=" . $id);
 if ($result) {
@@ -18,6 +19,20 @@ if ($result) {
     }
     $aux = "modificar";
 }
+if(empty($anio))
+{
+
+}else
+{
+  $consulta  = "INSERT INTO anio VALUES('".$anio."','0')";
+  $resultado = $conexion->query($consulta);
+  if ($resultado) {
+      //msg("Exito");
+  } else {
+      //msg(mysqli_error($conexion));
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,48 +62,14 @@ if ($result) {
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
       <script type="text/javascript">
-
-      function verificar(){
-          if(document.getElementById('nombre').value=="" || document.getElementById('correo').value=="" || document.getElementById('telefono').value=="" || document.getElementById('usuario').value=="" || document.getElementById('pass').value==""){
-            alert("Complete los campos");
-          }else{
-            if (document.getElementById("aux").value=="modificar") {
-
-            document.getElementById('bandera').value="modificar";
-            document.turismo.submit();
-            }else
-            {
-
-            document.getElementById('bandera').value="add";
-           document.turismo.submit();
-            }
-            }
+      function validar()
+      {
+        if (document.getElementById("anio").length>4) {
+          alert("año invalido");
         }
-
-        function modify(id)
+      }
+        function confirmar(id)
         {
-          document.getElementById('nombre').value="";
-          document.getElementById('correo').value="";
-          document.getElementById('pass').value="";
-          document.getElementById('telefono').value="";
-          document.getElementById('usuario').value="";
-
-         document.location.href='usuario.php?id='+id;
-        }
-
-        function confirmar(id,op)
-        {
-          if (op==1) {
-            if (confirm("!!Advertencia!! Desea Desactivar Este Registro?")) {
-            document.getElementById('bandera').value='desactivar';
-            document.getElementById('baccion').value=id;
-
-            document.turismo.submit();
-          }else
-          {
-            alert("No entra");
-          }
-          }else{
             if (confirm("!!Advertencia!! Desea Activar Este Registro?")) {
             document.getElementById('bandera').value='activar';
             document.getElementById('baccion').value=id;
@@ -97,21 +78,20 @@ if ($result) {
           {
             alert("No entra");
           }
-          }
         }
+
+
         function agregar(){
-            if (document.getElementById("anio").value=="" ) {
+          alert("Funcion agg");
+            if (document.getElementById("anio").value=="") {
               alert("Campo obligatorio");
 
             }else {
-              if (document.getElementById("fechaPartida").value=="") {
-                  alert("La partida necesita fecha");
-              }else{
-                  //llamamos addCuenta}bod
-                  location.href="librodiario.php?accion=procesar&concepto="+document.getElementById("conceptoPartida").value+"&fecha="+document.getElementById("fechaPartida").value;
+                  var anio=document.getElementById("anio").value;
+                  location.href="main.php?accion=guardar&anio="+anio;
               }
             }
-        }
+
 
 
       </script>
@@ -163,9 +143,9 @@ if ($result) {
                        <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0" >
                        <thead>
                          <tr>
-                             <th>Ciclos</th>
-                            <th>Estado</th>
-                            <th>Activar/Desactivar</th>
+                             <th>Año</th>
+                            <th >Estado</th>
+                            <th style="width:30px;">Activar/Desactivar</th>
 
 
                          </tr>
@@ -177,7 +157,7 @@ if ($result) {
  if ($result) {
      while ($fila = $result->fetch_object()) {
          echo "<tr>";
-         echo "<td> Año:" . $fila->idanio . "</td>";
+         echo "<td>" . $fila->idanio . "</td>";
 
          //echo "<tr>";
          //echo "<td><img src='img/modificar.png' style='width:30px; height:30px' onclick=modify(".$fila->idasignatura.",'".$fila->codigo."','".$fila->nombre."');></td>";
@@ -185,14 +165,13 @@ if ($result) {
          if ($fila->estado==1) {
                       echo "<td>Activo</td>";
                       //echo "<td><img src='imagenes.php?id=" . $fila->idclientes . "&tipo=cliente' width=100 height=180></td>";
-                      echo "<td style='text-align:center;'><button align='center' type='button' class='btn btn-default' onclick=confirmar(" . $fila->idanio . ",1);><i class='fa fa-remove'></i>
-                         </button></td>";
+                      echo "<td style='text-align:center;'>Ciclo actual.</td>";
                    }else
                     if ($fila->estado==0) {
 
                       echo "<td>Inactivo</td>";
                      //  echo "<td><img src='imagenes.php?id=" . $fila->idclientes . "&tipo=cliente' width=100 height=180></td>";
-                      echo "<td style='text-align:center;'><button align='center' type='button' class='btn btn-default' onclick=confirmar(" . $fila->idanio . ",0);><i class='fa fa-check'></i>
+                      echo "<td style='text-align:center;'><button align='center' type='button' class='btn btn-default' onclick=confirmar(" . $fila->idanio . ");><i class='fa fa-check'></i>
                          </button></td>";
                    }
          echo "</tr>";
@@ -209,7 +188,7 @@ if ($result) {
                </div>
 
 
-//Modal de Ciclos
+
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -221,7 +200,7 @@ if ($result) {
       </div>
       <div class="modal-body">
         <div class="form-group form-animate-text" style="margin-top:0px !important;">
-          <input type="text" class="form-text" id="anio" name="anio" >
+          <input type="number" min="0" class="form-text mask-anio" id="anio" name="anio" onkeyup="validar()">
           <span class="bar"></span>
           <label>Año Contable:</label>
         </div>
@@ -395,9 +374,211 @@ if ($result) {
 <!-- custom -->
 <script src="../asset/js/main.js"></script>
 <script type="text/javascript">
-  $(document).ready(function(){
-    $('#datatables-example').DataTable();
+$(document).ready(function(){
+
+  $("#formcliente").validate({
+    errorElement: "em",
+    errorPlacement: function(error, element) {
+      $(element.parent("div").addClass("form-animate-error"));
+      error.appendTo(element.parent("div"));
+    },
+    success: function(label) {
+      $(label.parent("div").removeClass("form-animate-error"));
+    },
+    rules: {
+      nombrecliente: "required",
+      apellidocliente: "required",
+      duicliente: "required",
+      telefonocliente: "required",
+      direccioncliente: "required"
+    },
+    messages: {
+      nombrecliente: "Digita tu nombre",
+      apellidocliente: "Digita tu apellido",
+      duicliente: "Digita tu DUI",
+      telefonocliente: "Digita tu numero telefonico",
+      direccioncliente: "Digita tu direcci&oacuten"
+    }
   });
+
+  // propose username by combining first- and lastname
+  $("#username").focus(function() {
+    var firstname = $("#firstname").val();
+    var lastname = $("#lastname").val();
+    if (firstname && lastname && !this.value) {
+      this.value = firstname + "." + lastname;
+    }
+  });
+
+
+  $('.mask-dui').mask('00000000-0');
+  $('.mask-time').mask('00:00:00');
+  $('.mask-anio').mask('0000');
+  $('.mask-date_time').mask('00/00/0000 00:00:00');
+  $('.mask-cep').mask('00000-000');
+  $('.mask-telefono').mask('0000-0000');
+  $('.mask-nit').mask('0000-000000-000-0');
+  $('.mask-phone_with_ddd').mask('(00) 0000-0000');
+  $('.mask-phone_us').mask('(000) 000-0000');
+  $('.mask-mixed').mask('AAA 000-S0S');
+  $('.mask-cpf').mask('000.000.000-00', {reverse: true});
+  $('.mask-money').mask('000.000.000.000.000,00', {reverse: true});
+  $('.mask-money2').mask("#.##0,00", {reverse: true});
+  $('.mask-ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
+    translation: {
+      'Z': {
+        pattern: /[0-9]/, optional: true
+      }
+    }
+  });
+  $('.mask-ip_address').mask('099.099.099.099');
+  $('.mask-percent').mask('##0,00%', {reverse: true});
+  $('.mask-clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
+  $('.mask-placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
+  $('.mask-fallback').mask("00r00r0000", {
+    translation: {
+      'r': {
+        pattern: /[\/]/,
+        fallback: '/'
+      },
+      placeholder: "__/__/____"
+    }
+  });
+  $('.mask-selectonfocus').mask("00/00/0000", {selectOnFocus: true});
+
+  var options =  {onKeyPress: function(cep, e, field, options){
+    var masks = ['00000-000', '0-00-00-00'];
+    mask = (cep.length>7) ? masks[1] : masks[0];
+    $('.mask-crazy_cep').mask(mask, options);
+  }};
+
+  $('.mask-crazy_cep').mask('00000-000', options);
+
+
+  var options2 =  {
+    onComplete: function(cep) {
+      alert('CEP Completed!:' + cep);
+    },
+    onKeyPress: function(cep, event, currentField, options){
+      console.log('An key was pressed!:', cep, ' event: ', event,
+        'currentField: ', currentField, ' options: ', options);
+    },
+    onChange: function(cep){
+      console.log('cep changed! ', cep);
+    },
+    onInvalid: function(val, e, f, invalid, options){
+      var error = invalid[0];
+      console.log ("Digit: ", error.v, " is invalid for the position: ", error.p, ". We expect something like: ", error.e);
+    }
+  };
+
+  $('.mask-cep_with_callback').mask('00000-000', options2);
+
+  var SPMaskBehavior = function (val) {
+    return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+  },
+  spOptions = {
+    onKeyPress: function(val, e, field, options) {
+      field.mask(SPMaskBehavior.apply({}, arguments), options);
+    }
+  };
+
+  $('.mask-sp_celphones').mask(SPMaskBehavior, spOptions);
+
+
+
+  var slider = document.getElementById('noui-slider');
+  noUiSlider.create(slider, {
+    start: [20, 80],
+    connect: true,
+    range: {
+      'min': 0,
+      'max': 100
+    }
+  });
+
+  var slider = document.getElementById('noui-range');
+  noUiSlider.create(slider, {
+                      start: [ 20, 80 ], // Handle start position
+                      step: 10, // Slider moves in increments of '10'
+                      margin: 20, // Handles must be more than '20' apart
+                      connect: true, // Display a colored bar between the handles
+                      direction: 'rtl', // Put '0' at the bottom of the slider
+                      orientation: 'vertical', // Orient the slider vertically
+                      behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+                      range: { // Slider can select '0' to '100'
+                      'min': 0,
+                      'max': 100
+                    },
+                      pips: { // Show a scale with the slider
+                        mode: 'steps',
+                        density: 2
+                      }
+                    });
+
+
+
+  $(".select2-A").select2({
+    placeholder: "Select a state",
+    allowClear: true
+  });
+
+  $(".select2-B").select2({
+    tags: true
+  });
+
+  $("#range1").ionRangeSlider({
+    type: "double",
+    grid: true,
+    min: -1000,
+    max: 1000,
+    from: -500,
+    to: 500
+  });
+
+  $('.dateAnimate').bootstrapMaterialDatePicker({ weekStart : 0, time: false,animation:true});
+  $('.date').bootstrapMaterialDatePicker({ weekStart : 0, time: false});
+  $('.time').bootstrapMaterialDatePicker({ date: false,format:'HH:mm',animation:true});
+  $('.datetime').bootstrapMaterialDatePicker({ format : 'dddd DD MMMM YYYY - HH:mm',animation:true});
+  $('.date-fr').bootstrapMaterialDatePicker({ format : 'DD/MM/YYYY HH:mm', lang : 'fr', weekStart : 1, cancelText : 'ANNULER'});
+  $('.min-date').bootstrapMaterialDatePicker({ format : 'DD/MM/YYYY HH:mm', minDate : new Date() });
+
+
+  $(".dial").knob({
+    height:80
+  });
+
+  $('.dial1').trigger(
+   'configure',
+   {
+     "min":10,
+     "width":80,
+     "max":80,
+     "fgColor":"#FF6656",
+     "skin":"tron"
+   }
+   );
+
+  $('.dial2').trigger(
+   'configure',
+   {
+
+     "width":80,
+     "fgColor":"#FF6656",
+     "skin":"tron",
+     "cursor":true
+   }
+   );
+
+  $('.dial3').trigger(
+   'configure',
+   {
+
+     "width":80,
+     "fgColor":"#27C24C",
+   }
+   );
+});
 </script>
 <!-- end: Javascript -->
 </body>
@@ -411,23 +592,51 @@ $baccion      = $_REQUEST["baccion"];
 
 
 if ($bandera == "desactivar") {
-  $consulta = "UPDATE anio SET estado= '0' WHERE idanio= '".$baccion."'";
-    $resultado = $conexion->query($consulta);
+  $result2 = $conexion->query("select * from anio");
+  if ($result2) {
+    while ($fila = $result2->fetch_object()) {
+      $idanio=$fila->idanio;
+      $consulta1 = "update anio set estado='1' where idanio=".$idanio;
+      $resultado = $conexion->query($consulta1);
+    }
+  }
+  $consulta4 = "update anio SET estado='0' WHERE idanio='".$baccion."'";
+    $resultado = $conexion->query($consulta4);
     if ($resultado) {
         //msg("Exito");
+        echo "<script type='text/javascript'>";
+        echo "alert('Exito');";
+        echo "document.location.href='main.php';";
+        echo "</script>";
     } else {
         msg("No Exito");
     }
 }
 if ($bandera == "activar") {
-  $consulta = "UPDATE anio SET estado= '1' WHERE idanio= '".$baccion."'";
-    $resultado = $conexion->query($consulta);
+  $result2 = $conexion->query("select * from anio");
+  if ($result2) {
+    while ($fila = $result2->fetch_object()) {
+      $idanio=$fila->idanio;
+      $consulta = "update anio set estado='0' where idanio=".$idanio;
+      $resultado = $conexion->query($consulta);
+    }
+  }
+
+  $consulta2 = "update anio set estado='1' where idanio=".$baccion;
+    $resultado = $conexion->query($consulta2);
     if ($resultado) {
-        //msg("Exito");
+
+      echo "<script type='text/javascript'>";
+      echo "alert('Exito');";
+      echo "document.location.href='main.php';";
+      echo "</script>";
     } else {
         msg("No Exito");
     }
+
 }
+
+
 
 function msg($texto)
 {

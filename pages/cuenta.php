@@ -576,6 +576,14 @@ if ($result) {
   $(document).ready(function(){
     $('#datatables-example').DataTable();
   });
+
+  
+
+
+
+
+
+
 </script>
 <!-- end: Javascript -->
 </body>
