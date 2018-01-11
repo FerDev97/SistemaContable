@@ -1,5 +1,13 @@
 <?php
 session_start();
+include "../config/conexion.php";
+$result = $conexion->query("select * from anio where estado=1");
+if($result)
+{
+  while ($fila=$result->fetch_object()) {
+    $anioActivo=$fila->idanio;
+  }
+}
 $nivelMayorizacion=$_REQUEST["nivelMayorizacion"];
 if (empty($nivelMayorizacion)) {
   $nivelMayorizacion=1;
@@ -166,7 +174,7 @@ if($_SESSION["logueado"] == TRUE) {
                           //obtener total de caracteres del codigo segun el nivelcuenta
                           $loncadena=strlen($codigo);
                           //inicio de la consulta para encontrar las cuentas que son subcuentas de la cuenta anterior
-                          $resultSubcuenta= $conexion->query("select c.nombrecuenta as nombre, c.codigocuenta as codigo, SUBSTRING(c.codigocuenta,'1','".$loncadena."') as codigocorto, p.idpartida as npartida, p.concepto as concepto, p.fecha as fecha, l.debe as debe, l.haber as haber FROM catalogo as c,partida as p, ldiario as l where SUBSTRING(c.codigocuenta,1,'".$loncadena."')='".$codigo."' and p.idpartida=l.idpartida and l.idcatalogo=c.idcatalogo ORDER BY p.idpartida ASC");
+                          $resultSubcuenta= $conexion->query("select c.nombrecuenta as nombre, c.codigocuenta as codigo, SUBSTRING(c.codigocuenta,'1','".$loncadena."') as codigocorto, p.idpartida as npartida, p.concepto as concepto, p.fecha as fecha, l.debe as debe, l.haber as haber FROM catalogo as c,partida as p, ldiario as l where SUBSTRING(c.codigocuenta,1,'".$loncadena."')='".$codigo."' and p.idpartida=l.idpartida and l.idcatalogo=c.idcatalogo and p.idanio='".$anioActivo."' ORDER BY p.idpartida ASC");
                           if ($resultSubcuenta) {
 
                             if (($resultSubcuenta->num_rows)<1) {

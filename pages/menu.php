@@ -34,12 +34,16 @@
                       </ul>
                     </li>
                     <li class="active ripple">
-                      <a class="tree-toggle nav-header"><span class="fa-book fa"></span> Libro Mayor
+                      <a class="tree-toggle nav-header"><span class="fa-book fa"></span> Estado Financieros
                         <span class="fa-angle-right fa right-arrow text-right"></span>
                       </a>
                       <ul class="nav nav-list tree">
 
-                          <li><a href="libromayor.php">Mostrar</a></li>
+                          <li><a href="libromayor.php">LibroMayor</a></li>
+                      </ul>
+                      <ul class="nav nav-list tree">
+
+                          <li><a href="estadoresultado.php">Estado de Resultados</a></li>
                       </ul>
                     </li>
                     <li class="active ripple">

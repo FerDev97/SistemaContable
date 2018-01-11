@@ -8,7 +8,7 @@ if($result)
     $anioActivo=$fila->idanio;
   }
 }
-$result = $conexion->query("select * from partida");
+$result = $conexion->query("select * from partida where idanio=".$anioActivo);
 $numeroPartida=($result->num_rows)+1;
 //codigo para agregar la partida a la base de llenarDatos
 if($accion=="procesar")
