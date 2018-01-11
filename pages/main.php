@@ -1,22 +1,24 @@
 <?php
 session_start();
 if($_SESSION["logueado"] == TRUE) {
-  $accion=$_REQUEST['accion'];
-  include "../config/conexion.php";
-  $result = $conexion->query("select * from anio");
 
-  if($accion=="guardar")
-  {
-    $consulta  = "INSERT INTO anio VALUES('" . $idanio . "','0')";
-    $resultado = $conexion->query($consulta);
-    if ($resultado) {
-        msg("Exito ");
-      } else {
-        msg(mysqli_error($conexion));
+$id  = $_REQUEST["id"];
+$aux = " ";
+include "../config/conexion.php";
+$result = $conexion->query("select * from usuario where idusuario=" . $id);
+if ($result) {
+    while ($fila = $result->fetch_object()) {
+        $idusuarioR   = $fila->idusuario;
+        $nombreR  = $fila->nombre;
+        $passR = $fila->pass;
+        $mailR = $fila->mail;
+        $telefonoR  = $fila->telefono;
+        $fechaR = $fila->fecha;
+        $usuarioR= $fila->usuario;
     }
-  }
-  ?>
-
+    $aux = "modificar";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,9 +102,13 @@ if($_SESSION["logueado"] == TRUE) {
         function agregar(){
             if (document.getElementById("anio").value=="" ) {
               alert("Campo obligatorio");
-            }else{
+
+            }else {
+              if (document.getElementById("fechaPartida").value=="") {
+                  alert("La partida necesita fecha");
+              }else{
                   //llamamos addCuenta}bod
-                  location.href="main.php?baccion=guardar&anio="+document.getElementById("anio").value;
+                  location.href="librodiario.php?accion=procesar&concepto="+document.getElementById("conceptoPartida").value+"&fecha="+document.getElementById("fechaPartida").value;
               }
             }
         }
