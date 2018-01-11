@@ -64,8 +64,9 @@ if(empty($anio))
       <script type="text/javascript">
       function validar()
       {
-        if (document.getElementById("anio").length>4) {
-          alert("año invalido");
+        var v=document.getElementById("anio").value;
+        if (v.length>4) {
+          document.getElementById("anio").value=v.slice(0,-1);
         }
       }
         function confirmar(id)
@@ -79,16 +80,20 @@ if(empty($anio))
             alert("No entra");
           }
         }
-
-
         function agregar(){
           alert("Funcion agg");
+          var v=document.getElementById("anio").value;
             if (document.getElementById("anio").value=="") {
               alert("Campo obligatorio");
 
             }else {
-                  var anio=document.getElementById("anio").value;
-                  location.href="main.php?accion=guardar&anio="+anio;
+              if (v.length<4) {
+                alert("Por favor ingrese un año valido.")
+              }else {
+                var anio=document.getElementById("anio").value;
+                location.href="main.php?accion=guardar&anio="+anio;
+              }
+
               }
             }
 
@@ -125,6 +130,12 @@ if(empty($anio))
                    <div class="col-md-12">
                    <div class="panel">
                      <div class="panel-heading"><h3>Ciclos Contables</h3>
+                       <?php
+                       include "../config/conexion.php";
+                       $result = $conexion->query("select * from anio");
+                       if($result->num_rows<1){
+                         ?>
+
                        <button type="button" class="btn-flip btn btn-gradient btn-primary" data-toggle='modal' data-target='#myModal'>
                              <div class="flip">
                                <div class="side">
@@ -137,6 +148,9 @@ if(empty($anio))
                              </div>
                              <span class="icon"></span>
                            </button>
+                           <?php
+                            }
+                             ?>
                           </div>
                      <div class="panel-body">
                        <div class="responsive-table">
@@ -200,7 +214,7 @@ if(empty($anio))
       </div>
       <div class="modal-body">
         <div class="form-group form-animate-text" style="margin-top:0px !important;">
-          <input type="number" min="0" class="form-text mask-anio" id="anio" name="anio" onkeyup="validar()">
+          <input type="number" min="0" class="form-text" id="anio" name="anio" onkeyup="validar()">
           <span class="bar"></span>
           <label>Año Contable:</label>
         </div>

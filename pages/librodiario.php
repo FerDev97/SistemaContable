@@ -1,6 +1,13 @@
 <?php session_start();
 $accion=$_REQUEST['accion'];
 include "../config/conexion.php";
+$result = $conexion->query("select * from anio where estado=1");
+if($result)
+{
+  while ($fila=$result->fetch_object()) {
+    $anioActivo=$fila->idanio;
+  }
+}
 $result = $conexion->query("select * from partida");
 $numeroPartida=($result->num_rows)+1;
 //codigo para agregar la partida a la base de llenarDatos
@@ -356,7 +363,7 @@ if($accion=="procesar")
           <label>Concepto</label>
         </div>
         <div class="form-group form-animate-text" style="margin-top:30px !important;">
-          <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" min="2017-01-01" max="2017-12-31">
+          <input type="date" class="form-text" id="fechaPartida" name="fechaPartida" min="<?php echo $anioActivo; ?>-01-01" max="<?php echo $anioActivo; ?>-12-31">
           <span class="bar"></span>
         </div>
       </div>
@@ -634,10 +641,8 @@ function guardarPartida()
       {
                       $idanio=$fila->idanio;
                       msg($idanio);
-
       }
     }
-
   $concepto=$_REQUEST['concepto'];
   $fecha=$_REQUEST['fecha'];
   $acumulador=$_SESSION['acumulador'];
