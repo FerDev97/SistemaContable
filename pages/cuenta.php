@@ -144,9 +144,11 @@ if ($result) {
               <div class="col-md-12 top-20 padding-0">
                <div class="col-md-3">
                             <div class="form-group form-animate-text" style="margin-top:30px !important; width: 100px;">
-                              <input type="text" class="form-text" id="nivelcuenta" name="nivelcuenta" style="width: 100px;" value="<?php echo $nivelR; ?>">
-                              <span class="bar" style="width: 100px<"></span>
                               <label>Nivel</label>
+                            </br>
+                              <input type="text" class="form-text" id="nivelcuenta" name="nivelcuenta" style="width: 100px;" value="<?php echo $nivelR; ?>" disabled>
+                              <span class="bar" style="width: 100px<"></span>
+
                             </div>
 
                             <div class="form-group form-animate-text" style="margin-top:30px !important;">
