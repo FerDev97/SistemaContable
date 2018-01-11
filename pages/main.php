@@ -1,24 +1,22 @@
 <?php
 session_start();
 if($_SESSION["logueado"] == TRUE) {
+  $accion=$_REQUEST['accion'];
+  include "../config/conexion.php";
+  $result = $conexion->query("select * from anio");
 
-$id  = $_REQUEST["id"];
-$aux = " ";
-include "../config/conexion.php";
-$result = $conexion->query("select * from usuario where idusuario=" . $id);
-if ($result) {
-    while ($fila = $result->fetch_object()) {
-        $idusuarioR   = $fila->idusuario;
-        $nombreR  = $fila->nombre;
-        $passR = $fila->pass;
-        $mailR = $fila->mail;
-        $telefonoR  = $fila->telefono;
-        $fechaR = $fila->fecha;
-        $usuarioR= $fila->usuario;
+  if($accion=="guardar")
+  {
+    $consulta  = "INSERT INTO anio VALUES('" . $idanio . "','0')";
+    $resultado = $conexion->query($consulta);
+    if ($resultado) {
+        msg("Exito ");
+      } else {
+        msg(mysqli_error($conexion));
     }
-    $aux = "modificar";
-}
-?>
+  }
+  ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,18 +73,40 @@ if ($result) {
 
          document.location.href='usuario.php?id='+id;
         }
-         function confirmar(id)
+
+        function confirmar(id,op)
         {
-          if (confirm("!!Advertencia!! Desea Eliminar Este Registro?")) {
-            document.getElementById('bandera').value='desaparecer';
+          if (op==1) {
+            if (confirm("!!Advertencia!! Desea Desactivar Este Registro?")) {
+            document.getElementById('bandera').value='desactivar';
             document.getElementById('baccion').value=id;
-            alert(id);
+
             document.turismo.submit();
           }else
           {
-            alert("Error al borrar.");
+            alert("No entra");
+          }
+          }else{
+            if (confirm("!!Advertencia!! Desea Activar Este Registro?")) {
+            document.getElementById('bandera').value='activar';
+            document.getElementById('baccion').value=id;
+            document.turismo.submit();
+          }else
+          {
+            alert("No entra");
+          }
           }
         }
+        function agregar(){
+            if (document.getElementById("anio").value=="" ) {
+              alert("Campo obligatorio");
+            }else{
+                  //llamamos addCuenta}bod
+                  location.href="main.php?baccion=guardar&anio="+document.getElementById("anio").value;
+              }
+            }
+        }
+
 
       </script>
 </head>
@@ -110,14 +130,105 @@ if ($result) {
               </div>
               <form id="turismo" name="turismo" action="" method="">
               <input type="hidden" name="bandera" id="bandera">
-              <input type="hidden" name="baccion" id="baccion" value="<?php echo $idusuarioR; ?>" >
-              <input type="hidden" name="aux" id="aux" value="<?php echo $aux; ?>">
+              <input type="hidden" name="baccion" id="baccion"  >
+              <input type="hidden" name="aux" id="aux" >
               <input type="hidden" name="r" id="r" value="">
               <div class="col-md-12 top-20 padding-0">
-               <div class="col-md-4">
+
+                 <div class="col-md-7">
+                   <div class="col-md-12">
+                   <div class="panel">
+                     <div class="panel-heading"><h3>Ciclos Contables</h3>
+                       <button type="button" class="btn-flip btn btn-gradient btn-primary" data-toggle='modal' data-target='#myModal'>
+                             <div class="flip">
+                               <div class="side">
+                                 Agregar Nuevo <span class="fa fa-edit"></span>
+                               </div>
+                               <div class="side back">
+                                 Continuar?
+
+                               </div>
+                             </div>
+                             <span class="icon"></span>
+                           </button>
+                          </div>
+                     <div class="panel-body">
+                       <div class="responsive-table">
+                       <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0" >
+                       <thead>
+                         <tr>
+                             <th>Ciclos</th>
+                            <th>Estado</th>
+                            <th>Activar/Desactivar</th>
 
 
+                         </tr>
+                       </thead>
+                       <tbody>
+                       <?php
+ include "../config/conexion.php";
+ $result = $conexion->query("select * from anio order by idanio");
+ if ($result) {
+     while ($fila = $result->fetch_object()) {
+         echo "<tr>";
+         echo "<td> Año:" . $fila->idanio . "</td>";
 
+         //echo "<tr>";
+         //echo "<td><img src='img/modificar.png' style='width:30px; height:30px' onclick=modify(".$fila->idasignatura.",'".$fila->codigo."','".$fila->nombre."');></td>";
+         //echo "<td><img src='img/eliminar.png' style='width:30px; height:30px' onclick=elyminar(".$fila->idasignatura.",'".$fila->nombre."');></td>";
+         if ($fila->estado==1) {
+                      echo "<td>Activo</td>";
+                      //echo "<td><img src='imagenes.php?id=" . $fila->idclientes . "&tipo=cliente' width=100 height=180></td>";
+                      echo "<td style='text-align:center;'><button align='center' type='button' class='btn btn-default' onclick=confirmar(" . $fila->idanio . ",1);><i class='fa fa-remove'></i>
+                         </button></td>";
+                   }else
+                    if ($fila->estado==0) {
+
+                      echo "<td>Inactivo</td>";
+                     //  echo "<td><img src='imagenes.php?id=" . $fila->idclientes . "&tipo=cliente' width=100 height=180></td>";
+                      echo "<td style='text-align:center;'><button align='center' type='button' class='btn btn-default' onclick=confirmar(" . $fila->idanio . ",0);><i class='fa fa-check'></i>
+                         </button></td>";
+                   }
+         echo "</tr>";
+
+     }
+ }
+ ?>
+                       </tbody>
+                         </table>
+                       </div>
+                   </div>
+                 </div>
+               </div>
+               </div>
+
+
+//Modal de Ciclos
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Agregar nuevo ciclo contable</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group form-animate-text" style="margin-top:0px !important;">
+          <input type="text" class="form-text" id="anio" name="anio" >
+          <span class="bar"></span>
+          <label>Año Contable:</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"  onclick="agregar()">Agregar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+</div>
 
 
 
@@ -291,45 +402,27 @@ include "../config/conexion.php";
 
 $bandera      = $_REQUEST["bandera"];
 $baccion      = $_REQUEST["baccion"];
-$mail  = $_REQUEST["correo"];
-$nombre= $_REQUEST["nombre"];
-$pass = $_REQUEST["pass"];
-$telefono   = $_REQUEST["telefono"];
-$usuario  = $_REQUEST["usuario"];
 
-if ($bandera == "add") {
-    $consulta  = "INSERT INTO usuario VALUES('null','" . $nombre . "','" . $pass . "','" . $mail . "','" . $telefono . "',current_timestamp,'" . $usuario . "')";
+
+if ($bandera == "desactivar") {
+  $consulta = "UPDATE anio SET estado= '0' WHERE idanio= '".$baccion."'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
-        msg("Exito");
+        //msg("Exito");
     } else {
         msg("No Exito");
     }
 }
-if ($bandera == "desaparecer") {
-    $consulta  = "DELETE FROM usuario where idusuario='" . $baccion . "'";
+if ($bandera == "activar") {
+  $consulta = "UPDATE anio SET estado= '1' WHERE idanio= '".$baccion."'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
-        msg("Exito");
+        //msg("Exito");
     } else {
         msg("No Exito");
     }
 }
-if ($bandera == "modificar") {
-    $consulta  = "UPDATE usuario set nombre='" . $nombre . "',pass='" . $pass . "',mail='" . $mail . "',telefono='" . $telefono . "',usuario='" . $usuario . "' where idusuario='" . $baccion . "'";
-    $resultado = $conexion->query($consulta);
-    if ($resultado) {
-        msg("En Hora Buena");
-    } else {
-        msg("No Exito");
-    }
-}
-if ($bandera == 'enviar') {
-    echo "<script type='text/javascript'>";
-    echo "document.location.href='editcliente.php?id=" . $baccion . "';";
-    echo "</script>";
-    # code...
-}
+
 function msg($texto)
 {
     echo "<script type='text/javascript'>";
