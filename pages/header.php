@@ -7,8 +7,8 @@
                 <span class="middle"></span>
                 <span class="bottom"></span>
               </div>
-                <a href="index.html" class="navbar-brand">
-                 <b>Pacholi2017</b>
+                <a href="main.php" class="navbar-brand">
+                 <b>Pacholi2018</b>
                 </a>
 
 
