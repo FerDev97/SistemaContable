@@ -45,7 +45,6 @@ $objPHPExcel->getActiveSheet()->getStyle('B1')
 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(27);
 $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(27);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);
-
 $objPHPExcel->setActiveSheetIndex(0)
 ->setCellValue('B1', 'LIBRO DIARIO')
 ->mergeCells('B1:F1')
@@ -55,17 +54,15 @@ $objPHPExcel->setActiveSheetIndex(0)
 ->setCellValue('E2', 'Debe')
 ->setCellValue('F2', 'Haber');
 //recuperamos de la bd y procedemos a insertar en las celdas.
-
 include "../../config/conexion.php";
-$result = $conexion->query("select * from partida where idanio=".$anioActivo."order by idpartida ASC");
+$result = $conexion->query("select * from partida where idanio='".$anioActivo."' order by idpartida ASC");
 if ($result) {
   while ($fila = $result->fetch_object()) {
       $objPHPExcel->getActiveSheet()->getStyle('B'."$cont")->applyFromArray($styleArray);
-        $objPHPExcel->setActiveSheetIndex(0)
+        $objPHPExcel->getActiveSheet()
         ->setCellValue('B'."$cont",$fila->fecha)
-        ->setCellValue('C'."$cont","Partida #".$fila->idpartida);
-
-    $cont2=$cont;
+        ->setCellValue('D'."$cont","Partida #".$fila->idpartida);
+      $cont++;
       $idpartida=$fila->idpartida;
       $result2 = $conexion->query("select * from ldiario where idpartida='".$idpartida."'order by debe DESC");
       if ($result2) {
@@ -79,36 +76,37 @@ if ($result) {
             while ($fila3 = $result3->fetch_object()) {
               $codigocuenta=$fila3->codigocuenta;
               $nombrecuenta=$fila3->nombrecuenta;
-
-                echo "<td align='center'> " . $codigocuenta . "</td>";
+                // echo "<td align='center'> " . $codigocuenta . "</td>";
+                $objPHPExcel->getActiveSheet()
+                ->setCellValue('C'."$cont",$codigocuenta);
                 if ($debe>=$haber) {
-                  echo "<td align='left'>" . $nombrecuenta . "</td>";
+                  $objPHPExcel->getActiveSheet()
+                  ->setCellValue('D'."$cont",$nombrecuenta);
                 }else {
-
-                  echo "<td align='center'>" . $nombrecuenta . "</td>";
+                  $objPHPExcel->getActiveSheet()
+                  ->setCellValue('D'."$cont",$nombrecuenta);
                 }
                 if ($debe==0) {
-                    echo "<td align='center' class='info'>--</td>";
+                  $objPHPExcel->getActiveSheet()
+                  ->setCellValue('E'."$cont","");
                 }else {
-                  echo "<td align='left' class='info'>$ " . $debe . "</td>";
+                  $objPHPExcel->getActiveSheet()
+                  ->setCellValue('E'."$cont","$".$debe);
                 }
                 if ($haber==0) {
-                    echo "<td align='center' class='danger'>--</td>";
+                  $objPHPExcel->getActiveSheet()
+                  ->setCellValue('F'."$cont","");
                 }else {
-                  echo "<td align='left' class='danger'>$ " . $haber . "</td>";
+                  $objPHPExcel->getActiveSheet()
+                  ->setCellValue('F'."$cont","$".$haber);
                 }
+                $cont++;
             }
           }
         }
       }
-      echo "<tr class='warning'>";
-      echo "<td> </td>";
-      echo "<td> </td>";
-      echo "<td align='center' >V/ ".$fila->concepto."</td>";
-      echo "<td> </td>";
-      echo "<td> </td>";
-      echo "</tr>";
-  }
+    //  echo "<td align='center' >V/ ".$fila->concepto."</td>";
+}
 }
 
 // $result = $conexion->query("select * from catalogo order by codigocuenta");
@@ -126,10 +124,8 @@ if ($result) {
 // }
 // Renombrar Hoja
 $objPHPExcel->getActiveSheet()->setTitle('LibroDiario');
-
 // Establecer la hoja activa, para que cuando se abra el documento se muestre primero.
 $objPHPExcel->setActiveSheetIndex(0);
-
 // Se modifican los encabezados del HTTP para indicar que se envia un archivo de Excel.
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment;filename="LibroDiario.xlsx"');
@@ -137,15 +133,4 @@ header('Cache-Control: max-age=0');
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save('php://output');
 exit;
-
 ?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body onload="window.close()">
-
-  </body>
-</html>
