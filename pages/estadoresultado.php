@@ -1,25 +1,49 @@
 <?php
 session_start();
-include "../config/conexion.php";
-$result = $conexion->query("select * from anio where estado=1");
-if($result)
-{
-  while ($fila=$result->fetch_object()) {
-    $anioActivo=$fila->idanio;
-  }
-}
-$nivelMayorizacion=$_REQUEST["nivelMayorizacion"];
-if (empty($nivelMayorizacion)) {
-  $nivelMayorizacion=1;
-}
-function mensaje($texto)
-{
-    echo "<script type='text/javascript'>";
-    echo "alert('$texto');";
-  //  echo "document.location.href='listacliente.php';";
-    echo "</script>";
-}
 if($_SESSION["logueado"] == TRUE) {
+  include "../config/conexion.php";
+  $result = $conexion->query("select * from anio where estado=1");
+  if($result)
+  {
+    while ($fila=$result->fetch_object()) {
+      $anioActivo=$fila->idanio;
+    }
+  }
+  $codventas='51';
+  $codRebVentas='411';
+  $codCompras='43';
+  $codGasCompras='44';
+  $codRebCompras='53';
+  $codinventarioI='';
+  $codinventarioF='';
+  $codGasAdmon='415';
+  $codGasVent='416';
+  $codGasFinan='417';
+  $codOIng='521';
+  $codOGas='423';
+
+ ?>
+ <?php
+ include "../config/conexion.php";
+ $loncadena=strlen($codventas);
+ //inicio de la consulta para encontrar las cuentas que son subcuentas de la cuenta anterior
+ $resultSubcuenta= $conexion->query("select c.nombrecuenta as nombre, c.codigocuenta as codigo, SUBSTRING(c.codigocuenta,'1','".$loncadena."') as codigocorto, p.idpartida as npartida, p.concepto as concepto, p.fecha as fecha, l.debe as debe, l.haber as haber FROM catalogo as c,partida as p, ldiario as l where SUBSTRING(c.codigocuenta,1,'".$loncadena."')='".$codventas."' and p.idpartida=l.idpartida and l.idcatalogo=c.idcatalogo and p.idanio='".$anioActivo."' ORDER BY p.idpartida ASC");
+ if ($resultSubcuenta) {
+   if (($resultSubcuenta->num_rows)<1) {
+      // echo "hola";
+   }else {
+     while ($fila2 = $resultSubcuenta->fetch_object()) {
+         if ($fila2->saldo=="DEUDOR") {
+         $saldo=$saldo+($fila2->debe)-($fila2->haber);
+       }else {
+         $saldo=$saldo-($fila2->debe)+($fila2->haber);
+         }
+       }
+       echo $saldo;
+   }
+ }else {
+   msg("Error");
+ }
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,16 +163,8 @@ if($_SESSION["logueado"] == TRUE) {
                         <th style="width:300px;">.</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td>Prueba</td>
-                        <td>200</td>
-                      </tr>
-                      <tr>
-                        <td>Prueba Num2</td>
-                        <td>3000</td>
-                      </tr>
-                    </tbody>
+
+
                       </table>
                     </div>
                 </div>
