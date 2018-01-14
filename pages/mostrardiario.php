@@ -1,6 +1,14 @@
 <?php
 session_start();
 if($_SESSION["logueado"] == TRUE) {
+  include '../config/conexion.php';
+  $result = $conexion->query("select * from anio where estado=1");
+  if($result)
+  {
+    while ($fila=$result->fetch_object()) {
+      $anioActivo=$fila->idanio;
+    }
+  }
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,10 +59,10 @@ if($_SESSION["logueado"] == TRUE) {
 
         }
           //funcion para exportar la tabla del catalogo a excell
-        function catalogoExcell()
+        function diarioExcell()
         {
-          const ventana = window.open("reportes/catalogoExcell.php","_blank");
-          //window.setTimeout(cerrarVentana(ventana), 80000);
+          var anio=document.getElementById("anioActivo").value;
+          const ventana = window.open("reportes/librodiarioExcell.php?anio="+anio+"","_blank");
         }
         function cerrarVentana(ventana){
           ventana.close();
@@ -92,7 +100,8 @@ if($_SESSION["logueado"] == TRUE) {
                   <div class="panel-heading">
                     <center>
                       <h3>Libro Diario</h3>
-                          <button class='btn ripple-infinite btn-round btn-success' onclick='catalogoExcell()';>
+                      <input type="hidden" name="anioActivo" id="anioActivo" value="<?php echo $anioActivo; ?>">
+                          <button class='btn ripple-infinite btn-round btn-success' onclick='diarioExcell()';>
                             <div>
                               <span>EXCELL</span>
                             </div>
@@ -124,7 +133,7 @@ if($_SESSION["logueado"] == TRUE) {
                     <tbody>
                     <?php
 include "../config/conexion.php";
-$result = $conexion->query("select * from partida order by idpartida ASC");
+$result = $conexion->query("select * from partida where idanio='".$anioActivo."' order by idpartida ASC");
 if ($result) {
   while ($fila = $result->fetch_object()) {
       echo "<tr class='success'>";

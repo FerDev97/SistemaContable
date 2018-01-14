@@ -384,7 +384,7 @@ if ($result) {
         echo "<td>" . $fila->codigocuenta . "</td>";
         echo "<td>" . $fila->nombrecuenta . "</td>";
         echo "<td>" . $fila->tipocuenta . "</td>";
-        
+
         echo "<td>
           <div class='col-md-2' style='margin-top:1px'>
             <button class='btn ripple-infinite btn-round btn-success' onclick='confirmar(" . $fila->idcatalogo . ")'>
@@ -601,7 +601,6 @@ $codigocuenta = $_REQUEST["codigocuenta"];
 $tipocuenta   = $_REQUEST["tipocuenta"];
 $saldocuenta  = $_REQUEST["saldocuenta"];
 $r            = $_REQUEST["r"];
-
 if ($bandera == "add") {
     $consulta  = "INSERT INTO catalogo VALUES('null','" . $codigocuenta . "','" . $nombrecuenta . "','" . $tipocuenta . "','" . $saldocuenta . "','" . $r . "','" . $nivelcuenta . "')";
     $resultado = $conexion->query($consulta);

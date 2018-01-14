@@ -1,7 +1,7 @@
 <?php
 /** Incluir la libreria PHPExcel */
 include '../../Classes/PHPExcel.php';
-
+$anioActivo=$_REQUEST["anio"];
 // Crea un nuevo objeto PHPExcel
 $objPHPExcel = new PHPExcel();
 
@@ -48,7 +48,7 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);
 
 $objPHPExcel->setActiveSheetIndex(0)
 ->setCellValue('B1', 'LIBRO DIARIO')
-->mergeCells('B1:E1')
+->mergeCells('B1:F1')
 ->setCellValue('B2', 'Fecha')
 ->setCellValue('C2', 'Codigo')
 ->setCellValue('D2', 'Concepto')
@@ -57,33 +57,29 @@ $objPHPExcel->setActiveSheetIndex(0)
 //recuperamos de la bd y procedemos a insertar en las celdas.
 
 include "../../config/conexion.php";
-$result = $conexion->query("select * from partida order by idpartida ASC");
+$result = $conexion->query("select * from partida where idanio=".$anioActivo."order by idpartida ASC");
 if ($result) {
   while ($fila = $result->fetch_object()) {
-      echo "<td>" . $fila->fecha . "</td>";
-      echo "<td colspan='4' align='center'>Partida #" . $fila->idpartida . "</td>";
-    //  echo "<td>" . $fila->tipocuenta . "</td>";
-    //  echo "<td>" . $fila->saldo . "</td>";
+      $objPHPExcel->getActiveSheet()->getStyle('B'."$cont")->applyFromArray($styleArray);
+        $objPHPExcel->setActiveSheetIndex(0)
+        ->setCellValue('B'."$cont",$fila->fecha)
+        ->setCellValue('C'."$cont","Partida #".$fila->idpartida);
 
-      echo "</tr>";
+    $cont2=$cont;
       $idpartida=$fila->idpartida;
       $result2 = $conexion->query("select * from ldiario where idpartida='".$idpartida."'order by debe DESC");
-
       if ($result2) {
-
         while ($fila2 = $result2->fetch_object()) {
           $cuenta=$fila2->idcatalogo;
           $debe=$fila2->debe;
           $haber=$fila2->haber;
-
           //para mostrar la Cuenta
           $result3 = $conexion->query("select * from catalogo where idcatalogo=".$cuenta);
           if ($result3) {
             while ($fila3 = $result3->fetch_object()) {
               $codigocuenta=$fila3->codigocuenta;
               $nombrecuenta=$fila3->nombrecuenta;
-              echo "<tr>";
-                echo "<td> </td>";
+
                 echo "<td align='center'> " . $codigocuenta . "</td>";
                 if ($debe>=$haber) {
                   echo "<td align='left'>" . $nombrecuenta . "</td>";
@@ -101,9 +97,6 @@ if ($result) {
                 }else {
                   echo "<td align='left' class='danger'>$ " . $haber . "</td>";
                 }
-
-
-              echo "</tr>";
             }
           }
         }
