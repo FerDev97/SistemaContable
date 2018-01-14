@@ -18,7 +18,6 @@ echo "<td>
 //echo "<td><img src='img/eliminar.png' style='width:30px; height:30px' onclick=elyminar(".$fila->idasignatura.",'".$fila->nombre."');></td>";
 echo "<td>" . $fila->codigocuenta . "</td>";
 echo "<td>" . $fila->nombrecuenta . "</td>";
-echo "<td>" . $fila->tipocuenta . "</td>";
 echo "<td>" . $fila->saldo . "</td>";
 
 echo "</tr>";

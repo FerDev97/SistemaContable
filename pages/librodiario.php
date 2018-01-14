@@ -327,7 +327,6 @@ if($accion=="procesar")
                       <th></th>
                       <th>Codigo</th>
                       <th>Nombre</th>
-                      <th>Tipo</th>
                       <th>Saldo</th>
 
                     </tr>
