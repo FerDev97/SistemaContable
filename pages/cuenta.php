@@ -89,6 +89,7 @@ if ($result) {
             }else
             {
               comprobarR(document.getElementById('codigocuenta').value);
+              alert(document.getElementById('nivelcuenta').value);
             document.getElementById('bandera').value="add";
            document.turismo.submit();
             }
@@ -147,7 +148,7 @@ if ($result) {
                             <div class="form-group form-animate-text" style="margin-top:30px !important; width: 100px;">
                               <label>Nivel</label>
                             </br>
-                              <input type="text" class="form-text" id="nivelcuenta" name="nivelcuenta" style="width: 100px;" value="<?php echo $nivelR; ?>" disabled>
+                              <input type="text" class="form-text" id="nivelcuenta" name="nivelcuenta" style="width: 100px;" value="<?php echo $nivelR; ?>" readonly>
                               <span class="bar" style="width: 100px<"></span>
 
                             </div>
@@ -220,7 +221,7 @@ if ($result) {
                                     <option value="CUENTASCONTINGENTESOC" >CUENTAS CONTINGENTES Y ORDEN POR CONTRA</option>
                                     </select>';
                                   }
-                                if($tipocuentaR=="CUENTASRESULTACREEDORAS"){
+                                if($tipocuentaR=="CUENTASRESULTACREEDO"){
                                     echo '<select id="tipocuenta" class="select2" style="width: 300px; font-size: 20px" name="tipocuenta">
                                     <option value="SELECCIONE">SELECCIONE</option>
                                     <option value="ACTIVO" >ACTIVO</option>
@@ -357,7 +358,7 @@ if ($result) {
                           <th>Codigo</th>
                           <th>Nombre</th>
                           <th>Tipo</th>
-                          <th>Saldo</th>
+
                           <th></th>
                         </tr>
                       </thead>
@@ -383,7 +384,7 @@ if ($result) {
         echo "<td>" . $fila->codigocuenta . "</td>";
         echo "<td>" . $fila->nombrecuenta . "</td>";
         echo "<td>" . $fila->tipocuenta . "</td>";
-        echo "<td>" . $fila->saldo . "</td>";
+        
         echo "<td>
           <div class='col-md-2' style='margin-top:1px'>
             <button class='btn ripple-infinite btn-round btn-success' onclick='confirmar(" . $fila->idcatalogo . ")'>
@@ -577,7 +578,7 @@ if ($result) {
     $('#datatables-example').DataTable();
   });
 
-  
+
 
 
 
@@ -600,11 +601,15 @@ $codigocuenta = $_REQUEST["codigocuenta"];
 $tipocuenta   = $_REQUEST["tipocuenta"];
 $saldocuenta  = $_REQUEST["saldocuenta"];
 $r            = $_REQUEST["r"];
+
 if ($bandera == "add") {
     $consulta  = "INSERT INTO catalogo VALUES('null','" . $codigocuenta . "','" . $nombrecuenta . "','" . $tipocuenta . "','" . $saldocuenta . "','" . $r . "','" . $nivelcuenta . "')";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
-        msg("Exito");
+      echo "<script type='text/javascript'>";
+      echo "alert('Exito');";
+      echo "document.location.href='cuenta.php';";
+      echo "</script>";
     } else {
         msg("No Exito");
     }
@@ -622,7 +627,10 @@ if ($bandera == "modificar") {
     $consulta  = "UPDATE catalogo set codigocuenta='" . $codigocuenta . "',nombrecuenta='" . $nombrecuenta . "',tipocuenta='" . $tipocuenta . "',saldo='" . $saldocuenta . "',r='" . $r . "',nivel='" . $nivel . "' where idcatalogo='" . $baccion . "'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
-        msg("En Hora Buena");
+      echo "<script type='text/javascript'>";
+      echo "alert('$texto');";
+      echo "document.location.href='cuenta.php';";
+      echo "</script>";
     } else {
         msg("No Exito");
     }
