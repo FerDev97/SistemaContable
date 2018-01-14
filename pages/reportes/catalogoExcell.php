@@ -22,21 +22,8 @@ $styleArray = array(
     'alignment' => array(
         'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
     ),
-    // 'borders' => array(
-    //     'top' => array(
-    //         'style' => PHPExcel_Style_Border::BORDER_THIN,
-    //     ),
-    // ),
-    // 'fill' => array(
-    //     'type' => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
-    //     'rotation' => 90,
-    //     'startcolor' => array(
-    //         'argb' => 'FFA0A0A0',
-    //     ),
-    //     'endcolor' => array(
-    //         'argb' => 'FFFFFFFF',
-    //     ),
-    // ),
+
+
 );
 $cont=3;
 // Agregar Informacion

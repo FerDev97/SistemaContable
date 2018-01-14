@@ -1,6 +1,20 @@
 <?php
 /** Incluir la libreria PHPExcel */
 include '../../Classes/PHPExcel.php';
+include "../../config/conexion.php";
+$result = $conexion->query("select MIN(fecha) from partida");
+if ($result) {
+  while ($fila = $result->fetch_object()) {
+    $fechaMinima=$fila->fecha;
+  }
+}
+$result = $conexion->query("select MAX(fecha) from partida");
+if ($result2) {
+  while ($fila = $result2->fetch_object()) {
+    $fechaMaxima=$fila->fecha;
+  }
+}
+
 $anioActivo=$_REQUEST["anio"];
 // Crea un nuevo objeto PHPExcel
 $objPHPExcel = new PHPExcel();
@@ -22,33 +36,53 @@ $styleArray = array(
     'alignment' => array(
         'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
     ),
-    // 'borders' => array(
-    //     'top' => array(
-    //         'style' => PHPExcel_Style_Border::BORDER_THIN,
-    //     ),
-    // ),
-    // 'fill' => array(
-    //     'type' => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
-    //     'rotation' => 90,
-    //     'startcolor' => array(
-    //         'argb' => 'FFA0A0A0',
-    //     ),
-    //     'endcolor' => array(
-    //         'argb' => 'FFFFFFFF',
-    //     ),
-    // ),
+    'borders' => array(
+        'top' => array(
+            'style' => PHPExcel_Style_Border::BORDER_THIN,
+        ),
+    ),
+
 );
+$styleArray2 = array(
+    'font' => array(
+        'bold' => false,
+    ),
+    'alignment' => array(
+        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+    ),
+
+);
+$styleArray3 = array(
+    'font' => array(
+        'bold' => false,
+    ),
+    'alignment' => array(
+        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+    ),
+  );
+  $styleArray4 = array(
+      'font' => array(
+          'bold' => true,
+      ),
+      'alignment' => array(
+          'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+      ),
+    );
+
 $cont=3;
 // Agregar Informacion
 $objPHPExcel->getActiveSheet()->getStyle('B1')
 ->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(27);
-$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(27);
-$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);
+$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(11);
+$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(9);
+$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(28);
+$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
+$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
 $objPHPExcel->setActiveSheetIndex(0)
-->setCellValue('B1', 'LIBRO DIARIO')
+->setCellValue('B1', 'LIBRO DIARIO ')
 ->mergeCells('B1:F1')
 ->setCellValue('B2', 'Fecha')
+
 ->setCellValue('C2', 'Codigo')
 ->setCellValue('D2', 'Concepto')
 ->setCellValue('E2', 'Debe')
@@ -59,9 +93,17 @@ $result = $conexion->query("select * from partida where idanio='".$anioActivo."'
 if ($result) {
   while ($fila = $result->fetch_object()) {
       $objPHPExcel->getActiveSheet()->getStyle('B'."$cont")->applyFromArray($styleArray);
+      $objPHPExcel->getActiveSheet()->getStyle('C'."$cont")->applyFromArray($styleArray);
+      $objPHPExcel->getActiveSheet()->getStyle('D'."$cont")->applyFromArray($styleArray);
+      $objPHPExcel->getActiveSheet()->getStyle('E'."$cont")->applyFromArray($styleArray);
+      $objPHPExcel->getActiveSheet()->getStyle('F'."$cont")->applyFromArray($styleArray);
+      $objPHPExcel->getActiveSheet()->getStyle('C'."$cont")->applyFromArray($styleArray4);
         $objPHPExcel->getActiveSheet()
         ->setCellValue('B'."$cont",$fila->fecha)
-        ->setCellValue('D'."$cont","Partida #".$fila->idpartida);
+
+        ->setCellValue('C'."$cont","Partida #".$fila->idpartida)
+        ->mergeCells("C".$cont.":F".$cont);
+
       $cont++;
       $idpartida=$fila->idpartida;
       $result2 = $conexion->query("select * from ldiario where idpartida='".$idpartida."'order by debe DESC");
@@ -77,34 +119,50 @@ if ($result) {
               $codigocuenta=$fila3->codigocuenta;
               $nombrecuenta=$fila3->nombrecuenta;
                 // echo "<td align='center'> " . $codigocuenta . "</td>";
-                $objPHPExcel->getActiveSheet()
+                $objPHPExcel->getActiveSheet()->getStyle('C'."$cont")->applyFromArray($styleArray2);
+                $objPHPExcel->setActiveSheetIndex(0)
+                // $objPHPExcel->getActiveSheet()
                 ->setCellValue('C'."$cont",$codigocuenta);
                 if ($debe>=$haber) {
+                  $objPHPExcel->getActiveSheet()->getStyle('D'."$cont")->applyFromArray($styleArray2);
                   $objPHPExcel->getActiveSheet()
                   ->setCellValue('D'."$cont",$nombrecuenta);
                 }else {
+                  $objPHPExcel->getActiveSheet()->getStyle('D'."$cont")->applyFromArray($styleArray3);
                   $objPHPExcel->getActiveSheet()
                   ->setCellValue('D'."$cont",$nombrecuenta);
                 }
                 if ($debe==0) {
+                  $objPHPExcel->getActiveSheet()->getStyle('E'."$cont")->applyFromArray($styleArray3);
                   $objPHPExcel->getActiveSheet()
                   ->setCellValue('E'."$cont","");
                 }else {
+                  $objPHPExcel->getActiveSheet()->getStyle('E'."$cont")->applyFromArray($styleArray2);
                   $objPHPExcel->getActiveSheet()
                   ->setCellValue('E'."$cont","$".$debe);
                 }
                 if ($haber==0) {
+                  $objPHPExcel->getActiveSheet()->getStyle('F'."$cont")->applyFromArray($styleArray3);
                   $objPHPExcel->getActiveSheet()
                   ->setCellValue('F'."$cont","");
                 }else {
+                  $objPHPExcel->getActiveSheet()->getStyle('F'."$cont")->applyFromArray($styleArray2);
                   $objPHPExcel->getActiveSheet()
                   ->setCellValue('F'."$cont","$".$haber);
                 }
                 $cont++;
             }
+
           }
         }
+        $objPHPExcel->getActiveSheet()->getStyle('C'."$cont")->applyFromArray($styleArray4);
+
+        $objPHPExcel->getActiveSheet()
+        ->setCellValue('C'."$cont","V/".$fila->concepto)
+        ->mergeCells("C".$cont.":F".$cont);
+        $cont++;
       }
+
     //  echo "<td align='center' >V/ ".$fila->concepto."</td>";
 }
 }
