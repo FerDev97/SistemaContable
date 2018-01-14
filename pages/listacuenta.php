@@ -56,6 +56,11 @@ if($_SESSION["logueado"] == TRUE) {
           const ventana = window.open("reportes/catalogoExcell.php","_blank");
           //window.setTimeout(cerrarVentana(ventana), 80000);
         }
+        function catalogoPDF()
+        {
+          const ventana = window.open("reportes/catalogoPDF.php","_blank");
+          //window.setTimeout(cerrarVentana(ventana), 80000);
+        }
         function cerrarVentana(ventana){
           ventana.close();
         }
@@ -102,7 +107,7 @@ if($_SESSION["logueado"] == TRUE) {
                               <span>WORD</span>
                             </div>
                           </button>
-                          <button class='btn ripple-infinite btn-round btn-danger' onclick='catalogoPdf()';>
+                          <button class='btn ripple-infinite btn-round btn-danger' onclick='catalogoPDF()';>
                             <div>
                               <span>PDF</span>
                             </div>
