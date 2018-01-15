@@ -75,10 +75,13 @@ if($_SESSION["logueado"] == TRUE) {
 
         }
           //funcion para exportar la tabla del catalogo a excell
-        function catalogoExcell()
+        function mayorExcell()
         {
-          const ventana = window.open("reportes/catalogoExcell.php","_blank");
+          var nivel=document.getElementById("nivel").value;
+          var anio=document.getElementById("anioActivo").value;
+          const ventana = window.open("reportes/libromayorExcell.php?nivel="+nivel+"&anio="+anio+"","_blank");
           //window.setTimeout(cerrarVentana(ventana), 80000);
+
         }
         function cerrarVentana(ventana){
           ventana.close();
@@ -129,7 +132,9 @@ if($_SESSION["logueado"] == TRUE) {
                     <center>
                       <h3>Libro Mayor</h3>
                       <h4>Mayorizacion de Nivel <?php echo $nivelMayorizacion; ?></h4>
-                          <button class='btn ripple-infinite btn-round btn-success' onclick='catalogoExcell()';>
+                      <input type="hidden" name="anioActivo" id="anioActivo" value="<?php echo $anioActivo; ?>">
+                      <input type="hidden" name="nivel" id="nivel" value="<?php echo $nivelMayorizacion; ?>">
+                          <button class='btn ripple-infinite btn-round btn-success' onclick='mayorExcell()';>
                             <div>
                               <span>EXCELL</span>
                             </div>
@@ -176,8 +181,7 @@ if($_SESSION["logueado"] == TRUE) {
                           //inicio de la consulta para encontrar las cuentas que son subcuentas de la cuenta anterior
                           $resultSubcuenta= $conexion->query("select c.nombrecuenta as nombre, c.codigocuenta as codigo, SUBSTRING(c.codigocuenta,'1','".$loncadena."') as codigocorto, p.idpartida as npartida, p.concepto as concepto, p.fecha as fecha, l.debe as debe, l.haber as haber FROM catalogo as c,partida as p, ldiario as l where SUBSTRING(c.codigocuenta,1,'".$loncadena."')='".$codigo."' and p.idpartida=l.idpartida and l.idcatalogo=c.idcatalogo and p.idanio='".$anioActivo."' ORDER BY p.idpartida ASC");
                           if ($resultSubcuenta) {
-
-                            if (($resultSubcuenta->num_rows)<1) {
+                              if (($resultSubcuenta->num_rows)<1) {
                             }else {
                               echo "<tr><td class='success' colspan='6' align='center'>".$nombre."</td></tr>";
                               while ($fila2 = $resultSubcuenta->fetch_object()) {
