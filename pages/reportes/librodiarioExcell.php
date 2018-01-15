@@ -2,16 +2,18 @@
 /** Incluir la libreria PHPExcel */
 include '../../Classes/PHPExcel.php';
 include "../../config/conexion.php";
-$result = $conexion->query("select MIN(fecha) from partida");
+$result = $conexion->query("select MIN(fecha) as fecha from partida");
 if ($result) {
   while ($fila = $result->fetch_object()) {
     $fechaMinima=$fila->fecha;
+    $fechaMinima=date("d-m-Y",strtotime($fechaMinima));
   }
 }
 $result = $conexion->query("select MAX(fecha) from partida");
 if ($result2) {
   while ($fila = $result2->fetch_object()) {
     $fechaMaxima=$fila->fecha;
+    $fechaMaxima =date("d-m-Y",strtotime($fechaMaxima));
   }
 }
 
@@ -71,15 +73,15 @@ $styleArray3 = array(
 
 $cont=3;
 // Agregar Informacion
-$objPHPExcel->getActiveSheet()->getStyle('B1')
-->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(11);
+
+$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(13);
 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(9);
 $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(28);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
+$objPHPExcel->getActiveSheet()->getStyle('B1')->applyFromArray($styleArray4);
 $objPHPExcel->setActiveSheetIndex(0)
-->setCellValue('B1', 'LIBRO DIARIO ')
+->setCellValue('B1', 'LIBRO DIARIO '.$fechaMinima)
 ->mergeCells('B1:F1')
 ->setCellValue('B2', 'Fecha')
 
