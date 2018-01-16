@@ -86,16 +86,23 @@ if ($resulOI) {
       $saldoOI=$saldoOI-($fila->debe)+($fila->haber);
       }
 }
-mensaje($saldoV);
-mensaje($saldoRDV);
-mensaje($saldoComp);
-mensaje($saldoGasComp);
-mensaje($saldoRDC);
-mensaje($saldoGA);
-mensaje($saldoGV);
-mensaje($saldoGF);
-mensaje($saldoOG);
-mensaje($saldoOI);
+$resulII= $conexion->query("select l.debe as debe,l.haber as haber from ldiario as l where l.idcatalogo=22");
+if ($resulII) {
+    while ($fila = $resulII->fetch_object()) {
+      $saldoII=$saldoII+($fila->debe)-($fila->haber);
+      }
+}
+// mensaje($saldoV);
+// mensaje($saldoRDV);
+// mensaje($saldoComp);
+// mensaje($saldoGasComp);
+// mensaje($saldoRDC);
+// mensaje($saldoGA);
+// mensaje($saldoGV);
+// mensaje($saldoGF);
+// mensaje($saldoOG);
+// mensaje($saldoOI);
+//mensaje($saldoII);
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -263,7 +270,7 @@ mensaje($saldoOI);
                       <tr>
                         <td>(-) Costo de ventas</td>
                         <td></td>
-                        <td><?php echo ((($saldoComp+$saldoGasComp)-$saldoRDC)-0)-0;;?></td>
+                        <td><?php echo ((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-0;;?></td>
                       </tr>
                         </tbody>
                         <tbody>
@@ -304,14 +311,14 @@ mensaje($saldoOI);
                                 <tbody>
                                 <tr>
                                   <td>(+) Inventario Inicial</td>
-                                  <td><?php echo 0;?></td>
+                                  <td><?php echo $saldoII;?></td>
                                   <td></td>
                                 </tr>
                                   </tbody>
                                   <tbody>
                                   <tr>
                                     <td>(=) Mercaderia Disponible</td>
-                                    <td><?php echo (($saldoComp+$saldoGasComp)-$saldoRDC)-0;?></td>
+                                    <td><?php echo (($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII;?></td>
 
                                     <td></td>
                                   </tr>
@@ -328,9 +335,100 @@ mensaje($saldoOI);
                                       <tr>
                                         <td>(=)   Utilidad Bruta</td>
                                         <td></td>
-                                        <td><?php echo ($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)-0)-0)?></td>
+                                        <td><?php echo ($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-0)?></td>
                                       </tr>
                                         </tbody>
+                                      </tbody>
+                                      <tbody>
+                                      <tr>
+                                        <td>(-)   Gastos de Operacion</td>
+                                        <td></td>
+                                        <td><?php echo $saldoGA+$saldoGV+$saldoGF?></td>
+                                      </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr>
+                                          <td> Gastos de Administracion</td>
+                                          <td><?php echo $saldoGA?></td>
+                                          <td></td>
+                                        </tr>
+                                          </tbody>
+                                          <tbody>
+                                          <tr>
+                                            <td> (+) Gastos de Venta</td>
+                                            <td><?php echo $saldoGV?></td>
+                                            <td></td>
+                                          </tr>
+                                            </tbody>
+                                          </tbody>
+                                          <tbody>
+                                          <tr>
+                                            <td> (+) Gastos de Financieros</td>
+                                            <td><?php echo $saldoGF?></td>
+                                            <td></td>
+
+                                          </tr>
+                                            </tbody>
+                                          <tbody>
+                                            <tr>
+                                              <td> (=)   Utilidad de Operacion</td>
+                                              <td></td>
+                                              <td><?php echo (($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-0))-($saldoGA+$saldoGV+$saldoGF)?></td>
+                                            </tr>
+                                          </tbody>
+                                          <tbody>
+                                            <tr>
+                                              <td> (-)   Otros gastos</td>
+                                              <td></td>
+                                              <td><?php echo $saldoOG?></td>
+                                            </tr>
+                                          </tbody>
+                                          <tbody>
+                                            <tr>
+                                              <td> (+)   Otros Ingresos</td>
+                                              <td></td>
+                                              <td><?php echo $saldoOI?></td>
+                                            </tr>
+                                          </tbody>
+                                          <tbody>
+                                            <tr>
+                                              <td> (=)   Utilidad Antes de Impuesto Y Reserva</td>
+                                              <td></td>
+                                              <td><?php echo (((($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-0))-($saldoGA+$saldoGV+$saldoGF))-$saldoOG)+$saldoOI?></td>
+                                            </tr>
+                                          </tbody>
+                                          <?php $UAIR=(((($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-0))-($saldoGA+$saldoGV+$saldoGF))-$saldoOG)+$saldoOI;
+                                          $RL=$UAIR*0.07;?>
+                                          <tbody>
+                                            <tr>
+                                              <td> (-)   Reserva Legal (7%)</td>
+                                              <td></td>
+                                              <td><?php echo $RL?></td>
+                                            </tr>
+                                          </tbody>
+                                          <tbody>
+                                            <tr>
+                                              <td> (=)   Utilidad antes de Impuesto sobre la Renta</td>
+                                              <td></td>
+                                              <td><?php echo $UAIR-$RL?></td>
+                                            </tr>
+                                          </tbody>
+                                          <?php $ISR=($UAIR-$RL)*0.13 ?>
+                                          <tbody>
+                                            <tr>
+                                              <td> (-)   Impuesto sobre la renta</td>
+                                              <td></td>
+                                              <td><?php echo $ISR?></td>
+                                            </tr>
+                                          </tbody>
+                                          <tbody>
+                                            <tr>
+                                              <td> (=)   Utilidad del Ejercicio</td>
+                                              <td></td>
+                                              <td><?php echo ($UAIR-$RL)-$ISR?></td>
+                                            </tr>
+                                          </tbody>
+
                       </table>
                     </div>
                 </div>
