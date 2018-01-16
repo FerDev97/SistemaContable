@@ -3,13 +3,13 @@
 include '../../Classes/PHPExcel.php';
 include "../../config/conexion.php";
 $anioActivo=$_REQUEST["anio"];
-$result = $conexion->query("select MIN(fecha) from partida  where idanio=".$anioActivo);
+$result = $conexion->query("select MIN(fecha) from partida where idanio=".$anioActivo);
 if ($result) {
   while ($fila = $result->fetch_object()) {
     $fechaMinima=$fila->fecha;
   }
 }
-$result = $conexion->query("select MAX(fecha) from partida  where idanio=".$anioActivo);
+$result = $conexion->query("select MAX(fecha) from partida where idanio=".$anioActivo);
 if ($result2) {
   while ($fila = $result2->fetch_object()) {
     $fechaMaxima=$fila->fecha;
@@ -27,11 +27,11 @@ $objPHPExcel = new PHPExcel();
 $objPHPExcel->getProperties()
 ->setCreator("Cattivo")
 ->setLastModifiedBy("Cattivo")
-->setTitle("Libro Diario-PACHOLI")
-->setSubject("Libro Diario.")
-->setDescription("Se mostrara todo el registro diario de nuestras partidas")
+->setTitle("Libro Mayor-PACHOLI")
+->setSubject("Libro Mayor.")
+->setDescription("Se mostrara todo el registro mayor de nuestras cuentas")
 ->setKeywords("Excel Office 2007 openxml php")
-->setCategory("Libro Diario.");
+->setCategory("Libro Mayor.");
 //arrays que contendran los formatos de las fuentes para las celdas.
 $styleArray = array(
     'font' => array(
@@ -83,7 +83,7 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(28);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
 $objPHPExcel->setActiveSheetIndex(0)
-->setCellValue('B1', 'LIBRO DIARIO ')
+->setCellValue('B1', 'LIBRO MAYOR')
 ->mergeCells('B1:F1')
 ->setCellValue('B2', 'Fecha')
 
