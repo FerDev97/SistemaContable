@@ -18,7 +18,6 @@ if ($result2) {
   }
 }
 
-
 $nivelMayorizacion=$_REQUEST["nivel"];
 $rendererName = PHPExcel_Settings::PDF_RENDERER_TCPDF;
 $rendererLibrary = 'tcpdf';
@@ -165,6 +164,7 @@ if ($result) {
 $objPHPExcel->getActiveSheet()->setTitle('LibroMayor');
 // Establecer la hoja activa, para que cuando se abra el documento se muestre primero.
 $objPHPExcel->setActiveSheetIndex(0);
+// Se modifican los encabezados del HTTP para indicar que se envia un archivo de Excel.
 if (!PHPExcel_Settings::setPdfRenderer(
 		$rendererName,
 		$rendererLibraryPath
@@ -177,6 +177,9 @@ if (!PHPExcel_Settings::setPdfRenderer(
 }
 // Se modifican los encabezados del HTTP para indicar que se envia un archivo de Excel.
 header('Content-Type: application/pdf');
-header('Content-Disposition: attachment;filename="libromayor.pdf"');
+header('Content-Disposition: attachment;filename="librodiario.pdf"');
 header('Cache-Control: max-age=0');
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
+$objWriter->save('php://output');
+exit;
 ?>
