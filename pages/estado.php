@@ -153,11 +153,11 @@ if ($resulII) {
 
         }
           //funcion para exportar la tabla del catalogo a excell
-        function mayorExcell()
+        function estadoExcell()
         {
-          var nivel=document.getElementById("nivel").value;
+          var inv=document.getElementById("if").value;
           var anio=document.getElementById("anioActivo").value;
-          const ventana = window.open("reportes/libromayorExcell.php?nivel="+nivel+"&anio="+anio+"","_blank");
+          const ventana = window.open("reportes/estadoResultadosExcell.php?if="+inv+"&anio="+anio+"","_blank");
           //window.setTimeout(cerrarVentana(ventana), 80000);
 
         }
@@ -200,8 +200,8 @@ if ($resulII) {
                       <h3>Estado de Resultados</h3>
 
                       <input type="hidden" name="anioActivo" id="anioActivo" value="<?php echo $anioActivo; ?>">
-                      <input type="hidden" name="nivel" id="nivel" value="<?php echo $nivelMayorizacion; ?>">
-                          <button class='btn ripple-infinite btn-round btn-success' onclick='mayorExcell()';>
+                      <input type="hidden" name="if" id="if" value="<?php echo $inventariofinal; ?>">
+                          <button class='btn ripple-infinite btn-round btn-success' onclick='estadoExcell()';>
                             <div>
                               <span>EXCELL</span>
                             </div>
