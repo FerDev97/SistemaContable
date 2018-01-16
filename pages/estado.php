@@ -1,5 +1,6 @@
 <?php
 session_start();
+$inventariofinal=$_REQUEST["if"];
 function mensaje($texto)
 {
     echo "<script type='text/javascript'>";
@@ -92,17 +93,7 @@ if ($resulII) {
       $saldoII=$saldoII+($fila->debe)-($fila->haber);
       }
 }
-// mensaje($saldoV);
-// mensaje($saldoRDV);
-// mensaje($saldoComp);
-// mensaje($saldoGasComp);
-// mensaje($saldoRDC);
-// mensaje($saldoGA);
-// mensaje($saldoGV);
-// mensaje($saldoGF);
-// mensaje($saldoOG);
-// mensaje($saldoOI);
-//mensaje($saldoII);
+
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -211,7 +202,7 @@ if ($resulII) {
                               <span>EXCELL</span>
                             </div>
                           </button>
-                        
+
                           <button class='btn ripple-infinite btn-round btn-danger' onclick='catalogoPdf()';>
                             <div>
                               <span>PDF</span>
@@ -255,7 +246,7 @@ if ($resulII) {
                       <tr>
                         <td>(-) Costo de ventas</td>
                         <td></td>
-                        <td><?php echo ((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-0;;?></td>
+                        <td><?php echo ((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-$inventariofinal;?></td>
                       </tr>
                         </tbody>
                         <tbody>
@@ -311,7 +302,7 @@ if ($resulII) {
                                     <tbody>
                                     <tr>
                                       <td>(-)   Inventario Final</td>
-                                      <td><?php echo 0?></td>
+                                      <td><?php echo $inventariofinal?></td>
 
                                       <td></td>
                                     </tr>
@@ -320,7 +311,7 @@ if ($resulII) {
                                       <tr>
                                         <td>(=)   Utilidad Bruta</td>
                                         <td></td>
-                                        <td><?php echo ($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-0)?></td>
+                                        <td><?php echo ($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-$inventariofinal)?></td>
                                       </tr>
                                         </tbody>
                                       </tbody>
@@ -358,7 +349,7 @@ if ($resulII) {
                                             <tr>
                                               <td> (=)   Utilidad de Operacion</td>
                                               <td></td>
-                                              <td><?php echo (($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-0))-($saldoGA+$saldoGV+$saldoGF)?></td>
+                                              <td><?php echo (($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-$inventariofinal))-($saldoGA+$saldoGV+$saldoGF)?></td>
                                             </tr>
                                           </tbody>
                                           <tbody>
@@ -379,10 +370,10 @@ if ($resulII) {
                                             <tr>
                                               <td> (=)   Utilidad Antes de Impuesto Y Reserva</td>
                                               <td></td>
-                                              <td><?php echo (((($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-0))-($saldoGA+$saldoGV+$saldoGF))-$saldoOG)+$saldoOI?></td>
+                                              <td><?php echo (((($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-$inventariofinal))-($saldoGA+$saldoGV+$saldoGF))-$saldoOG)+$saldoOI?></td>
                                             </tr>
                                           </tbody>
-                                          <?php $UAIR=(((($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-0))-($saldoGA+$saldoGV+$saldoGF))-$saldoOG)+$saldoOI;
+                                          <?php $UAIR=(((($saldoV-$saldoRDV)-(((($saldoComp+$saldoGasComp)-$saldoRDC)+$saldoII)-$inventariofinal))-($saldoGA+$saldoGV+$saldoGF))-$saldoOG)+$saldoOI;
                                           $RL=$UAIR*0.07;?>
                                           <tbody>
                                             <tr>
