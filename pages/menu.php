@@ -60,6 +60,10 @@
 
                           <li><a  onclick="inventarioFinal();">Estado de Resultados</a></li>
                       </ul>
+                      <ul class="nav nav-list tree">
+
+                          <li><a  href="balanceGeneral.php">Balance General</a></li>
+                      </ul>
                     </li>
                     <li class="active ripple">
                       <a class="tree-toggle nav-header"><span class="fa-users fa"></span> Usuarios
