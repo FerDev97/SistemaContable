@@ -83,7 +83,7 @@ $objPHPExcel->getActiveSheet()->getStyle('A2')->applyFromArray($styleArray4);
 $objPHPExcel->setActiveSheetIndex(0)
 ->setCellValue('A1', 'LIBRO DIARIO ')
 ->mergeCells('A1:E1')
-->setCellValue('A2', 'Del'.$fechaMinima.' al '.$fechaMaxima)
+->setCellValue('A2', 'Del  '.$fechaMinima.'  al  '.$fechaMaxima)
 ->mergeCells('A2:E2')
 ->setCellValue('A3', 'Fecha')
 ->setCellValue('B3', 'Codigo')

@@ -43,7 +43,7 @@
                       </ul>
                       <ul class="nav nav-list tree">
 
-                          <li><a href="estadoresultado.php">Estado de Resultados</a></li>
+                          <li><a href="estado.php">Estado de Resultados</a></li>
                       </ul>
                     </li>
                     <li class="active ripple">
