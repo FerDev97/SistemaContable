@@ -86,6 +86,11 @@ if($_SESSION["logueado"] == TRUE) {
         function cerrarVentana(ventana){
           ventana.close();
         }
+        function mayorPDF()
+        {
+          var anio=document.getElementById("anioActivo").value;
+          const ventana = window.open("reportes/libromayorPDF.php?anio="+anio+"","_blank");
+        }
 
 
       </script>
@@ -144,7 +149,7 @@ if($_SESSION["logueado"] == TRUE) {
                               <span>WORD</span>
                             </div>
                           </button>
-                          <button class='btn ripple-infinite btn-round btn-danger' onclick='catalogoPdf()';>
+                          <button class='btn ripple-infinite btn-round btn-danger' onclick='mayorPDF()';>
                             <div>
                               <span>PDF</span>
                             </div>

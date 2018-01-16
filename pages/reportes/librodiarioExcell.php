@@ -2,14 +2,15 @@
 /** Incluir la libreria PHPExcel */
 include '../../Classes/PHPExcel.php';
 include "../../config/conexion.php";
-$result = $conexion->query("select MIN(fecha) as fecha from partida");
+$anioActivo=$_REQUEST["anio"];
+$result = $conexion->query("select MIN(fecha) as fecha from partida where idanio=".$anioActivo);
 if ($result) {
   while ($fila = $result->fetch_object()) {
     $fechaMinima=$fila->fecha;
     $fechaMinima=date("d-m-Y",strtotime($fechaMinima));
   }
 }
-$result2 = $conexion->query("select MAX(fecha) as fecha from partida");
+$result2 = $conexion->query("select MAX(fecha) as fecha from partida where idanio=".$anioActivo);
 if ($result2) {
   while ($fila = $result2->fetch_object()) {
     $fechaMaxima=$fila->fecha;
@@ -17,7 +18,7 @@ if ($result2) {
   }
 }
 
-$anioActivo=$_REQUEST["anio"];
+
 // Crea un nuevo objeto PHPExcel
 $objPHPExcel = new PHPExcel();
 
