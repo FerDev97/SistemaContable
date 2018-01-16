@@ -92,13 +92,11 @@ if (!PHPExcel_Settings::setPdfRenderer(
 		'at the top of this script as appropriate for your directory structure'
 	);
 }
-
 // Se modifican los encabezados del HTTP para indicar que se envia un archivo de Excel.
 // Redirect output to a client’s web browser (PDF)
 header('Content-Type: application/pdf');
 header('Content-Disposition: attachment;filename="catalogo.pdf"');
 header('Cache-Control: max-age=0');
-
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
 $objWriter->save('php://output');
 exit;

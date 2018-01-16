@@ -64,6 +64,11 @@ if($_SESSION["logueado"] == TRUE) {
           var anio=document.getElementById("anioActivo").value;
           const ventana = window.open("reportes/librodiarioExcell.php?anio="+anio+"","_blank");
         }
+        function diarioPDF()
+        {
+          var anio=document.getElementById("anioActivo").value;
+          const ventana = window.open("reportes/librodiarioPDF.php?anio="+anio+"","_blank");
+        }
         function cerrarVentana(ventana){
           ventana.close();
         }
@@ -111,7 +116,7 @@ if($_SESSION["logueado"] == TRUE) {
                               <span>WORD</span>
                             </div>
                           </button>
-                          <button class='btn ripple-infinite btn-round btn-danger' onclick='catalogoPdf()';>
+                          <button class='btn ripple-infinite btn-round btn-danger' onclick='diarioPDF()';>
                             <div>
                               <span>PDF</span>
                             </div>
