@@ -185,22 +185,11 @@ if ($resulII) {
                <div class="panel box-shadow-none content-header">
                   <div class="panel-body">
                     <div class="col-md-12">
-                        <h3 class="animated fadeInLeft">Libro Mayor</h3>
+                        <h3 class="animated fadeInLeft">Informe Financiero</h3>
                         <p class="animated fadeInDown">
-                          Nivel Para la mayorizacion.
+                          Estado De Resultados
                         </p>
-                        <select class="selectpicker" name="nivelCuenta" id="nivelCuenta" onchange="enviar()">
-                          <option value="Seleccion">Seleccione</option>
-                          <?php
-                          include "../config/conexion.php";
-                          $result = $conexion->query("select nivel from catalogo group by nivel order by nivel ASC");
-                          if ($result) {
-                              while ($fila = $result->fetch_object()) {
-                                echo "<option value='".$fila->nivel."'>".$fila->nivel."</option>";
-                              }
-                            }
-                           ?>
-                        </select>
+
                     </div>
                   </div>
               </div>
@@ -213,8 +202,8 @@ if ($resulII) {
                 <div class="panel">
                   <div class="panel-heading">
                     <center>
-                      <h3>Libro Mayor</h3>
-                      <h4>Mayorizacion de Nivel <?php echo $nivelMayorizacion; ?></h4>
+                      <h3>Estado de Resultados</h3>
+
                       <input type="hidden" name="anioActivo" id="anioActivo" value="<?php echo $anioActivo; ?>">
                       <input type="hidden" name="nivel" id="nivel" value="<?php echo $nivelMayorizacion; ?>">
                           <button class='btn ripple-infinite btn-round btn-success' onclick='mayorExcell()';>
