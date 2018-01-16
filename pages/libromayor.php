@@ -88,6 +88,7 @@ if($_SESSION["logueado"] == TRUE) {
         }
         function mayorPDF()
         {
+          var nivel=document.getElementById("nivel").value;
           var anio=document.getElementById("anioActivo").value;
           const ventana = window.open("reportes/libromayorPDF.php?anio="+anio+"","_blank");
         }

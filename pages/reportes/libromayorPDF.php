@@ -3,20 +3,23 @@
 include '../../Classes/PHPExcel.php';
 include "../../config/conexion.php";
 $anioActivo=$_REQUEST["anio"];
-$result = $conexion->query("select MIN(fecha) from partida where idanio=".$anioActivo);
+$result = $conexion->query("select MIN(fecha) as fecha from partida where idanio=".$anioActivo);
 if ($result) {
   while ($fila = $result->fetch_object()) {
     $fechaMinima=$fila->fecha;
+    $fechaMinima=date("d-m-Y",strtotime($fechaMinima));
   }
 }
-$result = $conexion->query("select MAX(fecha) from partida where idanio=".$anioActivo);
+$result2 = $conexion->query("select MAX(fecha) as fecha from partida  where idanio=".$anioActivo);
 if ($result2) {
-  while ($fila = $result2->fetch_object()) {
-    $fechaMaxima=$fila->fecha;
+  while ($fila2 = $result2->fetch_object()) {
+    $fechaMaxima=$fila2->fecha;
+    $fechaMaxima =date("d-m-Y",strtotime($fechaMaxima));
   }
 }
 
 
+$nivelMayorizacion=$_REQUEST["nivel"];
 $rendererName = PHPExcel_Settings::PDF_RENDERER_TCPDF;
 $rendererLibrary = 'tcpdf';
 $rendererLibraryPath = '../../' . $rendererLibrary;
@@ -29,9 +32,9 @@ $objPHPExcel->getProperties()
 ->setLastModifiedBy("Cattivo")
 ->setTitle("Libro Mayor-PACHOLI")
 ->setSubject("Libro Mayor.")
-->setDescription("Se mostrara todo el registro mayor de nuestras cuentas")
+->setDescription("Se mostrara el la mayorizacion por cada cuenta")
 ->setKeywords("Excel Office 2007 openxml php")
-->setCategory("Libro Mayor.");
+->setCategory("Libro Diario.");
 //arrays que contendran los formatos de las fuentes para las celdas.
 $styleArray = array(
     'font' => array(
@@ -40,11 +43,7 @@ $styleArray = array(
     'alignment' => array(
         'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
     ),
-    'borders' => array(
-        'top' => array(
-            'style' => PHPExcel_Style_Border::BORDER_THIN,
-        ),
-    ),
+
 
 );
 $styleArray2 = array(
@@ -73,103 +72,97 @@ $styleArray3 = array(
       ),
     );
 
-$cont=3;
+$cont=4;
 // Agregar Informacion
-$objPHPExcel->getActiveSheet()->getStyle('B1')
-->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(11);
-$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(9);
-$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(28);
-$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
-$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
-$objPHPExcel->setActiveSheetIndex(0)
-->setCellValue('B1', 'LIBRO MAYOR')
-->mergeCells('B1:F1')
-->setCellValue('B2', 'Fecha')
 
-->setCellValue('C2', 'Codigo')
-->setCellValue('D2', 'Concepto')
-->setCellValue('E2', 'Debe')
-->setCellValue('F2', 'Haber');
+$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(13);
+$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(40);
+$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(10);
+$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(13);
+$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
+$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(13);
+$objPHPExcel->getActiveSheet()->getStyle('A1')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('A2')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('A3')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('B3')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('C3')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('D3')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('E3')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('F3')->applyFromArray($styleArray4);
+$objPHPExcel->setActiveSheetIndex(0)
+->setCellValue('A1', 'LIBRO MAYOR     Nivel: '.$nivelMayorizacion)
+->mergeCells('A1:F1')
+->setCellValue('A2', 'Del: '.$fechaMinima.'  al  '.$fechaMaxima.'')
+->mergeCells('A2:F2')
+->setCellValue('A3', 'Fecha')
+->setCellValue('B3', 'CONCEPTO')
+->setCellValue('C3', 'P/F')
+->setCellValue('D3', 'Debe')
+->setCellValue('E3', 'Haber')
+->setCellValue('F3', 'Saldo');
 //recuperamos de la bd y procedemos a insertar en las celdas.
 include "../../config/conexion.php";
-$result = $conexion->query("select * from partida where idanio='".$anioActivo."' order by idpartida ASC");
+$result = $conexion->query("select idcatalogo as id,saldo, nombrecuenta as nombre, codigocuenta as codigo from catalogo where nivel=".$nivelMayorizacion." order by codigocuenta");
 if ($result) {
-  while ($fila = $result->fetch_object()) {
-      $objPHPExcel->getActiveSheet()->getStyle('B'."$cont")->applyFromArray($styleArray);
-      $objPHPExcel->getActiveSheet()->getStyle('C'."$cont")->applyFromArray($styleArray);
-      $objPHPExcel->getActiveSheet()->getStyle('D'."$cont")->applyFromArray($styleArray);
-      $objPHPExcel->getActiveSheet()->getStyle('E'."$cont")->applyFromArray($styleArray);
-      $objPHPExcel->getActiveSheet()->getStyle('F'."$cont")->applyFromArray($styleArray);
-      $objPHPExcel->getActiveSheet()->getStyle('C'."$cont")->applyFromArray($styleArray4);
-        $objPHPExcel->getActiveSheet()
-        ->setCellValue('B'."$cont",$fila->fecha)
+    while ($fila = $result->fetch_object()) {
+      $nombre=$fila->nombre;
+      $id=$fila->id;
+      $codigo=$fila->codigo;
+      $loncadena=strlen($codigo);
+      $resultSubcuenta= $conexion->query("select c.nombrecuenta as nombre, c.codigocuenta as codigo, SUBSTRING(c.codigocuenta,'1','".$loncadena."') as codigocorto, p.idpartida as npartida, p.concepto as concepto, p.fecha as fecha, l.debe as debe, l.haber as haber FROM catalogo as c,partida as p, ldiario as l where SUBSTRING(c.codigocuenta,1,'".$loncadena."')='".$codigo."' and p.idpartida=l.idpartida and l.idcatalogo=c.idcatalogo and p.idanio='".$anioActivo."' ORDER BY p.idpartida ASC");
+      if ($resultSubcuenta) {
+          if (($resultSubcuenta->num_rows)<1) {
+        }else {
+          $objPHPExcel->getActiveSheet()->getStyle('A'."$cont")->applyFromArray($styleArray4);  $objPHPExcel->getActiveSheet()
+          ->setCellValue('A'."$cont",$nombre)
+          ->mergeCells("A".$cont.":F".$cont);
+          $cont++;
+          while ($fila2 = $resultSubcuenta->fetch_object()) {
+            $fecha=$fila2->fecha;
+            $concepto=$fila2->concepto;
+            $npartida=$fila2->npartida;
+            $debe=$fila2->debe;
+            $haber=$fila2->haber;
 
-        ->setCellValue('C'."$cont","Partida #".$fila->idpartida)
-        ->mergeCells("C".$cont.":F".$cont);
-
-      $cont++;
-      $idpartida=$fila->idpartida;
-      $result2 = $conexion->query("select * from ldiario where idpartida='".$idpartida."'order by debe DESC");
-      if ($result2) {
-        while ($fila2 = $result2->fetch_object()) {
-          $cuenta=$fila2->idcatalogo;
-          $debe=$fila2->debe;
-          $haber=$fila2->haber;
-          //para mostrar la Cuenta
-          $result3 = $conexion->query("select * from catalogo where idcatalogo=".$cuenta);
-          if ($result3) {
-            while ($fila3 = $result3->fetch_object()) {
-              $codigocuenta=$fila3->codigocuenta;
-              $nombrecuenta=$fila3->nombrecuenta;
-                // echo "<td align='center'> " . $codigocuenta . "</td>";
-                $objPHPExcel->getActiveSheet()->getStyle('C'."$cont")->applyFromArray($styleArray2);
-                $objPHPExcel->setActiveSheetIndex(0)
-                // $objPHPExcel->getActiveSheet()
-                ->setCellValue('C'."$cont",$codigocuenta);
-                if ($debe>=$haber) {
-                  $objPHPExcel->getActiveSheet()->getStyle('D'."$cont")->applyFromArray($styleArray2);
-                  $objPHPExcel->getActiveSheet()
-                  ->setCellValue('D'."$cont",$nombrecuenta);
-                }else {
-                  $objPHPExcel->getActiveSheet()->getStyle('D'."$cont")->applyFromArray($styleArray3);
-                  $objPHPExcel->getActiveSheet()
-                  ->setCellValue('D'."$cont",$nombrecuenta);
-                }
-                if ($debe==0) {
-                  $objPHPExcel->getActiveSheet()->getStyle('E'."$cont")->applyFromArray($styleArray3);
-                  $objPHPExcel->getActiveSheet()
-                  ->setCellValue('E'."$cont","");
-                }else {
-                  $objPHPExcel->getActiveSheet()->getStyle('E'."$cont")->applyFromArray($styleArray2);
-                  $objPHPExcel->getActiveSheet()
-                  ->setCellValue('E'."$cont","$".$debe);
-                }
-                if ($haber==0) {
-                  $objPHPExcel->getActiveSheet()->getStyle('F'."$cont")->applyFromArray($styleArray3);
-                  $objPHPExcel->getActiveSheet()
-                  ->setCellValue('F'."$cont","");
-                }else {
-                  $objPHPExcel->getActiveSheet()->getStyle('F'."$cont")->applyFromArray($styleArray2);
-                  $objPHPExcel->getActiveSheet()
-                  ->setCellValue('F'."$cont","$".$haber);
-                }
-                $cont++;
+            $objPHPExcel->getActiveSheet()->getStyle('A'."$cont")->applyFromArray($styleArray2);
+            $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'."$cont",$fecha);
+            $objPHPExcel->getActiveSheet()->getStyle('B'."$cont")->applyFromArray($styleArray2);
+            $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('B'."$cont",$concepto);
+            $objPHPExcel->getActiveSheet()->getStyle('C'."$cont")->applyFromArray($styleArray2);
+            $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('C'."$cont",$npartida);
+            $objPHPExcel->getActiveSheet()->getStyle('D'."$cont")->applyFromArray($styleArray2);
+            $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('D'."$cont",$debe);
+            $objPHPExcel->getActiveSheet()->getStyle('E'."$cont")->applyFromArray($styleArray2);
+            $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('E'."$cont",$haber);
+              if ($fila->saldo=="DEUDOR") {
+                $saldo=$saldo+($fila2->debe)-($fila2->haber);
+              }else {
+          $saldo=$saldo-($fila2->debe)+($fila2->haber);
+          }
+          $objPHPExcel->getActiveSheet()->getStyle('F'."$cont")->applyFromArray($styleArray2);
+          $objPHPExcel->setActiveSheetIndex(0)
+          ->setCellValue('F'."$cont",$saldo);
+             $cont++;
             }
 
-          }
-        }
-        $objPHPExcel->getActiveSheet()->getStyle('C'."$cont")->applyFromArray($styleArray4);
+         $saldo=0;
 
-        $objPHPExcel->getActiveSheet()
-        ->setCellValue('C'."$cont","V/".$fila->concepto)
-        ->mergeCells("C".$cont.":F".$cont);
-        $cont++;
+        }
+
+      }else {
+        msg("Error");
       }
-}
-}
+    }
+  }
+
+// fin de lirbo mayor
 // Renombrar Hoja
-$objPHPExcel->getActiveSheet()->setTitle('LibroDiario');
+$objPHPExcel->getActiveSheet()->setTitle('LibroMayor');
 // Establecer la hoja activa, para que cuando se abra el documento se muestre primero.
 $objPHPExcel->setActiveSheetIndex(0);
 if (!PHPExcel_Settings::setPdfRenderer(
@@ -184,10 +177,6 @@ if (!PHPExcel_Settings::setPdfRenderer(
 }
 // Se modifican los encabezados del HTTP para indicar que se envia un archivo de Excel.
 header('Content-Type: application/pdf');
-header('Content-Disposition: attachment;filename="librodiario.pdf"');
+header('Content-Disposition: attachment;filename="libromayor.pdf"');
 header('Cache-Control: max-age=0');
-
-$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
-$objWriter->save('php://output');
-exit;
 ?>
