@@ -39,7 +39,7 @@
                       </a>
                       <ul class="nav nav-list tree">
 
-                          <li><a href="libromayor.php">LibroMayor</a></li>
+                          <li><a href="libromayor.php">Libro Mayor</a></li>
                       </ul>
                       <ul class="nav nav-list tree">
 

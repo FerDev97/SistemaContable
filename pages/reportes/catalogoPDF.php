@@ -24,37 +24,34 @@ $styleArray = array(
     'alignment' => array(
         'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
     ),
-    // 'borders' => array(
-    //     'top' => array(
-    //         'style' => PHPExcel_Style_Border::BORDER_THIN,
-    //     ),
-    // ),
-    // 'fill' => array(
-    //     'type' => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
-    //     'rotation' => 90,
-    //     'startcolor' => array(
-    //         'argb' => 'FFA0A0A0',
-    //     ),
-    //     'endcolor' => array(
-    //         'argb' => 'FFFFFFFF',
-    //     ),
-    // ),
+
 );
+$styleArray4 = array(
+    'font' => array(
+        'bold' => true,
+    ),
+    'alignment' => array(
+        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+    ),
+  );
 $cont=3;
 // Agregar Informacion
-$objPHPExcel->getActiveSheet()->getStyle('B1')
-->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(27);
-$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(27);
-$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);
-
+$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(34);
+$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(34);
+$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+$objPHPExcel->getActiveSheet()->getStyle('A1')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('A2')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('B2')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('C2')->applyFromArray($styleArray4);
+$objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray($styleArray4);
 $objPHPExcel->setActiveSheetIndex(0)
-->setCellValue('B1', 'CATALOGO DE CUENTAS')
-->mergeCells('B1:E1')
-->setCellValue('B2', 'Codigo')
-->setCellValue('C2', 'Nombre')
-->setCellValue('D2', 'Tipo')
-->setCellValue('E2', 'Saldo');
+->setCellValue('A1', 'CATALOGO DE CUENTAS')
+->mergeCells('A1:D1')
+->setCellValue('A2', 'Codigo')
+->setCellValue('B2', 'Nombre')
+->setCellValue('C2', 'Tipo')
+->setCellValue('D2', 'Saldo');
 //recuperamos de la bd y procedemos a insertar en las celdas.
 
 include "../../config/conexion.php";
@@ -66,12 +63,12 @@ if ($result) {
     }else{
         $tipo=$fila->tipocuenta;
       }
-      $objPHPExcel->getActiveSheet()->getStyle('B'."$cont")->applyFromArray($styleArray);
+      $objPHPExcel->getActiveSheet()->getStyle('A'."$cont")->applyFromArray($styleArray);
       $objPHPExcel->setActiveSheetIndex(0)
-      ->setCellValue('B'."$cont",$fila->codigocuenta)
-      ->setCellValue('C'."$cont",$fila->nombrecuenta)
-      ->setCellValue('D'."$cont",$tipo)
-      ->setCellValue('E'."$cont",$fila->saldo);
+      ->setCellValue('A'."$cont",$fila->codigocuenta)
+      ->setCellValue('B'."$cont",$fila->nombrecuenta)
+      ->setCellValue('C'."$cont",$tipo)
+      ->setCellValue('D'."$cont",$fila->saldo);
         $cont++;
       }
 
