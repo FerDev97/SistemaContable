@@ -161,6 +161,14 @@ if ($resulII) {
           //window.setTimeout(cerrarVentana(ventana), 80000);
 
         }
+        function estadoPDF()
+        {
+          var inv=document.getElementById("if").value;
+          var anio=document.getElementById("anioActivo").value;
+          const ventana = window.open("reportes/estadoResultadosPDF.php?if="+inv+"&anio="+anio+"","_blank");
+          //window.setTimeout(cerrarVentana(ventana), 80000);
+
+        }
         function cerrarVentana(ventana){
           ventana.close();
         }
@@ -207,7 +215,7 @@ if ($resulII) {
                             </div>
                           </button>
 
-                          <button class='btn ripple-infinite btn-round btn-danger' onclick='catalogoPdf()';>
+                          <button class='btn ripple-infinite btn-round btn-danger' onclick='estadoPDF()';>
                             <div>
                               <span>PDF</span>
                             </div>
