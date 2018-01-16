@@ -111,11 +111,7 @@ if($_SESSION["logueado"] == TRUE) {
                               <span>EXCELL</span>
                             </div>
                           </button>
-                          <button class='btn ripple-infinite btn-round btn-primary' onclick='catalogoWord()';>
-                            <div>
-                              <span>WORD</span>
-                            </div>
-                          </button>
+                          
                           <button class='btn ripple-infinite btn-round btn-danger' onclick='diarioPDF()';>
                             <div>
                               <span>PDF</span>

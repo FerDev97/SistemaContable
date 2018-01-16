@@ -211,11 +211,7 @@ if ($resulII) {
                               <span>EXCELL</span>
                             </div>
                           </button>
-                          <button class='btn ripple-infinite btn-round btn-primary' onclick='catalogoWord()';>
-                            <div>
-                              <span>WORD</span>
-                            </div>
-                          </button>
+                        
                           <button class='btn ripple-infinite btn-round btn-danger' onclick='catalogoPdf()';>
                             <div>
                               <span>PDF</span>
