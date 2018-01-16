@@ -90,7 +90,7 @@ if($_SESSION["logueado"] == TRUE) {
         {
           var nivel=document.getElementById("nivel").value;
           var anio=document.getElementById("anioActivo").value;
-          const ventana = window.open("reportes/libromayorPDF.php?anio="+anio+"","_blank");
+          const ventana = window.open("reportes/libromayorPDF.php?nivel="+nivel+"&anio="+anio+"","_blank");
         }
 
 
