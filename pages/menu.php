@@ -2,16 +2,29 @@
   <script type="text/javascript">
       function inventarioFinal()
       {
-        $('#myModal').modal('show');
+        $('#myModalE').modal('show');
       }
       function noir()
       {
         alert("Es necesario un conteo fisico del inventario final para realizar el estado de resultados.");
-        $('#myModal').modal('hide');
+        $('#myModalE').modal('hide');
       }
       function ir()
       {
         document.location.href="estado.php?if="+document.getElementById("inventarioFinal").value;
+      }
+      function inventarioFinal2()
+      {
+        $('#myModalB').modal('show');
+      }
+      function noir2()
+      {
+        alert("Es necesario un conteo fisico del inventario final para realizar el Balance General.");
+        $('#myModalB').modal('hide');
+      }
+      function ir2()
+      {
+        document.location.href="balanceGeneral.php?if="+document.getElementById("inventarioFinal2").value;
       }
   </script>
             <div id="left-menu">
@@ -62,7 +75,7 @@
                       </ul>
                       <ul class="nav nav-list tree">
 
-                          <li><a  href="balanceGeneral.php">Balance General</a></li>
+                          <li><a  onclick="inventarioFinal2();">Balance General</a></li>
                       </ul>
                     </li>
                     <li class="active ripple">
@@ -76,7 +89,7 @@
                   </ul>
                 </div>
             </div>
-<div id="myModal" class="modal fade" role="dialog">
+<div id="myModalE" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -95,6 +108,31 @@
       <div class="modal-footer">
         <button type="button" onclick="ir();" class="btn btn-default" data-dismiss="modal">Ir</button>
         <button type="button" onclick="noir();" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<div id="myModalB" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Inventario Final</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group form-animate-text" style="margin-top:30px !important;">
+          <input type="number" class="form-text" id="inventarioFinal2" name="inventarioFinal2" value="1" min="1" >
+          <span class="bar"></span>
+          <label>Inventario final.</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="ir2();" class="btn btn-default" data-dismiss="modal">Ir</button>
+        <button type="button" onclick="noir2();" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 
       </div>
     </div>
