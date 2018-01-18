@@ -26,6 +26,19 @@
       {
         document.location.href="balanceGeneral.php?if="+document.getElementById("inventarioFinal2").value;
       }
+      function inventarioFinal3()
+      {
+        $('#myModalC').modal('show');
+      }
+      function noir3()
+      {
+        alert("Pacholi 2018");
+        $('#myModalC').modal('hide');
+      }
+      function ir3()
+      {
+        document.location.href="Cierre.php?if="+document.getElementById("inventarioFinal3").value;
+      }
   </script>
             <div id="left-menu">
               <div class="sub-left-menu scroll">
@@ -86,6 +99,14 @@
                           <li><a href="usuario.php">Nueva cuenta</a></li>
                       </ul>
                     </li>
+                    <li class="active ripple">
+                      <a class="tree-toggle nav-header"><span class="fa fa-cog fa-fw" ></span> Opciones
+                        <span class="fa-angle-right fa right-arrow text-right"></span>
+                      </a>
+                      <ul class="nav nav-list tree">
+                          <li><a onclick="inventarioFinal3();">Cierre del Ejercicio</a></li>
+                      </ul>
+                    </li>
                   </ul>
                 </div>
             </div>
@@ -139,5 +160,33 @@
 
   </div>
 </div>
+<div id="myModalC" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">¿Esta seguro de ejecutar el cierre del ejercio?</h4>
+        <br />
+        <h5 class="modal-title">Si es asi ingrese el Inventario Final</h5>
+      </div>
+      <div class="modal-body">
+        <div class="form-group form-animate-text" style="margin-top:30px !important;">
+          <input type="number" class="form-text" id="inventarioFinal3" name="inventarioFinal3" value="1" min="1" >
+          <span class="bar"></span>
+          <label>Inventario final.</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="ir3();" class="btn btn-default" data-dismiss="modal">Ir</button>
+        <button type="button" onclick="noir3();" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
           <!-- end: Menu modificado abi -->
