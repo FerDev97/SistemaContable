@@ -43,6 +43,7 @@ if($result)
       function inventarioFinal3()
       {
         $('#myModalC').modal('show');
+
       }
       function noir3()
       {
@@ -51,7 +52,7 @@ if($result)
       }
       function ir3()
       {
-        document.location.href="Cierre.php?if="+document.getElementById("inventarioFinal3").value;
+        document.location.href="Cierre.php?if="+document.getElementById("inventarioFinal3").value+"&anioActivo="+document.getElementById("anioActivo").value;
       }
   </script>
             <div id="left-menu">
@@ -140,6 +141,7 @@ if($result)
                       <ul class="nav nav-list tree">
                           <li><a href="usuario.php">Nueva cuenta</a></li>
                       </ul>
+                      <input type="hidden" id="anioActivo" name="anioActivo" value="<?php echo $anioActivo;?>">
                     </li>
                     <?php
                     include "../config/conexion.php";
