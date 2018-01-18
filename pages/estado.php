@@ -401,10 +401,10 @@ if ($resulII) {
                                               <td><?php echo $UAIR-$RL?></td>
                                             </tr>
                                           </tbody>
-                                          <?php $ISR=($UAIR-$RL)*0.13 ?>
+                                          <?php $ISR=($UAIR-$RL)*0.30 ?>
                                           <tbody>
                                             <tr>
-                                              <td> (-)   Impuesto sobre la renta</td>
+                                              <td> (-)   Impuesto sobre la renta (30%)</td>
                                               <td></td>
                                               <td><?php echo $ISR?></td>
                                             </tr>
