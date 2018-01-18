@@ -1,4 +1,14 @@
 <!-- start:Left Menu -->
+<?php
+include "../config/conexion.php";
+$result = $conexion->query("select * from anio where estado=1");
+if($result)
+{
+  while ($fila=$result->fetch_object()) {
+    $anioActivo=$fila->idanio;
+  }
+}
+ ?>
   <script type="text/javascript">
       function inventarioFinal()
       {
@@ -25,6 +35,10 @@
       function ir2()
       {
         document.location.href="balanceGeneral.php?if="+document.getElementById("inventarioFinal2").value;
+      }
+      function cerrado()
+      {
+        alert("Este anio ya esta cerrado.")
       }
       function inventarioFinal3()
       {
@@ -83,12 +97,40 @@
                           <li><a href="libromayor.php">Libro Mayor</a></li>
                       </ul>
                       <ul class="nav nav-list tree">
+                          <?php
+                          include "../config/conexion.php";
+                          $result = $conexion->query("select * from anio where estado=1");
+                          if($result)
+                          {
+                            while ($fila=$result->fetch_object()) {
+                              $final=$fila->inventariof;
+                            }
+                          }
+                          if ($final>-1) {
+                            echo "<li><a  onclick='cerrado();'>Estado de Resultados</a></li>";
+                          }else {
+                            echo "<li><a  onclick='inventarioFinal();'>Estado de Resultados</a></li>";
+                          }
+                           ?>
 
-                          <li><a  onclick="inventarioFinal();">Estado de Resultados</a></li>
                       </ul>
                       <ul class="nav nav-list tree">
+                        <?php
+                        include "../config/conexion.php";
+                        $result = $conexion->query("select * from anio where estado=1");
+                        if($result)
+                        {
+                          while ($fila=$result->fetch_object()) {
+                            $final=$fila->inventariof;
+                          }
+                        }
+                        if ($final>-1) {
+                          echo "<li><a  onclick=cerrado2();>Balance General</a></li>";
+                        }else {
+                          echo "<li><a  onclick='inventarioFinal2();'>Balance General</a></li>";
+                        }
+                         ?>
 
-                          <li><a  onclick="inventarioFinal2();">Balance General</a></li>
                       </ul>
                     </li>
                     <li class="active ripple">
@@ -99,14 +141,29 @@
                           <li><a href="usuario.php">Nueva cuenta</a></li>
                       </ul>
                     </li>
-                    <li class="active ripple">
-                      <a class="tree-toggle nav-header"><span class="fa fa-cog fa-fw" ></span> Opciones
-                        <span class="fa-angle-right fa right-arrow text-right"></span>
-                      </a>
-                      <ul class="nav nav-list tree">
-                          <li><a onclick="inventarioFinal3();">Cierre del Ejercicio</a></li>
-                      </ul>
-                    </li>
+                    <?php
+                    include "../config/conexion.php";
+                    $result = $conexion->query("select * from anio where estado=1");
+                    if($result)
+                    {
+                      while ($fila=$result->fetch_object()) {
+                        $final=$fila->inventariof;
+                      }
+                    }
+                    if ($final>-1) {
+
+                    }else {
+                      echo "<li class='active ripple'>
+                        <a class='tree-toggle nav-header'><span class='fa fa-cog fa-fw' ></span> Opciones
+                          <span class='fa-angle-right fa right-arrow text-right'></span></a>
+                        <ul class='nav nav-list tree'>
+
+                            <li><a onclick='inventarioFinal3();'>Cierre del Ejercicio</a></li>
+                        </ul>
+                      </li>";
+                    }
+                     ?>
+
                   </ul>
                 </div>
             </div>

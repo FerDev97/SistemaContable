@@ -24,7 +24,7 @@ if(empty($anio))
 
 }else
 {
-  $consulta  = "INSERT INTO anio VALUES('".$anio."','0')";
+  $consulta  = "INSERT INTO anio VALUES('".$anio."','0','-1')";
   $resultado = $conexion->query($consulta);
   if ($resultado) {
       //msg("Exito");
