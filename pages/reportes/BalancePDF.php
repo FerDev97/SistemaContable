@@ -94,7 +94,14 @@ $objPHPExcel->setActiveSheetIndex(0)
 
 //recuperamos de la bd y procedemos a insertar en las celdas.
 include "../../config/conexion.php";
+$resultIVA= $conexion->query("select c.nombrecuenta as nombre, c.codigocuenta as codigo, SUBSTRING(c.codigocuenta,'1','3') as codigocorto, p.idpartida as npartida, p.concepto as concepto, p.fecha as fecha, l.debe as debe, l.haber as haber FROM catalogo as c,partida as p, ldiario as l where SUBSTRING(c.codigocuenta,1,'3')='120' and p.idpartida=l.idpartida and l.idcatalogo=c.idcatalogo and p.idanio='".$anioActivo."' ORDER BY p.idpartida ASC");
+if ($resultIVA) {
+    while ($fila = $resultIVA->fetch_object()) {
 
+        $IVA=$IVA+($fila->debe)-($fila->haber);
+
+      }
+  }
 //Reporte Balance Genral
 //para activo corriente
 $objPHPExcel->getActiveSheet()->getStyle('A'."$cont")->applyFromArray($styleArray3);  $objPHPExcel->getActiveSheet()
@@ -131,9 +138,14 @@ $objPHPExcel->getActiveSheet()->getStyle('A'."$cont")->applyFromArray($styleArra
 ->setCellValue('A'.$cont,"Inventario Final");
 $objPHPExcel->getActiveSheet()->getStyle('B'."$cont")->applyFromArray($styleArray3);  $objPHPExcel->getActiveSheet()
 ->setCellValue('B'.$cont,$inventarioF);
+$cont++;
+$objPHPExcel->getActiveSheet()->getStyle('A'."$cont")->applyFromArray($styleArray3);  $objPHPExcel->getActiveSheet()
+->setCellValue('A'.$cont,"IVA Credito Fiscal");
+$objPHPExcel->getActiveSheet()->getStyle('B'."$cont")->applyFromArray($styleArray3);  $objPHPExcel->getActiveSheet()
+->setCellValue('B'.$cont,$IVA);
 $objPHPExcel->getActiveSheet()->getStyle('C'."4")->applyFromArray($styleArray3);  $objPHPExcel->getActiveSheet()
-->setCellValue('C'."4",($saldoTotal+$inventarioF));
- $AC=($saldoTotal+$inventarioF);
+->setCellValue('C'."4",($saldoTotal+$inventarioF+$IVA));
+ $AC=($saldoTotal+$inventarioF+$IVA);
  $saldoTotal=0;
 $cont++;
 }

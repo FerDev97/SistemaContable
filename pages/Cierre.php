@@ -125,11 +125,12 @@ if ($resultventa) {
   }
 //partida de ajuste 5
 $maxPartida++;
-$consultaA1  = "INSERT INTO partida VALUES('".$maxPartida."','Por utilidad bruta.','31-12".$anioActivo."','" . $anioActivo . "')";
+$consultaA1  = "INSERT INTO partida VALUES('".$maxPartida."','Por eliminar cuenta ventas.','31-12".$anioActivo."','" . $anioActivo . "')";
 $resultadoA1 = $conexion->query($consultaA1);
 //ldiario
-$consulta  = "INSERT INTO ldiario VALUES('null','" . $maxPartida . "','11','".$saldoComp."','0','" . $anioActivo . "')";
+$consulta  = "INSERT INTO ldiario VALUES('null','" . $maxPartida . "','11','".$saldoV."','0','" . $anioActivo . "')";
 $resultado = $conexion->query($consulta);
-$consulta  = "INSERT INTO ldiario VALUES('null','" . $maxPartida . "','14','0','".$saldoComp."','" . $anioActivo . "')";
+$consulta  = "INSERT INTO ldiario VALUES('null','" . $maxPartida . "','35','0','".$saldoV."','" . $anioActivo . "')";
 $resultado = $conexion->query($consulta);
+
  ?>

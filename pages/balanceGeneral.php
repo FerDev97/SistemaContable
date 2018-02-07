@@ -158,6 +158,14 @@ if($_SESSION["logueado"] == TRUE) {
                     <?php
                     //para activo corriente
 include "../config/conexion.php";
+$resultIVA= $conexion->query("select c.nombrecuenta as nombre, c.codigocuenta as codigo, SUBSTRING(c.codigocuenta,'1','3') as codigocorto, p.idpartida as npartida, p.concepto as concepto, p.fecha as fecha, l.debe as debe, l.haber as haber FROM catalogo as c,partida as p, ldiario as l where SUBSTRING(c.codigocuenta,1,'3')='120' and p.idpartida=l.idpartida and l.idcatalogo=c.idcatalogo and p.idanio='".$anioActivo."' ORDER BY p.idpartida ASC");
+if ($resultIVA) {
+    while ($fila = $resultIVA->fetch_object()) {
+      
+        $IVA=$IVA+($fila->debe)-($fila->haber);
+
+      }
+  }
 echo "<tr class='danger'>";
 echo "<td colspan='2' align='center'>ACTIVO</td>";
 echo "</tr>";
@@ -190,12 +198,18 @@ if ($result) {
   echo "<tr class='success'>";
   echo "<td  align='left'>Inventario Final</td>";
   echo "<td  align='center'> $  ".$inventariofinal."</td>";
-  echo "</tr>";
+    echo "</tr>";
+  echo "<tr class='success'>";
+  echo "<td  align='left'>IVA CREDITO:</td>";
+  echo "<td  align='center'> $  ".$IVA."</td>";
+
+    echo "</tr>";
+
   echo "<tr class='warning'>";
   echo "<td align='center'>TOTAL ACTIVO CORRIENTE:</td>";
-  echo "<td align='right'>$ ".($saldoTotal+$inventariofinal)."</td>";
+  echo "<td align='right'>$ ".($saldoTotal+$inventariofinal+$IVA)."</td>";
   echo "</tr>";
-   $AC=($saldoTotal+$inventariofinal);
+   $AC=($saldoTotal+$inventariofinal+$IVA);
   $saldoTotal=0;
 }
 //Activo no CORRIENTE

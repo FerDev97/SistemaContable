@@ -1,6 +1,6 @@
 <?php
 include "../config/conexion.php";
-$result = $conexion->query("select * from catalogo order by codigocuenta");
+$result = $conexion->query("select * from catalogo where nivel>1 order by codigocuenta");
 if ($result) {
 while ($fila = $result->fetch_object()) {
 echo "<tr>";
