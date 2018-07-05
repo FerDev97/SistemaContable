@@ -1,4 +1,8 @@
 <?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
+<?php
 session_start();
 if($_SESSION["logueado"] == TRUE) {
  ?>
@@ -82,7 +86,7 @@ if($_SESSION["logueado"] == TRUE) {
                     <div class="col-md-12">
                         <h3 class="animated fadeInLeft">Lista Cuentas</h3>
                         <p class="animated fadeInDown">
-                          Table <span class="fa-angle-right fa"></span> Data Tables
+                          Tabla <span class="fa-angle-right fa"></span> Datos de las cuentas.
                         </p>
                     </div>
                   </div>

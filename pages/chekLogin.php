@@ -1,4 +1,8 @@
 <?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
+<?php
 	if(isset($_POST["enviar"])) {
 			$loginNombre = $_POST["usuario"];
 			$loginPassword =$_POST["pass"];

@@ -1,4 +1,8 @@
 <?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
+<?php
 $codigo=$_REQUEST["codigo"];
 if ($codigo=="") {
   echo '<input type="text" class="form-text" id="nombreCuenta" name="nombreCuenta" value="Vacio." >

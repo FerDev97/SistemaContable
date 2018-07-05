@@ -1,4 +1,9 @@
+<?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
 <?php session_start();
+
 if ($_SESSION["logueado"]==TRUE) {
 	Header("Location: pages/main.php");
 }else {
@@ -23,6 +28,7 @@ if ($_SESSION["logueado"]==TRUE) {
 		<script type="text/javascript">
 function llamar(){
 	mostraLog(" ");
+//	location.href="pages/Cuenta.php";
 }
 		function mostraLog(str){
 if (str==""){document.getElementById("logindiv").innerHTML="";return;}
@@ -47,7 +53,7 @@ xmlhttp.send();
 
 					<header id="header">
 						<h1>Sistema Contable</h1>
-						<p>Fernando &nbsp;&bull;&nbsp; Jessica &nbsp;&bull;&nbsp; Kevin</p>
+						<p>CODIFI</p>
 						<nav>
 							<ul>
 								<li class="tooltip"><a class="icon fa-user" onclick="llamar()"><span class="label tooltiptext">Iniciar Sesion</span></a></li>
@@ -70,7 +76,7 @@ xmlhttp.send();
 
 				<!-- Footer -->
 					<footer id="footer">
-						<span class="copyright">&copy; Pacholi2018. Creadores: FJK.</span>
+						<span class="copyright">&copy; Pacholi2018. CODIFI 2018.</span>
 					</footer>
 
 			</div>

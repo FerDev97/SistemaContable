@@ -1,3 +1,7 @@
+<?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
 <!-- start:Left Menu -->
 <?php
 include "../config/conexion.php";

@@ -1,3 +1,7 @@
+<?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
 <?php session_start();
 $accion=$_REQUEST['accion'];
 include "../config/conexion.php";

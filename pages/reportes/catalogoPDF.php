@@ -1,4 +1,8 @@
 <?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
+<?php
 /** Incluir la libreria PHPExcel */
 include '../../Classes/PHPExcel.php';
 $rendererName = PHPExcel_Settings::PDF_RENDERER_TCPDF;

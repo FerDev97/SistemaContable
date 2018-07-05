@@ -1,4 +1,8 @@
 <?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
+<?php
 session_start();
 if($_SESSION["logueado"] == TRUE) {
 $id  = $_REQUEST["id"];

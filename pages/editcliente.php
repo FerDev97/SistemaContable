@@ -1,4 +1,8 @@
 <?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
+<?php
 $id = $_REQUEST["id"];
 include "../config/conexion.php";
 $result = $conexion->query("select * from cliente where idcliente=" . $id);

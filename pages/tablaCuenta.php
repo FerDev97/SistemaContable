@@ -1,4 +1,8 @@
 <?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
+<?php
 include "../config/conexion.php";
 $result = $conexion->query("select * from catalogo where nivel>1 order by codigocuenta");
 if ($result) {

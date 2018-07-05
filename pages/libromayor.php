@@ -1,4 +1,8 @@
 <?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
+<?php
 session_start();
 include "../config/conexion.php";
 $result = $conexion->query("select * from anio where estado=1");

@@ -1,4 +1,8 @@
 <?php
+//Codigo que muestra solo los errores exceptuando los notice.
+error_reporting(E_ALL & ~E_NOTICE);
+?>
+<?php
 session_start();
 if($_SESSION["logueado"] == TRUE) {
 $id  = $_REQUEST["id"];
@@ -428,7 +432,7 @@ if ($bandera == "modificar") {
     $consulta  = "UPDATE usuarios set nombre='" . $nombre . "',pass='" . $pass . "',mail='" . $mail . "',telefono='" . $telefono . "',usuario='" . $usuario . "' where idusuario='" . $baccion . "'";
     $resultado = $conexion->query($consulta);
     if ($resultado) {
-        msg("En Hora Buena");
+       // msg("En Hora Buena");
     } else {
         msg("No Exito");
     }
